@@ -14,22 +14,22 @@ export const useFooterLinks = (): FooterLinksType[] => {
   return [
     {
       name: "top",
-      link: "",
+      link: "./timeLine",
       icon: TbHome,
     },
     {
       name: "search",
-      link: "",
+      link: "./search",
       icon: RiUserSearchLine,
     },
     {
       name: "chat",
-      link: "",
+      link: "./chat",
       icon: BsChatLeftText,
     },
     {
-      name: "chat",
-      link: "",
+      name: "account",
+      link: "./account",
       icon: MdOutlineAccountCircle,
     },
   ];

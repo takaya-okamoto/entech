@@ -1,15 +1,14 @@
 import { Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
-const Index = (): JSX.Element => {
+const Manual = (): JSX.Element => {
   return (
     <Flex direction={"column"}>
-      <Text>Home</Text>
+      <Text>Manual page</Text>
       <Link href={"./login"}>
         <Text shadow={"md"}>Next</Text>
       </Link>
     </Flex>
   );
 };
-
-export default Index;
+export default Manual;

@@ -21,16 +21,18 @@ export const Footer = (): JSX.Element => {
       borderColor={"gray.400"}
     >
       {footerItems.map((item, index) => (
-        <Box
+        <Flex
           key={index}
           w={"100%"}
-          p={".4rem"}
+          py={".4rem"}
+          px={"1rem"}
           onClick={() => {
             setSelectedFooter(index);
             router.push(item.link).catch((e) => {
               console.error(e);
             });
           }}
+          justifyContent={"center"}
         >
           <Text
             fontSize={"36px"}
@@ -39,7 +41,7 @@ export const Footer = (): JSX.Element => {
           >
             <item.icon />
           </Text>
-        </Box>
+        </Flex>
       ))}
     </Flex>
   );

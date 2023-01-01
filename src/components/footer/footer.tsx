@@ -3,8 +3,10 @@ import { useFooterLinks } from "../../hooks/view/useFooterLinks";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { selectedFooterState } from "../../stores/recoil";
+import { useRouter } from "next/router";
 
 export const Footer = (): JSX.Element => {
+  const router = useRouter();
   const footerItems = useFooterLinks();
   const [selectedFooter, setSelectedFooter] =
     useRecoilState<number>(selectedFooterState);
@@ -19,23 +21,25 @@ export const Footer = (): JSX.Element => {
       borderColor={"gray.400"}
     >
       {footerItems.map((item, index) => (
-        <Link href={item.link} key={index}>
-          <Box
-            w={"100%"}
-            p={".4rem"}
-            onClick={() => {
-              setSelectedFooter(index);
-            }}
+        <Box
+          key={index}
+          w={"100%"}
+          p={".4rem"}
+          onClick={() => {
+            setSelectedFooter(index);
+            router.push(item.link).catch((e) => {
+              console.error(e);
+            });
+          }}
+        >
+          <Text
+            fontSize={"36px"}
+            color={index === selectedFooter ? "#86C8D0" : "gray.400"}
+            _hover={{ color: "#86C8D0" }}
           >
-            <Text
-              fontSize={"36px"}
-              color={index === selectedFooter ? "#86C8D0" : "gray.400"}
-              _hover={{ color: "#86C8D0" }}
-            >
-              <item.icon />
-            </Text>
-          </Box>
-        </Link>
+            <item.icon />
+          </Text>
+        </Box>
       ))}
     </Flex>
   );

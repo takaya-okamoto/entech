@@ -6,8 +6,8 @@ import { useState } from "react";
 const Login = (): JSX.Element => {
   const [hasAccount, setHasAccount] = useState(false);
   return (
-    <Flex>
-      <Text>login</Text>
+    <Flex direction={"column"}>
+      <Text>login page</Text>
       {hasAccount ? <LoginPage /> : <CreateAccount />}
     </Flex>
   );

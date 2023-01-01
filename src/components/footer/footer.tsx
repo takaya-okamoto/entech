@@ -1,6 +1,5 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { useFooterLinks } from "../../hooks/view/useFooterLinks";
-import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { selectedFooterState } from "../../stores/recoil";
 import { useRouter } from "next/router";

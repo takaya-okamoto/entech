@@ -1,8 +1,9 @@
 import * as Yup from "yup";
-import { Flex, VStack } from "@chakra-ui/react";
+import { Flex, useDisclosure, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { Formik, FormikProps } from "formik";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 import { selectedFooterState } from "../stores/recoil";
 import { Layout } from "../components/layout/layout";
@@ -11,8 +12,10 @@ import { FormLabel } from "../components/form/formLabel";
 import { StyledSubmitButton } from "../components/form/styledSubmitButton";
 import { StyledSelectControl } from "../components/form/styledSelectControl";
 import { StyledTextArea } from "../components/form/styledTextArea";
+import { InfoModal } from "../components/common/modal/infoModal";
 
 const Profile = (): JSX.Element => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedFooter, setSelectedFooter] =
     useRecoilState<number>(selectedFooterState);
   useEffect(() => {
@@ -97,11 +100,19 @@ const Profile = (): JSX.Element => {
                   />
                 </Flex>
 
-                <FormLabel label={"ユーザータイプ"} />
+                <Flex mb={".3rem"} gap={5}>
+                  <FormLabel label={"ユーザータイプ"} />
+                  <AiOutlineInfoCircle
+                    onClick={onOpen}
+                    color={"#5d5d5d"}
+                    fontSize={"23px"}
+                  />
+                  <InfoModal isOpen={isOpen} onClose={onClose} />
+                </Flex>
                 <StyledSelectControl
                   fieldProps={{ name: "userType" }}
                   option={["e", "n"]}
-                  flexProps={{ pb: "2rem" }}
+                  flexProps={{ mb: "2rem" }}
                 />
 
                 <FormLabel label={"自己PR"} />

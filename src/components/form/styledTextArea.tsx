@@ -1,4 +1,10 @@
-import { Flex, FlexProps, Input, InputProps, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  FlexProps,
+  Text,
+  Textarea,
+  TextareaProps,
+} from "@chakra-ui/react";
 import { FieldHookConfig, useField } from "formik";
 import { ChangeEvent } from "react";
 
@@ -7,29 +13,26 @@ type Props = {
     name: string;
   };
   placeHolder?: string;
-  w?: string;
   flexProps?: FlexProps;
-  inputProps?: InputProps;
+  textAreaProps?: TextareaProps;
 };
 
-export const StyledInputControl = (props: Props): JSX.Element => {
+export const StyledTextArea = (props: Props): JSX.Element => {
   const [field, meta, helpers] = useField(props.fieldProps);
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     helpers.setValue(e.target.value);
   };
-
   return (
-    <Flex {...props.flexProps} direction={"column"} w={props.w}>
-      <Input
-        {...props.inputProps}
-        variant={"flushed"}
-        focusBorderColor={"#86C8D0"}
+    <Flex {...props.flexProps}>
+      <Textarea
+        {...props.textAreaProps}
+        onChange={handleChange}
         onClick={() => {
           helpers.setTouched(true);
         }}
-        onChange={handleChange}
         value={field.value}
         placeholder={props.placeHolder}
+        focusBorderColor={"#86C8D0"}
       />
       {meta.touched && meta.error && (
         <Text color={"red.500"} fontSize={"14px"}>

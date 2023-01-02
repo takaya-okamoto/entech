@@ -28,8 +28,8 @@ export const useFooterLinks = (): FooterLinksType[] => {
       icon: BsChatLeftText,
     },
     {
-      name: "account",
-      link: "./account",
+      name: "profile",
+      link: "./profile",
       icon: MdOutlineAccountCircle,
     },
   ];

@@ -13,6 +13,7 @@ import { StyledSubmitButton } from "../components/form/styledSubmitButton";
 import { StyledSelectControl } from "../components/form/styledSelectControl";
 import { StyledTextArea } from "../components/form/styledTextArea";
 import { InfoModal } from "../components/common/modal/infoModal";
+import { StyledImageInput } from "../components/form/styledImageInput";
 
 const Profile = (): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -22,6 +23,7 @@ const Profile = (): JSX.Element => {
     setSelectedFooter(3);
   });
   const initialValues = {
+    profileImage: "svg/noImage.svg",
     name: {
       first: "",
       last: "",
@@ -68,6 +70,10 @@ const Profile = (): JSX.Element => {
                 onSubmit={formikProps.handleSubmit as never}
                 direction={"column"}
               >
+                <VStack mb={"2rem"}>
+                  <StyledImageInput fieldProps={{ name: "profileImage" }} />
+                </VStack>
+
                 <FormLabel label={"氏名"} />
                 <Flex gap={3} pb={"2rem"}>
                   <StyledInputControl

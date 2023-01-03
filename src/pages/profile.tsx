@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import { Formik, FormikProps } from "formik";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
-import { selectedFooterState } from "../stores/recoil";
+import { headerState, selectedFooterState } from "../stores/recoil";
 import { Layout } from "../components/layout/layout";
 import { StyledInputControl } from "../components/form/styledInputControl";
 import { FormLabel } from "../components/form/formLabel";
@@ -19,8 +19,10 @@ const Profile = (): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedFooter, setSelectedFooter] =
     useRecoilState<number>(selectedFooterState);
+  const [headerMode, setHeaderMode] = useRecoilState(headerState);
   useEffect(() => {
     setSelectedFooter(3);
+    setHeaderMode(false);
   });
   const initialValues = {
     profileImage: "svg/noImage.svg",

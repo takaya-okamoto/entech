@@ -1,4 +1,4 @@
-import { Flex, Box } from "@chakra-ui/react";
+import { Flex, Box, VStack } from "@chakra-ui/react";
 import { Header } from "../header/header";
 import { Footer } from "../footer/footer";
 
@@ -10,6 +10,7 @@ export const Layout = ({ children }: Props): JSX.Element => {
   return (
     <Flex direction={"column"} w={"100%"}>
       <Header />
+
       <Box minH={"88vh"} p={"2rem"}>
         {children}
       </Box>

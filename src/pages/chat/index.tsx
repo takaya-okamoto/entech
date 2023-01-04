@@ -1,4 +1,3 @@
-import { Layout } from "../../components/layout/layout";
 import { Flex } from "@chakra-ui/react";
 import { ConversationPartner } from "../../components/chat/conversationPartner";
 import { useRecoilState } from "recoil";
@@ -14,18 +13,16 @@ const Chat = (): JSX.Element => {
     setHeaderMode(false);
   });
   return (
-    <Layout>
-      <Flex direction={"column"} gap={8}>
-        {[...Array(3)].map((_, index) => (
-          <ConversationPartner
-            key={index}
-            profileImage={"#"}
-            name={"岡村匡也"}
-            userId={"ggenoag4"}
-          />
-        ))}
-      </Flex>
-    </Layout>
+    <Flex direction={"column"} gap={8}>
+      {[...Array(3)].map((_, index) => (
+        <ConversationPartner
+          key={index}
+          profileImage={"#"}
+          name={"岡村匡也"}
+          userId={"ggenoag4"}
+        />
+      ))}
+    </Flex>
   );
 };
 export default Chat;

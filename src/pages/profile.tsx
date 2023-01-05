@@ -2,19 +2,23 @@ import * as Yup from "yup";
 import { Flex, useDisclosure, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { Formik, FormikProps } from "formik";
+import { FieldArray, Formik, FormikProps } from "formik";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
 import { headerState, selectedFooterState } from "../stores/recoil";
 import { StyledInputControl } from "../components/form/styledInputControl";
 import { FormLabel } from "../components/form/formLabel";
-import { StyledSubmitButton } from "../components/form/styledSubmitButton";
+import { StyledSubmitButton } from "../components/form/button/styledSubmitButton";
 import { StyledSelectControl } from "../components/form/styledSelectControl";
 import { StyledTextArea } from "../components/form/styledTextArea";
 import { InfoModal } from "../components/common/modal/infoModal";
 import { StyledImageInput } from "../components/form/styledImageInput";
+import { useSkills } from "../hooks/view/useSkills";
+import { DeleteButton } from "../components/form/button/deleteButton";
+import { StyledButton } from "../components/form/button/StyledButton";
 
 const Profile = (): JSX.Element => {
+  const skills = useSkills();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedFooter, setSelectedFooter] =
     useRecoilState<number>(selectedFooterState);
@@ -35,6 +39,7 @@ const Profile = (): JSX.Element => {
       grade: "",
     },
     userType: "e",
+    skills: [{ name: "" }],
     selfPr: "",
   };
   const profileSchema = Yup.object({
@@ -62,6 +67,7 @@ const Profile = (): JSX.Element => {
         initialValues={initialValues}
         validationSchema={profileSchema}
         onSubmit={handleSubmit}
+        enableReinitialize
       >
         {(formikProps: FormikProps<typeof initialValues>): JSX.Element => {
           return (
@@ -121,7 +127,40 @@ const Profile = (): JSX.Element => {
                 flexProps={{ mb: "2rem" }}
               />
 
-              <FormLabel label={"自己PR"} />
+              <FormLabel label={"スキル"} />
+              <FieldArray
+                name={"skills"}
+                render={({ remove, push }): JSX.Element => (
+                  <Flex direction={"column"} gap={5}>
+                    {formikProps.values.skills.map((skill, index) => {
+                      return (
+                        <Flex key={index} gap={5}>
+                          <StyledSelectControl
+                            fieldProps={{ name: `skills.${index}.name` }}
+                            option={skills}
+                            flexProps={{ mr: "1rem" }}
+                            selectProps={{ w: "250px" }}
+                          />
+                          <DeleteButton
+                            onClick={() => {
+                              remove(index);
+                            }}
+                          />
+                        </Flex>
+                      );
+                    })}
+                    <StyledButton
+                      onClick={(e) => {
+                        e.preventDefault();
+                        push({ name: "" });
+                      }}
+                      text={"追加"}
+                    />
+                  </Flex>
+                )}
+              />
+
+              <FormLabel label={"自己PR"} textProps={{ mt: "2rem" }} />
               <StyledTextArea fieldProps={{ name: "selfPr" }} />
 
               <VStack mt={"3rem"}>

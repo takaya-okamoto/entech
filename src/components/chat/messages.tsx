@@ -128,14 +128,15 @@ export const Messages = (): JSX.Element => {
               borderRadius={"5px"}
               borderColor={"blackAlpha.400"}
               mt={"1rem"}
-              px={".5rem"}
+              px={"1.5rem"}
               pt={".5rem"}
               minH={"100px"}
-              zIndex={999}
+              maxH={"100px"}
+              overflow={"auto"}
+              zIndex={0}
               w={"100%"}
             >
               <Editor
-                placeholder={"入力してください"}
                 editorState={editorState}
                 onChange={setEditorState}
                 handleKeyCommand={handleKeyCommand}

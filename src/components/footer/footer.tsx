@@ -16,8 +16,12 @@ export const Footer = (): JSX.Element => {
       h={"6vh"}
       w={"100%"}
       px={"2rem"}
+      bgColor={"white"}
       borderTop={"1px"}
       borderColor={"gray.400"}
+      position={"fixed"}
+      bottom={"0"}
+      zIndex={999}
     >
       {footerItems.map((item, index) => (
         <Flex

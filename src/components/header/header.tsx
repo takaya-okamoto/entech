@@ -12,6 +12,9 @@ export const Header = (): JSX.Element => {
       bgColor={timeLineMode === "e" ? "#17949D" : "white"}
       pt={".6rem"}
       justifyContent={"center"}
+      w={"100%"}
+      position={"fixed"}
+      zIndex={999}
     >
       <ChakraLink
         as={Link}

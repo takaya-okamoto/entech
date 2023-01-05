@@ -9,7 +9,9 @@ type Props = {
 
 export const ConversationPartner = (props: Props): JSX.Element => {
   return (
-    <Link href={`./chat/${props.userId}`}>
+    <Link
+      href={{ pathname: "./chat/[userId]", query: { userId: props.userId } }}
+    >
       <HStack>
         <Avatar boxSize={"2.8rem"} src={props.profileImage} />
         <Box>

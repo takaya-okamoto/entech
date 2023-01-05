@@ -10,7 +10,7 @@ export const Layout = ({ children }: Props): JSX.Element => {
   return (
     <Flex direction={"column"} w={"100%"}>
       <Header />
-      <Box minH={"88vh"} pt={"5rem"} px={"2rem"}>
+      <Box py={"5rem"} px={"2rem"}>
         {children}
       </Box>
       <Footer />

@@ -11,11 +11,11 @@ export const Header = (): JSX.Element => {
       h={"6vh"}
       bgColor={timeLineMode === "e" ? "#17949D" : "white"}
       pt={".6rem"}
-      pl={"10.5rem"}
+      justifyContent={"center"}
     >
       <ChakraLink
         as={Link}
-        href={"./timeLine"}
+        href={"/timeLine"}
         _hover={{ textDecoration: "none" }}
       >
         <Flex fontSize={"20px"}>

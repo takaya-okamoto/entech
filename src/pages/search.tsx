@@ -1,4 +1,3 @@
-import { Layout } from "../components/layout/layout";
 import { useRecoilState } from "recoil";
 import { headerState, selectedFooterState } from "../stores/recoil";
 import { useEffect } from "react";
@@ -12,9 +11,9 @@ const Search = (): JSX.Element => {
     setHeaderMode(false);
   });
   return (
-    <Layout>
+    <>
       <p>search page</p>
-    </Layout>
+    </>
   );
 };
 export default Search;

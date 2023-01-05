@@ -6,7 +6,6 @@ import { Formik, FormikProps } from "formik";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
 import { headerState, selectedFooterState } from "../stores/recoil";
-import { Layout } from "../components/layout/layout";
 import { StyledInputControl } from "../components/form/styledInputControl";
 import { FormLabel } from "../components/form/formLabel";
 import { StyledSubmitButton } from "../components/form/styledSubmitButton";
@@ -58,83 +57,81 @@ const Profile = (): JSX.Element => {
   };
 
   return (
-    <Layout>
-      <Flex>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={profileSchema}
-          onSubmit={handleSubmit}
-        >
-          {(formikProps: FormikProps<typeof initialValues>): JSX.Element => {
-            return (
-              <Flex
-                as={"form"}
-                onSubmit={formikProps.handleSubmit as never}
-                direction={"column"}
-              >
-                <VStack mb={"2rem"}>
-                  <StyledImageInput fieldProps={{ name: "profileImage" }} />
-                </VStack>
+    <Flex justifyContent={"center"}>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={profileSchema}
+        onSubmit={handleSubmit}
+      >
+        {(formikProps: FormikProps<typeof initialValues>): JSX.Element => {
+          return (
+            <Flex
+              as={"form"}
+              onSubmit={formikProps.handleSubmit as never}
+              direction={"column"}
+            >
+              <VStack mb={"2rem"}>
+                <StyledImageInput fieldProps={{ name: "profileImage" }} />
+              </VStack>
 
-                <FormLabel label={"氏名"} />
-                <Flex gap={3} pb={"2rem"}>
-                  <StyledInputControl
-                    fieldProps={{ name: "name.first" }}
-                    placeHolder={"岡村"}
-                  />
-                  <StyledInputControl
-                    fieldProps={{ name: "name.last" }}
-                    placeHolder={"匡也"}
-                  />
-                </Flex>
-
-                <FormLabel label={"学校"} />
-                <Flex gap={3} pb={"2rem"}>
-                  <StyledInputControl
-                    fieldProps={{ name: "school.name" }}
-                    placeHolder={"開志専門職大学"}
-                    w={"40%"}
-                  />
-                  <StyledInputControl
-                    fieldProps={{ name: "school.faculty" }}
-                    placeHolder={"情報学部"}
-                    w={"30%"}
-                  />
-                  <StyledSelectControl
-                    fieldProps={{ name: "school.grade" }}
-                    placeHolder={"学年"}
-                    w={"30%"}
-                    option={["1年", "2年", "3年", "4年"]}
-                  />
-                </Flex>
-
-                <Flex mb={".3rem"} gap={5}>
-                  <FormLabel label={"ユーザータイプ"} />
-                  <AiOutlineInfoCircle
-                    onClick={onOpen}
-                    color={"#5d5d5d"}
-                    fontSize={"23px"}
-                  />
-                  <InfoModal isOpen={isOpen} onClose={onClose} />
-                </Flex>
-                <StyledSelectControl
-                  fieldProps={{ name: "userType" }}
-                  option={["e", "n"]}
-                  flexProps={{ mb: "2rem" }}
+              <FormLabel label={"氏名"} />
+              <Flex gap={3} pb={"2rem"}>
+                <StyledInputControl
+                  fieldProps={{ name: "name.first" }}
+                  placeHolder={"岡村"}
                 />
-
-                <FormLabel label={"自己PR"} />
-                <StyledTextArea fieldProps={{ name: "selfPr" }} />
-
-                <VStack mt={"3rem"}>
-                  <StyledSubmitButton text={"保存する"} w={"10rem"} />
-                </VStack>
+                <StyledInputControl
+                  fieldProps={{ name: "name.last" }}
+                  placeHolder={"匡也"}
+                />
               </Flex>
-            );
-          }}
-        </Formik>
-      </Flex>
-    </Layout>
+
+              <FormLabel label={"学校"} />
+              <Flex gap={3} pb={"2rem"}>
+                <StyledInputControl
+                  fieldProps={{ name: "school.name" }}
+                  placeHolder={"開志専門職大学"}
+                  w={"40%"}
+                />
+                <StyledInputControl
+                  fieldProps={{ name: "school.faculty" }}
+                  placeHolder={"情報学部"}
+                  w={"30%"}
+                />
+                <StyledSelectControl
+                  fieldProps={{ name: "school.grade" }}
+                  placeHolder={"学年"}
+                  w={"30%"}
+                  option={["1年", "2年", "3年", "4年"]}
+                />
+              </Flex>
+
+              <Flex mb={".3rem"} gap={5}>
+                <FormLabel label={"ユーザータイプ"} />
+                <AiOutlineInfoCircle
+                  onClick={onOpen}
+                  color={"#5d5d5d"}
+                  fontSize={"23px"}
+                />
+                <InfoModal isOpen={isOpen} onClose={onClose} />
+              </Flex>
+              <StyledSelectControl
+                fieldProps={{ name: "userType" }}
+                option={["e", "n"]}
+                flexProps={{ mb: "2rem" }}
+              />
+
+              <FormLabel label={"自己PR"} />
+              <StyledTextArea fieldProps={{ name: "selfPr" }} />
+
+              <VStack mt={"3rem"}>
+                <StyledSubmitButton text={"保存する"} w={"10rem"} />
+              </VStack>
+            </Flex>
+          );
+        }}
+      </Formik>
+    </Flex>
   );
 };
 export default Profile;

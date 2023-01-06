@@ -1,9 +1,8 @@
-import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
+import { Button, Flex, Image, Text } from "@chakra-ui/react";
 import ColorAssets from "../constants/colorAssets";
-import { Triangle } from "react-loader-spinner";
 
 import { ManualSlider } from "../components/login/manualSlider";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const LoginBeforeTop = (): JSX.Element => {
   const [slideNum, setSlideNum] = useState<number>(0);

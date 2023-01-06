@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { useFooterLinks } from "../../hooks/view/useFooterLinks";
 import { useRecoilState } from "recoil";
 import { selectedFooterState } from "../../stores/recoil";
@@ -15,7 +15,7 @@ export const Footer = (): JSX.Element => {
       justifyContent={"space-between"}
       h={"6vh"}
       w={"100%"}
-      px={"2rem"}
+      px={"3rem"}
       bgColor={"white"}
       borderTop={"1px"}
       borderColor={"gray.400"}
@@ -36,6 +36,7 @@ export const Footer = (): JSX.Element => {
             });
           }}
           justifyContent={"center"}
+          direction={"column"}
         >
           <Text
             fontSize={"36px"}

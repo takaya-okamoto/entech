@@ -6,7 +6,7 @@ type Props = {
 };
 
 export const ImageInputArea = ({ imageLink, onClick }: Props): JSX.Element => {
-  const hasImage = imageLink !== "svg/noImage.svg";
+  const hasImage = imageLink !== "../svg/noImage.svg";
   return (
     <Box onClick={onClick} maxW={150} maxH={150} minH={150} minW={150}>
       <Box mt={hasImage ? "none" : "3.4rem"} ml={hasImage ? "none" : "3.4rem"}>

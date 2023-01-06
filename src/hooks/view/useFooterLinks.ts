@@ -14,7 +14,7 @@ export const useFooterLinks = (): FooterLinksType[] => {
   return [
     {
       name: "Home",
-      link: "/timeLine",
+      link: "/",
       icon: TbHome,
     },
     {

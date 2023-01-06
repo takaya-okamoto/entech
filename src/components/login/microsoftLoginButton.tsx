@@ -11,6 +11,8 @@ export const MicrosoftLoginButton = (props: Props): JSX.Element => {
       onClick={props.onClick}
       gap={3}
       ml={".2rem"}
+      bgColor={ColorAssets.white}
+      shadow={"md"}
       borderWidth={"1px"}
       borderRadius={"7px"}
       px={"2rem"}

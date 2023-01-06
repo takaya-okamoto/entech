@@ -13,7 +13,7 @@ export const Footer = (): JSX.Element => {
   return (
     <Flex
       justifyContent={"space-between"}
-      h={"6vh"}
+      h={"7.5vh"}
       w={"100%"}
       px={"3rem"}
       bgColor={"white"}

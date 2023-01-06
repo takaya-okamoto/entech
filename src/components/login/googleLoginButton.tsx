@@ -10,7 +10,9 @@ export const GoogleLoginButton = (props: Props): JSX.Element => {
     <Flex
       onClick={props.onClick}
       gap={3}
+      bgColor={ColorAssets.white}
       borderWidth={"1px"}
+      shadow={"md"}
       borderRadius={"7px"}
       px={"2rem"}
       py={".5rem"}

@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     }, 1000);
   });
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <RecoilRoot>

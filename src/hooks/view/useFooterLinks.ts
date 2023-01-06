@@ -13,23 +13,23 @@ export type FooterLinksType = {
 export const useFooterLinks = (): FooterLinksType[] => {
   return [
     {
-      name: "top",
+      name: "Home",
       link: "/timeLine",
       icon: TbHome,
     },
     {
-      name: "search",
+      name: "Search",
       link: "/search",
       icon: RiUserSearchLine,
     },
     {
-      name: "chat",
+      name: "Chat",
       link: "/chat",
       icon: BsChatLeftText,
     },
     {
-      name: "profile",
-      link: "/profile",
+      name: "Account",
+      link: "/account",
       icon: MdOutlineAccountCircle,
     },
   ];

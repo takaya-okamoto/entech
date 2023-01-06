@@ -1,34 +1,24 @@
 import * as Yup from "yup";
 import { Flex, useDisclosure, VStack } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { useRecoilState } from "recoil";
 import { FieldArray, Formik, FormikProps } from "formik";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
-import { headerState, selectedFooterState } from "../stores/recoil";
-import { StyledInputControl } from "../components/form/styledInputControl";
-import { FormLabel } from "../components/form/formLabel";
-import { StyledSubmitButton } from "../components/form/button/styledSubmitButton";
-import { StyledSelectControl } from "../components/form/styledSelectControl";
-import { StyledTextArea } from "../components/form/styledTextArea";
-import { InfoModal } from "../components/common/modal/infoModal";
-import { StyledImageInput } from "../components/form/styledImageInput";
-import { useSkills } from "../hooks/view/useSkills";
-import { DeleteButton } from "../components/form/button/deleteButton";
-import { StyledButton } from "../components/form/button/StyledButton";
+import { StyledInputControl } from "../../components/form/styledInputControl";
+import { FormLabel } from "../../components/form/formLabel";
+import { StyledSubmitButton } from "../../components/form/button/styledSubmitButton";
+import { StyledSelectControl } from "../../components/form/styledSelectControl";
+import { StyledTextArea } from "../../components/form/styledTextArea";
+import { InfoModal } from "../../components/common/modal/infoModal";
+import { StyledImageInput } from "../../components/form/styledImageInput";
+import { useSkills } from "../../hooks/view/useSkills";
+import { DeleteButton } from "../../components/form/button/deleteButton";
+import { StyledButton } from "../../components/form/button/StyledButton";
 
 const Profile = (): JSX.Element => {
   const skills = useSkills();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedFooter, setSelectedFooter] =
-    useRecoilState<number>(selectedFooterState);
-  const [headerMode, setHeaderMode] = useRecoilState(headerState);
-  useEffect(() => {
-    setSelectedFooter(3);
-    setHeaderMode(false);
-  });
   const initialValues = {
-    profileImage: "svg/noImage.svg",
+    profileImage: "../svg/noImage.svg",
     name: {
       first: "",
       last: "",

@@ -16,5 +16,6 @@ export const useSkills = (): string[] => {
     "会計",
     "法律",
     "マーケティング",
+    "SNS運用",
   ];
 };

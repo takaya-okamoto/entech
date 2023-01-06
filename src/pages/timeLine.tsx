@@ -1,4 +1,4 @@
-import { Text } from "@chakra-ui/react";
+import { Text, Box } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { headerState, selectedFooterState } from "../stores/recoil";
 import { useEffect } from "react";
@@ -15,6 +15,7 @@ const TimeLine = (): JSX.Element => {
   return (
     <>
       <Text>Time Line</Text>
+      <Box position="fixed" right="32px" bottom="32px"></Box>
     </>
   );
 };

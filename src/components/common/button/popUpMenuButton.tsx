@@ -1,10 +1,12 @@
-import { Box, Flex } from "@chakra-ui/react";
-import { FC, useState } from "react";
+import { Box, Flex, Img, Text } from "@chakra-ui/react";
+import { useState } from "react";
 import PopUpMenuButtonBase from "./popUpMenuButtonBase";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiFileEditLine, RiUserSearchLine } from "react-icons/ri";
-import { BiListPlus } from "react-icons/bi";
 import ColorAssets from "../../../constants/useColorAssets";
+import { Image } from "@chakra-ui/react";
+import { useRecoilState } from "recoil";
+import { timeLineModeState } from "stores/recoil";
 
 type Props = {};
 
@@ -15,7 +17,19 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
     { left: 0, top: 0 },
   ]);
   const [isHover, setIsHover] = useState(false);
+  const [timeLineMode, setTimeLineMode] = useRecoilState(timeLineModeState);
+  //NからE
+  const changeE = () => {};
+  //EからN
+  const changeN = () => {};
 
+  const modeChange = () => {
+    if (timeLineMode === "e") {
+      changeE();
+    } else {
+      changeN();
+    }
+  };
   const hoverAddIcon = () => {
     setPositionList([
       { left: -20, top: 2 },
@@ -35,7 +49,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
   };
 
   return (
-    <>
+    <Flex position="fixed" bottom="10%" right="3%">
       <Box
         width="140px"
         height="140px"
@@ -46,7 +60,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
           onMouseOver={hoverAddIcon}
           top="80px"
           left="80px"
-          position="relative"
+          position="absolute"
         >
           <PopUpMenuButtonBase
             position="absolute"
@@ -75,17 +89,19 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
             <RiUserSearchLine color={ColorAssets.white} size="2rem" />
           </PopUpMenuButtonBase>
         </Box>
-        {/* <Box position="absolute" top="80px" left="80px">
+        <Box position="absolute" top="80px" left="80px">
           <PopUpMenuButtonBase
             position="absolute"
             left={positionList[2].left}
             top={positionList[2].top}
-            onClick={() => openMenuContents("Create")}
+            onClick={}
           >
-            <BiListPlus color={ColorAssets.white} size="2rem" />
+            <Text fontSize={"24px"} color={ColorAssets.yellow}>
+              E
+            </Text>
           </PopUpMenuButtonBase>
-        </Box> */}
+        </Box>
       </Box>
-    </>
+    </Flex>
   );
 };

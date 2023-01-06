@@ -16,9 +16,7 @@ const TimeLine = (): JSX.Element => {
   return (
     <>
       <Text>Time Line</Text>
-      <Box position="fixed" right="32px" bottom="32px">
-        <PopUpMenuButton />
-      </Box>
+      <Box position="fixed" right="32px" bottom="32px"></Box>
     </>
   );
 };

@@ -2,7 +2,6 @@ import { Text, Box } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { headerState, selectedFooterState } from "../stores/recoil";
 import { useEffect } from "react";
-import { PopUpMenuButton } from "components/common/button/popUpMenuButton";
 
 const TimeLine = (): JSX.Element => {
   const [selectedFooter, setSelectedFooter] =

@@ -94,7 +94,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
             position="absolute"
             left={positionList[2].left}
             top={positionList[2].top}
-            onClick={}
+            onClick={modeChange}
           >
             <Text fontSize={"24px"} color={ColorAssets.yellow}>
               E

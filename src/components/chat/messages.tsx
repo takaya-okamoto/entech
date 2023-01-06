@@ -12,6 +12,7 @@ import {
 import { Message } from "./message";
 import { BiBold } from "react-icons/bi";
 import Link from "next/link";
+import ColorAssets from "constants/useColorAssets";
 
 export const Messages = (): JSX.Element => {
   //// draft.js ///////////////////////////////////////////////////////////////
@@ -52,7 +53,12 @@ export const Messages = (): JSX.Element => {
 
   return (
     <Flex direction={"column"}>
-      <HStack gap={2} color={"#5e5e5e"} mb={".5rem"} fontSize={"18px"}>
+      <HStack
+        gap={2}
+        color={ColorAssets.textColor}
+        mb={".5rem"}
+        fontSize={"18px"}
+      >
         <Link href={"./"}>
           <AiOutlineLeft />
         </Link>
@@ -82,7 +88,7 @@ export const Messages = (): JSX.Element => {
         <Flex direction={"column"} mt={"1rem"}>
           <Flex gap={2}>
             <Button
-              bgColor={"white"}
+              bgColor={ColorAssets.white}
               borderWidth={"1px"}
               px={"none"}
               onMouseDown={(e) => handleToggleClick(e, "BOLD")}
@@ -90,7 +96,7 @@ export const Messages = (): JSX.Element => {
               <BiBold />
             </Button>
             <Button
-              bgColor={"white"}
+              bgColor={ColorAssets.white}
               borderWidth={"1px"}
               px={"none"}
               onMouseDown={(e) => handleToggleClick(e, "ITALIC")}
@@ -98,7 +104,7 @@ export const Messages = (): JSX.Element => {
               <AiOutlineItalic />
             </Button>
             <Button
-              bgColor={"white"}
+              bgColor={ColorAssets.white}
               borderWidth={"1px"}
               px={"none"}
               onMouseDown={(e) => handleToggleClick(e, "STRIKETHROUGH")}
@@ -106,7 +112,7 @@ export const Messages = (): JSX.Element => {
               <AiOutlineStrikethrough />
             </Button>
             <Button
-              bgColor={"white"}
+              bgColor={ColorAssets.white}
               borderWidth={"1px"}
               px={"none"}
               onMouseDown={(e) => handleBlockClick(e, "ordered-list-item")}
@@ -114,7 +120,7 @@ export const Messages = (): JSX.Element => {
               <AiOutlineOrderedList />
             </Button>
             <Button
-              bgColor={"white"}
+              bgColor={ColorAssets.white}
               borderWidth={"1px"}
               px={"none"}
               onMouseDown={(e) => handleBlockClick(e, "unordered-list-item")}
@@ -142,7 +148,7 @@ export const Messages = (): JSX.Element => {
                 handleKeyCommand={handleKeyCommand}
               />
             </Box>
-            <Box mt={"1rem"} ml={".3rem"} color={"#5e5e5e"}>
+            <Box mt={"1rem"} ml={".3rem"} color={ColorAssets.textColor}>
               <AiOutlineSend size={"20px"} />
             </Box>
           </Flex>

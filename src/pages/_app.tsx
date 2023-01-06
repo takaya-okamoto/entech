@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { RecoilRoot } from "recoil";
 import { Layout } from "../components/layout/layout";
-import { useMyAccount } from "../hooks/useMyAccount";
+import { useMyAccount } from "../hooks/logic/useMyAccount";
 
 function MyApp({ Component, pageProps }: AppProps) {
   //Todo Loginしてたら直接TimeLineへ飛ばす。

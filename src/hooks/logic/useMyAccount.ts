@@ -1,4 +1,4 @@
-import { app } from "../stores/firebase/firebase";
+import { app } from "../../stores/firebase/firebase";
 import { getAuth, User } from "@firebase/auth";
 
 type MyAccountType = {

@@ -9,6 +9,7 @@ import {
 import { app } from "../stores/firebase/firebase";
 import { GoogleLoginButton } from "../components/login/googleLoginButton";
 import { MicrosoftLoginButton } from "../components/login/microsoftLoginButton";
+import ColorAssets from "../constants/colorAssets";
 
 const Login = (): JSX.Element => {
   const router = useRouter();
@@ -36,13 +37,16 @@ const Login = (): JSX.Element => {
 
   return (
     <Flex direction={"column"} alignItems={"center"}>
-      <Text mb={"3rem"} fontWeight={"semibold"}>
-        ログイン
+      <Text mb={"2rem"} fontWeight={"semibold"}>
+        アカウント作成 / ログイン
       </Text>
-      <Flex direction={"column"} gap={10}>
+      <Flex direction={"column"} gap={5}>
         <GoogleLoginButton onClick={handleGoogleLogin} />
         <MicrosoftLoginButton onClick={handleMicrosoftLogin} />
       </Flex>
+      <Text color={ColorAssets.gray} mt={"3rem"}>
+        登録するには、entechの利用規約とプライバシーポリシーに同意する必要があります。
+      </Text>
     </Flex>
   );
 };

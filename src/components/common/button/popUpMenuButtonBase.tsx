@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import ColorAssets from "constants/useColorAssets";
+import ColorAssets from "constants/colorAssets";
 import { FC, MouseEventHandler, ReactNode } from "react";
 
 type Props = {

@@ -6,6 +6,7 @@ import Link from "next/link";
 export const Header = (): JSX.Element => {
   const headerMode = useRecoilValue(headerState);
   const timeLineMode = useRecoilValue(timeLineModeState);
+
   return (
     <Flex
       h={"6vh"}

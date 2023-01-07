@@ -13,10 +13,22 @@ import { StyledImageInput } from "../../components/form/styledImageInput";
 import { useSkills } from "../../hooks/view/useSkills";
 import { DeleteButton } from "../../components/form/button/deleteButton";
 import { StyledButton } from "../../components/form/button/StyledButton";
+import { useRecoilState } from "recoil";
+import { headerState, selectedFooterState } from "../../stores/recoil";
+import { useEffect } from "react";
 
 const Profile = (): JSX.Element => {
+  const [selectedFooter, setSelectedFooter] =
+    useRecoilState<number>(selectedFooterState);
+  const [headerMode, setHeaderMode] = useRecoilState(headerState);
   const skills = useSkills();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    setSelectedFooter(3);
+    setHeaderMode(false);
+  });
+
   const initialValues = {
     profileImage: "../svg/noImage.svg",
     name: {

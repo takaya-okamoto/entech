@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, useToast } from "@chakra-ui/react";
 import { GoogleLoginButton } from "./googleLoginButton";
 import { MicrosoftLoginButton } from "./microsoftLoginButton";
 import ColorAssets from "../../constants/colorAssets";
@@ -12,6 +12,7 @@ import {
 } from "@firebase/auth";
 
 export const Login = (): JSX.Element => {
+  const toast = useToast();
   const { app } = useFirestore();
   const router = useRouter();
   const auth = getAuth(app);
@@ -21,7 +22,15 @@ export const Login = (): JSX.Element => {
   const handleGoogleLogin = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-      await router.push("/");
+      await router.push("/").then(() => {
+        toast({
+          title: "ログインしました。",
+          position: "top",
+          status: "success",
+          isClosable: true,
+          duration: 3000,
+        });
+      });
     } catch (error) {
       console.error(error);
     }
@@ -30,7 +39,15 @@ export const Login = (): JSX.Element => {
   const handleMicrosoftLogin = async () => {
     try {
       await signInWithPopup(auth, microsoftProvider);
-      await router.push("/");
+      await router.push("/").then(async () => {
+        await toast({
+          title: "ログインしました。",
+          position: "top",
+          status: "success",
+          isClosable: true,
+          duration: 3000,
+        });
+      });
     } catch (error) {
       console.error(error);
     }

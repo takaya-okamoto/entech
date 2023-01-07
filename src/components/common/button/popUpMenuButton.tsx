@@ -3,7 +3,7 @@ import { useState } from "react";
 import PopUpMenuButtonBase from "./popUpMenuButtonBase";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiFileEditLine, RiUserSearchLine } from "react-icons/ri";
-import ColorAssets from "../../../constants/useColorAssets";
+import ColorAssets from "../../../constants/colorAssets";
 import { Image } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { timeLineModeState } from "stores/recoil";
@@ -50,12 +50,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
 
   return (
     <Flex position="fixed" bottom="10%" right="3%">
-      <Box
-        width="140px"
-        height="140px"
-        bg={ColorAssets.white}
-        onMouseLeave={leaveAddIcon}
-      >
+      <Box width="140px" height="140px" bg={"none"} onMouseLeave={leaveAddIcon}>
         <Box
           onMouseOver={hoverAddIcon}
           top="80px"

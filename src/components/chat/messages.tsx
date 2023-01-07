@@ -12,7 +12,7 @@ import {
 import { Message } from "./message";
 import { BiBold } from "react-icons/bi";
 import Link from "next/link";
-import ColorAssets from "constants/useColorAssets";
+import ColorAssets from "constants/colorAssets";
 
 export const Messages = (): JSX.Element => {
   //// draft.js ///////////////////////////////////////////////////////////////

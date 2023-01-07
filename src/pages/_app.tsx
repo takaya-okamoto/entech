@@ -1,18 +1,45 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Center } from "@chakra-ui/react";
 import { RecoilRoot } from "recoil";
-import { Layout } from "../components/layout/layout";
+import { useMyAccount } from "../hooks/logic/useMyAccount";
+import { MainComponent } from "../components/layout/mainComponent";
+import { useEffect, useState } from "react";
+import { LineWave } from "react-loader-spinner";
+import ColorAssets from "../constants/colorAssets";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  //Todo Loginしてたら直接TimeLineへ飛ばす。
-  //Accountをフェッチして、あったらrecoil使って保存
+  const [isShowLoading, setIsShowLoading] = useState(false);
+  const { user } = useMyAccount();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsShowLoading(true);
+    }, 1000);
+  });
+
+  // console.log(user);
+
   return (
     <RecoilRoot>
       <ChakraProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        {isShowLoading ? (
+          <MainComponent
+            Component={Component}
+            pageProps={pageProps}
+            user={user}
+          />
+        ) : (
+          <Center mt={"30vh"} ml={"12vw"}>
+            <LineWave
+              height="200"
+              width="200"
+              color={ColorAssets.entechMainBlue}
+              ariaLabel="line-wave"
+              visible={true}
+            />
+          </Center>
+        )}
       </ChakraProvider>
     </RecoilRoot>
   );

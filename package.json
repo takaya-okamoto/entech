@@ -28,6 +28,7 @@
     "react-loader-spinner": "^5.3.4",
     "recoil": "^0.7.6",
     "slick-carousel": "^1.8.1",
+    "utility-types": "^3.10.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {

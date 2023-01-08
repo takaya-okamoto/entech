@@ -2,12 +2,12 @@ import { Flex, Text, Link as ChakraLink } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import { headerState, timeLineModeState } from "../../stores/recoil";
 import Link from "next/link";
-import ColorAssets from "constants/colorAssets";
+import { useColorAssets } from "../../hooks/view/useColorAssets";
 
 export const Header = (): JSX.Element => {
   const headerMode = useRecoilValue(headerState);
   const timeLineMode = useRecoilValue(timeLineModeState);
-
+  const ColorAssets = useColorAssets();
   return (
     <Flex
       h={"7vh"}

@@ -12,7 +12,7 @@ import {
 import { Message } from "./message";
 import { BiBold } from "react-icons/bi";
 import Link from "next/link";
-import ColorAssets from "constants/colorAssets";
+import { useColorAssets } from "hooks/view/useColorAssets";
 
 export const Messages = (): JSX.Element => {
   //// draft.js ///////////////////////////////////////////////////////////////
@@ -50,6 +50,8 @@ export const Messages = (): JSX.Element => {
     setEditorState(EditorState.createEmpty());
   }, []);
   ////////////////////////////////////////////////////////////////////////////
+
+  const ColorAssets = useColorAssets();
 
   return (
     <Flex direction={"column"}>

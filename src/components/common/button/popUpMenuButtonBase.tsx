@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import ColorAssets from "constants/colorAssets";
+import { useColorAssets } from "hooks/view/useColorAssets";
 import { FC, MouseEventHandler, ReactNode } from "react";
 
 type Props = {
@@ -14,6 +14,8 @@ type Props = {
 
 const PopUpMenuButtonBase: FC<Props> = (props) => {
   const { children, position, left, top, zIndex, rotate, onClick } = props;
+
+  const ColorAssets = useColorAssets();
 
   return (
     <Flex

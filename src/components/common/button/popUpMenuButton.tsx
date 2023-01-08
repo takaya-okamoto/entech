@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Box, Flex, Img, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import PopUpMenuButtonBase from "./popUpMenuButtonBase";
@@ -52,12 +51,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
 
   return (
     <Flex position="fixed" bottom="10%" right="3%">
-      <Box
-        width="140px"
-        height="140px"
-        bg={ColorAssets.white}
-        onMouseLeave={leaveAddIcon}
-      >
+      <Box width="140px" height="140px" bg={"none"} onMouseLeave={leaveAddIcon}>
         <Box
           onMouseOver={hoverAddIcon}
           top="80px"
@@ -107,46 +101,3 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
     </Flex>
   );
 };
-=======
-// import { Flex } from "@chakra-ui/react";
-// import ColorAssets from "hooks/view/useColorAssets";
-// import { FC, MouseEventHandler, ReactNode } from "react";
-
-// type Props = {
-//   children: ReactNode;
-//   position: "relative" | "absolute";
-//   left?: number;
-//   top?: number;
-//   zIndex?: number;
-//   rotate?: string;
-//   onClick?: MouseEventHandler;
-// };
-
-// const PopUpMenuButtonBase: FC<Props> = (props) => {
-//   const { children, position, left, top, zIndex, rotate, onClick } = props;
-
-//   return (
-//     <Flex
-//       justifyContent="center"
-//       alignItems="center"
-//       position={position}
-//       left={left}
-//       top={top}
-//       w="60px"
-//       h="60px"
-//       borderRadius="50%"
-//       bg={ColorAssets.buttonColor.khaki}
-//       cursor="pointer"
-//       transition="0.4s"
-//       zIndex={zIndex}
-//       transform={rotate}
-//       _hover={{ opacity: 0.8 }}
-//       onClick={onClick}
-//     >
-//       {children}
-//     </Flex>
-//   );
-// };
-
-// export default PopUpMenuButtonBase;
->>>>>>> main

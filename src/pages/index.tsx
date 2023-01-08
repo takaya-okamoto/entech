@@ -1,18 +1,22 @@
-import { Flex, Text } from "@chakra-ui/react";
-import Link from "next/link";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import { useRecoilState } from "recoil";
+import { headerState, selectedFooterState } from "../stores/recoil";
+import { useEffect } from "react";
 
 const Index = (): JSX.Element => {
+  const [selectedFooter, setSelectedFooter] =
+    useRecoilState<number>(selectedFooterState);
+  const [headerMode, setHeaderMode] = useRecoilState(headerState);
+  useEffect(() => {
+    setSelectedFooter(0);
+    setHeaderMode(true);
+  });
+
   return (
-    <Flex direction={"column"}>
-      <Text>Top page</Text>
-      <Link href={"./manual"}>
-        <Text shadow={"md"}>Next</Text>
-      </Link>
-      <Link href={"./login"}>
-        <Text shadow={"md"}>Login</Text>
-      </Link>
-    </Flex>
+    <>
+      <Text>Time Line</Text>
+      <Box position="fixed" right="32px" bottom="32px"></Box>
+    </>
   );
 };
-
 export default Index;

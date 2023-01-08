@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef } from "react";
-import { Center, Flex, FlexProps, Input } from "@chakra-ui/react";
+import { Center, Flex, FlexProps, Input, Text } from "@chakra-ui/react";
 import { ImageInputArea } from "./imageInputArea";
 import { FieldHookConfig, useField } from "formik";
 
@@ -27,14 +27,20 @@ export const StyledImageInput = (props: Props): JSX.Element => {
   };
 
   return (
-    <Flex>
+    <Flex direction={"column"}>
       <Center
         borderWidth={"1px"}
         borderColor={"gray.100"}
         borderRadius={"full"}
+        mb={".3rem"}
       >
         <ImageInputArea imageLink={field.value} onClick={onImageClick} />
       </Center>
+      {meta.touched && meta.error && (
+        <Text color={"red.500"} fontSize={"14px"}>
+          {meta.error}
+        </Text>
+      )}
       <Input hidden ref={inputRef} type={"file"} onChange={handleInputChange} />
     </Flex>
   );

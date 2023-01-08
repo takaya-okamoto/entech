@@ -9,7 +9,7 @@ import { firebaseConfig } from "../../../stores/firebase/firebase";
 
 export const UploadImage = async (path: string, url: string) => {
   const urlInst = new URL(url);
-  if (urlInst.hostname === "localhost") {
+  if (urlInst.protocol === "blob:") {
     const app = initializeApp(firebaseConfig);
     const storage = getStorage(app);
     const mountainsRef = ref(storage, path);

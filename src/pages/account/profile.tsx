@@ -37,7 +37,7 @@ const Profile = (): JSX.Element => {
   });
 
   const initialValues = {
-    profileImage: "../svg/noImage.svg",
+    profileImage: "",
     name: {
       first: "",
       last: "",
@@ -52,6 +52,7 @@ const Profile = (): JSX.Element => {
     selfPr: "",
   };
   const profileSchema = Yup.object({
+    profileImage: Yup.string().required("画像を選択してください。"),
     name: Yup.object({
       first: Yup.string().required("苗字を入力してください"),
       last: Yup.string().required("氏名を入力してください"),
@@ -70,13 +71,11 @@ const Profile = (): JSX.Element => {
   ): Promise<void> => {
     if (!user) return;
     const id = user.uid;
-
     await UploadImage(`profiles/${id}`, submittedValues.profileImage).then(
       (res) => {
         submittedValues.profileImage = res;
       }
     );
-
     const info: ProfileType = {
       id,
       ...submittedValues,

@@ -1,5 +1,6 @@
 export const useSkills = (): string[] => {
   return [
+    "スキルを選択",
     "HP開発",
     "Webアプリ開発",
     "iOSアプリ開発",

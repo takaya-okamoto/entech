@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 import { Flex, useDisclosure, useToast, VStack } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { FieldArray, Formik, FormikProps } from "formik";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
@@ -15,11 +16,12 @@ import { DeleteButton } from "../../components/form/button/deleteButton";
 import { StyledButton } from "../../components/form/button/StyledButton";
 import { useRecoilState } from "recoil";
 import { headerState, selectedFooterState } from "../../stores/recoil";
-import { useEffect } from "react";
 import { useMyAccount } from "../../hooks/logic/useMyAccount";
 import { ProfileType } from "../../types/profileType";
 import { WriteProfile } from "../../lib/clientSide/firestore/writeProfile";
 import { UploadImage } from "../../lib/clientSide/storage/uploadImage";
+import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
+import { fetchProfile } from "../../lib/clientSide/firestore/fetchProfile";
 
 const Profile = (): JSX.Element => {
   const toast = useToast();
@@ -29,6 +31,7 @@ const Profile = (): JSX.Element => {
 
   const skills = useSkills();
   const { user } = useMyAccount();
+  const { data } = useFetchFirestore(fetchProfile, user?.uid);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -37,19 +40,19 @@ const Profile = (): JSX.Element => {
   });
 
   const initialValues = {
-    profileImage: "",
+    profileImage: data?.profileImage ?? "",
     name: {
-      first: "",
-      last: "",
+      first: data?.name.first ?? "",
+      last: data?.name.last ?? "",
     },
     school: {
-      name: "",
-      faculty: "",
-      grade: "",
+      name: data?.school.name ?? "",
+      faculty: data?.school.faculty ?? "",
+      grade: data?.school.grade ?? "",
     },
-    userType: "e",
-    skills: [{ name: "" }],
-    selfPr: "",
+    userType: data?.userType ?? "e",
+    skills: data?.skills ?? [{ name: "" }],
+    selfPr: data?.selfPr ?? "",
   };
   const profileSchema = Yup.object({
     profileImage: Yup.string().required("画像を選択してください。"),
@@ -201,7 +204,7 @@ const Profile = (): JSX.Element => {
               <FormLabel label={"自己PR"} textProps={{ mt: "2rem" }} />
               <StyledTextArea fieldProps={{ name: "selfPr" }} />
 
-              <VStack mt={"3rem"}>
+              <VStack my={"2rem"}>
                 <StyledSubmitButton text={"保存する"} w={"10rem"} />
               </VStack>
             </Flex>

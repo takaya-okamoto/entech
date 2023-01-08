@@ -1,5 +1,5 @@
 import { getAuth, signOut } from "@firebase/auth";
-import { useFirestore } from "../../hooks/view/useFirestore";
+import { useFirebase } from "../../hooks/logic/useFirebase";
 import { Button, Flex, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import ColorAssets from "../../constants/colorAssets";
@@ -7,7 +7,7 @@ import ColorAssets from "../../constants/colorAssets";
 const LogOut = (): JSX.Element => {
   const toast = useToast();
   const router = useRouter();
-  const { app } = useFirestore();
+  const { app } = useFirebase();
   const auth = getAuth(app);
   const handleLogout = async () => {
     await signOut(auth);

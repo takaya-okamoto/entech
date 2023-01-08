@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { Flex, useDisclosure, VStack } from "@chakra-ui/react";
+import { Flex, useDisclosure, useToast, VStack } from "@chakra-ui/react";
 import { FieldArray, Formik, FormikProps } from "formik";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
@@ -15,13 +15,25 @@ import { DeleteButton } from "../../components/form/button/deleteButton";
 import { StyledButton } from "../../components/form/button/StyledButton";
 import { useRecoilState } from "recoil";
 import { headerState, selectedFooterState } from "../../stores/recoil";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useMyAccount } from "../../hooks/logic/useMyAccount";
+import { ProfileType } from "../../types/profileType";
+import { WriteProfile } from "../../lib/clientSide/firestore/writeProfile";
+import { UploadImage } from "../../lib/clientSide/storage/uploadImage";
 
 const Profile = (): JSX.Element => {
+  const toast = useToast();
   const [selectedFooter, setSelectedFooter] =
     useRecoilState<number>(selectedFooterState);
   const [headerMode, setHeaderMode] = useRecoilState(headerState);
+  // const [imageFile, setImageFile] = useRecoilState(uploadImageState);
+  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
+  const setFile = (file: File | undefined) => {
+    return setImageFile(file);
+  };
+
   const skills = useSkills();
+  const { user } = useMyAccount();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -57,10 +69,42 @@ const Profile = (): JSX.Element => {
     userType: Yup.string(),
     selfPr: Yup.string(),
   });
+
   const handleSubmit = async (
     submittedValues: typeof initialValues
   ): Promise<void> => {
     await console.warn(submittedValues);
+    if (!user) return;
+    const id = user.uid;
+
+    if (imageFile) {
+      await UploadImage(imageFile, id).then((res) => {
+        console.log({ res });
+        submittedValues.profileImage = res;
+      });
+    }
+
+    const info: ProfileType = {
+      id,
+      ...submittedValues,
+    };
+    try {
+      await WriteProfile(info);
+      toast({
+        title: "プロフィールを保存しました。",
+        status: "success",
+        position: "top",
+        isClosable: true,
+      });
+    } catch (e) {
+      console.error(e);
+      toast({
+        title: "プロフィールの保存に失敗しました。",
+        status: "success",
+        position: "top",
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -79,7 +123,10 @@ const Profile = (): JSX.Element => {
               direction={"column"}
             >
               <VStack mb={"2rem"}>
-                <StyledImageInput fieldProps={{ name: "profileImage" }} />
+                <StyledImageInput
+                  fieldProps={{ name: "profileImage" }}
+                  setFile={setFile}
+                />
               </VStack>
 
               <FormLabel label={"氏名"} />

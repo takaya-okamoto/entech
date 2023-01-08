@@ -1,5 +1,5 @@
 import { getAuth, onAuthStateChanged, User } from "@firebase/auth";
-import { useFirestore } from "../view/useFirestore";
+import { useFirebase } from "./useFirebase";
 import { useState } from "react";
 
 type MyAccountType = {
@@ -7,7 +7,7 @@ type MyAccountType = {
 };
 
 export const useMyAccount = (): MyAccountType => {
-  const { app } = useFirestore();
+  const { app } = useFirebase();
   const auth = getAuth(app);
   const [user, setUser] = useState<User | null>(null);
   onAuthStateChanged(auth, (u) => setUser(u));

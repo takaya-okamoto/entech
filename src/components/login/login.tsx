@@ -2,7 +2,7 @@ import { Flex, Text, useToast } from "@chakra-ui/react";
 import { GoogleLoginButton } from "./googleLoginButton";
 import { MicrosoftLoginButton } from "./microsoftLoginButton";
 import ColorAssets from "../../constants/colorAssets";
-import { useFirestore } from "../../hooks/view/useFirestore";
+import { useFirebase } from "../../hooks/logic/useFirebase";
 import { useRouter } from "next/router";
 import {
   getAuth,
@@ -13,7 +13,7 @@ import {
 
 export const Login = (): JSX.Element => {
   const toast = useToast();
-  const { app } = useFirestore();
+  const { app } = useFirebase();
   const router = useRouter();
   const auth = getAuth(app);
   const googleProvider = new GoogleAuthProvider();

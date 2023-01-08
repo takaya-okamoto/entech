@@ -15,7 +15,7 @@ import { DeleteButton } from "../../components/form/button/deleteButton";
 import { StyledButton } from "../../components/form/button/StyledButton";
 import { useRecoilState } from "recoil";
 import { headerState, selectedFooterState } from "../../stores/recoil";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useMyAccount } from "../../hooks/logic/useMyAccount";
 import { ProfileType } from "../../types/profileType";
 import { WriteProfile } from "../../lib/clientSide/firestore/writeProfile";
@@ -26,11 +26,6 @@ const Profile = (): JSX.Element => {
   const [selectedFooter, setSelectedFooter] =
     useRecoilState<number>(selectedFooterState);
   const [headerMode, setHeaderMode] = useRecoilState(headerState);
-  // const [imageFile, setImageFile] = useRecoilState(uploadImageState);
-  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
-  const setFile = (file: File | undefined) => {
-    return setImageFile(file);
-  };
 
   const skills = useSkills();
   const { user } = useMyAccount();
@@ -73,16 +68,14 @@ const Profile = (): JSX.Element => {
   const handleSubmit = async (
     submittedValues: typeof initialValues
   ): Promise<void> => {
-    await console.warn(submittedValues);
     if (!user) return;
     const id = user.uid;
 
-    if (imageFile) {
-      await UploadImage(imageFile, id).then((res) => {
-        console.log({ res });
+    await UploadImage(`profiles/${id}`, submittedValues.profileImage).then(
+      (res) => {
         submittedValues.profileImage = res;
-      });
-    }
+      }
+    );
 
     const info: ProfileType = {
       id,
@@ -123,10 +116,7 @@ const Profile = (): JSX.Element => {
               direction={"column"}
             >
               <VStack mb={"2rem"}>
-                <StyledImageInput
-                  fieldProps={{ name: "profileImage" }}
-                  setFile={setFile}
-                />
+                <StyledImageInput fieldProps={{ name: "profileImage" }} />
               </VStack>
 
               <FormLabel label={"氏名"} />

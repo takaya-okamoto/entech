@@ -7,10 +7,17 @@ import {
 import { initializeApp } from "@firebase/app";
 import { firebaseConfig } from "../../../stores/firebase/firebase";
 
-export const UploadImage = async (file: File, uid: string) => {
-  const app = initializeApp(firebaseConfig);
-  const storage = getStorage(app);
-  const mountainsRef = ref(storage, `/profiles/${uid}`);
-  await uploadBytes(mountainsRef, file);
-  return await getDownloadURL(mountainsRef);
+export const UploadImage = async (path: string, url: string) => {
+  const urlInst = new URL(url);
+  if (urlInst.hostname === "localhost") {
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+    const mountainsRef = ref(storage, path);
+    const res = await fetch(url);
+    const blob = await res.blob();
+    await uploadBytes(mountainsRef, blob);
+    return await getDownloadURL(mountainsRef);
+  } else {
+    return url;
+  }
 };

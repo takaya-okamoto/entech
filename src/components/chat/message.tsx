@@ -1,5 +1,5 @@
 import { Avatar, VStack, Flex, Text, Box } from "@chakra-ui/react";
-import ColorAssets from "constants/useColorAssets";
+import ColorAssets from "hooks/view/useColorAssets";
 
 export const Message = (): JSX.Element => {
   return (

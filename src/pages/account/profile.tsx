@@ -2,7 +2,6 @@ import * as Yup from "yup";
 import { Flex, useDisclosure, VStack } from "@chakra-ui/react";
 import { FieldArray, Formik, FormikProps } from "formik";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-
 import { StyledInputControl } from "../../components/form/styledInputControl";
 import { FormLabel } from "../../components/form/formLabel";
 import { StyledSubmitButton } from "../../components/form/button/styledSubmitButton";

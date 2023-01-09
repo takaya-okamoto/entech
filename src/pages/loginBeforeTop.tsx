@@ -1,12 +1,11 @@
 import { Button, Flex, Image, Text } from "@chakra-ui/react";
-import ColorAssets from "../constants/colorAssets";
-
+import { useColorAssets } from "../hooks/view/useColorAssets";
 import { ManualSlider } from "../components/login/manualSlider";
 import { useState } from "react";
 
 const LoginBeforeTop = (): JSX.Element => {
   const [slideNum, setSlideNum] = useState<number>(0);
-
+  const ColorAssets = useColorAssets();
   return (
     <Flex
       bgColor={ColorAssets.entechMainBlue}
@@ -21,7 +20,7 @@ const LoginBeforeTop = (): JSX.Element => {
         alignItems={"center"}
       >
         <Image alt={"entech-logo"} src={"/svg/entech-logo.svg"} w={"150px"} />
-        <Flex fontSize={"30px"} fontWeight={"semibold"}>
+        <Flex fontSize={"30px"}>
           <Text color={ColorAssets.yellow}>en</Text>
           <Text color={ColorAssets.white}>tech</Text>
         </Flex>
@@ -34,7 +33,6 @@ const LoginBeforeTop = (): JSX.Element => {
           <Button
             color={ColorAssets.white}
             bgColor={ColorAssets.entechMainBlue}
-            fontWeight={"semibold"}
             fontSize={"20px"}
             borderWidth={"1px"}
             borderColor={ColorAssets.white}

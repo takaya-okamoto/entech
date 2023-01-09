@@ -33,7 +33,7 @@ const PopUpMenuButtonBase: FC<Props> = (props) => {
       zIndex={zIndex}
       transform={rotate}
       _hover={{ opacity: 0.8 }}
-      onClick={onClick}
+      onClick={props.onClick}
     >
       {children}
     </Flex>

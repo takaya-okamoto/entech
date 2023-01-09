@@ -1,11 +1,12 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import ColorAssets from "../../constants/colorAssets";
+import { useColorAssets } from "../../hooks/view/useColorAssets";
 
 type Props = {
   onClick: VoidFunction;
 };
 
 export const GoogleLoginButton = (props: Props): JSX.Element => {
+  const ColorAssets = useColorAssets();
   return (
     <Flex
       onClick={props.onClick}

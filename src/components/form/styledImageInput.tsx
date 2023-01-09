@@ -1,5 +1,5 @@
-import { ChangeEvent, useRef, useState } from "react";
-import { Center, Flex, FlexProps, Input } from "@chakra-ui/react";
+import { ChangeEvent, useRef } from "react";
+import { Center, Flex, FlexProps, Input, Text } from "@chakra-ui/react";
 import { ImageInputArea } from "./imageInputArea";
 import { FieldHookConfig, useField } from "formik";
 
@@ -17,23 +17,30 @@ export const StyledImageInput = (props: Props): JSX.Element => {
   const onImageClick = () => {
     inputRef.current.click();
   };
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const blob = new Blob([file], { type: file.type });
+
+  const handleInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const _file = await e.target.files?.[0];
+    if (!_file) return;
+    const blob = new Blob([_file], { type: _file.type });
     const blobUrl = URL.createObjectURL(blob);
     helpers.setValue(blobUrl);
   };
 
   return (
-    <Flex>
+    <Flex direction={"column"}>
       <Center
         borderWidth={"1px"}
         borderColor={"gray.100"}
         borderRadius={"full"}
+        mb={".3rem"}
       >
         <ImageInputArea imageLink={field.value} onClick={onImageClick} />
       </Center>
+      {meta.touched && meta.error && (
+        <Text color={"red.500"} fontSize={"14px"}>
+          {meta.error}
+        </Text>
+      )}
       <Input hidden ref={inputRef} type={"file"} onChange={handleInputChange} />
     </Flex>
   );

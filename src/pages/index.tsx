@@ -12,6 +12,8 @@ const Index = (): JSX.Element => {
     setHeaderMode(true);
   });
 
+  //Todo アカウント情報をfetchして、情報がなければプロフィールページに遷移する
+
   return (
     <>
       <Text>Time Line</Text>

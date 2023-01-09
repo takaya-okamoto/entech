@@ -18,6 +18,9 @@ const Index = (): JSX.Element => {
   });
   userType === "e" ? setTimeLineMode("n") : setTimeLineMode("e");
   console.log(timeLineMode);
+
+  //Todo アカウント情報をfetchして、情報がなければプロフィールページに遷移する
+  
   return (
     <Box>
       <Text>Time Line</Text>

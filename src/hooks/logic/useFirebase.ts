@@ -5,7 +5,7 @@ type FirestoreType = {
   app: FirebaseApp | undefined;
 };
 
-export const useFirestore = (): FirestoreType => {
+export const useFirebase = (): FirestoreType => {
   const app = initializeApp(firebaseConfig);
   return { app };
 };

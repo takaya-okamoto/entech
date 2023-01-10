@@ -1,7 +1,7 @@
 import { Flex, Text, useToast } from "@chakra-ui/react";
 import { GoogleLoginButton } from "./googleLoginButton";
 import { MicrosoftLoginButton } from "./microsoftLoginButton";
-import ColorAssets from "../../constants/colorAssets";
+import { useColorAssets } from "../../hooks/view/useColorAssets";
 import { useFirebase } from "../../hooks/logic/useFirebase";
 import { useRouter } from "next/router";
 import {
@@ -52,7 +52,7 @@ export const Login = (): JSX.Element => {
       console.error(error);
     }
   };
-
+  const ColorAssets = useColorAssets();
   return (
     <Flex direction={"column"} alignItems={"center"} w={"100%"} mb={"3rem"}>
       <Text color={ColorAssets.white} fontWeight={"bold"} fontSize={"20px"}>

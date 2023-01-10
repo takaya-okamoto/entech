@@ -2,7 +2,7 @@ import { getAuth, signOut } from "@firebase/auth";
 import { useFirebase } from "../../hooks/logic/useFirebase";
 import { Button, Flex, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import ColorAssets from "../../constants/colorAssets";
+import { useColorAssets } from "../../hooks/view/useColorAssets";
 
 const LogOut = (): JSX.Element => {
   const toast = useToast();
@@ -25,7 +25,7 @@ const LogOut = (): JSX.Element => {
       <Text
         fontWeight={"semibold"}
         fontSize={"18px"}
-        color={ColorAssets.textColor}
+        color={useColorAssets().textColor}
         my={"4rem"}
       >
         本当にログアウトしますか？

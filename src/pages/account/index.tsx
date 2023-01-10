@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { headerState, selectedFooterState } from "../../stores/recoil";
+import { selectedFooterState, timeLineModeState } from "../../stores/recoil";
 import { useEffect } from "react";
 import { Center, Flex } from "@chakra-ui/react";
 import { useAccountLinks } from "../../hooks/view/useAccountLinks";
@@ -9,10 +9,11 @@ const Index = (): JSX.Element => {
   const accountLinks = useAccountLinks();
   const [selectedFooter, setSelectedFooter] =
     useRecoilState<number>(selectedFooterState);
-  const [headerMode, setHeaderMode] = useRecoilState(headerState);
+  const [timeLinemode, setTimeLineMode] =
+    useRecoilState<string>(timeLineModeState);
   useEffect(() => {
     setSelectedFooter(3);
-    setHeaderMode(false);
+    setTimeLineMode("en");
   });
   return (
     <Flex direction={"column"} gap={7}>

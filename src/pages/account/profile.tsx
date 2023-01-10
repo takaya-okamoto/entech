@@ -3,7 +3,6 @@ import { Flex, useDisclosure, useToast, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { FieldArray, Formik, FormikProps } from "formik";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-
 import { StyledInputControl } from "../../components/form/styledInputControl";
 import { FormLabel } from "../../components/form/formLabel";
 import { StyledSubmitButton } from "../../components/form/button/styledSubmitButton";
@@ -15,7 +14,7 @@ import { useSkills } from "../../hooks/view/useSkills";
 import { DeleteButton } from "../../components/form/button/deleteButton";
 import { StyledButton } from "../../components/form/button/StyledButton";
 import { useRecoilState } from "recoil";
-import { headerState, selectedFooterState } from "../../stores/recoil";
+import { selectedFooterState } from "../../stores/recoil";
 import { useMyAccount } from "../../hooks/logic/useMyAccount";
 import { ProfileType } from "../../types/profileType";
 import { WriteProfile } from "../../lib/clientSide/firestore/writeProfile";
@@ -27,7 +26,6 @@ const Profile = (): JSX.Element => {
   const toast = useToast();
   const [selectedFooter, setSelectedFooter] =
     useRecoilState<number>(selectedFooterState);
-  const [headerMode, setHeaderMode] = useRecoilState(headerState);
 
   const skills = useSkills();
   const { user } = useMyAccount();
@@ -36,7 +34,6 @@ const Profile = (): JSX.Element => {
 
   useEffect(() => {
     setSelectedFooter(3);
-    setHeaderMode(false);
   });
 
   const initialValues = {

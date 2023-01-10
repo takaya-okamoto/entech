@@ -12,7 +12,7 @@ type Props = {
   onClick?: MouseEventHandler;
 };
 
-const PopUpMenuButtonBase: FC<Props> = (props) => {
+export const PopUpMenuButtonBase: FC<Props> = (props) => {
   const { children, position, left, top, zIndex, rotate, onClick } = props;
 
   const ColorAssets = useColorAssets();
@@ -33,11 +33,9 @@ const PopUpMenuButtonBase: FC<Props> = (props) => {
       zIndex={zIndex}
       transform={rotate}
       _hover={{ opacity: 0.8 }}
-      onClick={onClick}
+      onClick={props.onClick}
     >
       {children}
     </Flex>
   );
 };
-
-export default PopUpMenuButtonBase;

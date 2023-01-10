@@ -19,7 +19,7 @@ export const useMyAccount = (): MyAccountType => {
         setUser(u);
       }
     });
-  });
+  }, [auth, isMountedRef]);
 
   return { user };
 };

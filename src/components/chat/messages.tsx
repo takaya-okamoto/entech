@@ -1,5 +1,11 @@
-import { useEffect, useState } from "react";
-import { Editor, EditorCommand, EditorState, RichUtils } from "draft-js";
+import { useEffect, useMemo, useState } from "react";
+import {
+  convertToRaw,
+  Editor,
+  EditorCommand,
+  EditorState,
+  RichUtils,
+} from "draft-js";
 import { Box, Button, Flex, HStack, Text } from "@chakra-ui/react";
 import {
   AiOutlineItalic,
@@ -13,8 +19,30 @@ import { Message } from "./message";
 import { BiBold } from "react-icons/bi";
 import Link from "next/link";
 import ColorAssets from "constants/colorAssets";
+import { useMyAccount } from "../../hooks/logic/useMyAccount";
+import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
+import { fetchProfile } from "../../lib/clientSide/firestore/fetchProfile";
+import { sendMessage } from "../../lib/clientSide/realtimeDatabase/sendMessage";
+import { useRouter } from "next/router";
+import { writeSoloChatId } from "../../lib/clientSide/firestore/writeSoloChatId";
+import { SoloChatIdType } from "../../types/soloChatIdType";
+import { fetchSoloChatId } from "../../lib/clientSide/firestore/fetchSoloChatId";
 
 export const Messages = (): JSX.Element => {
+  const router = useRouter();
+  const sendUid = router.query;
+  const { user } = useMyAccount();
+  const profile = useFetchFirestore(fetchProfile, user?.uid);
+  const args = useMemo(
+    () => ({
+      uid: user?.uid ?? "",
+      sendUid: typeof sendUid.userId === "string" ? sendUid.userId : "",
+    }),
+    [user, sendUid]
+  );
+  const soloChat = useFetchFirestore(fetchSoloChatId, args);
+  const fullName = `${profile.data?.name.first} ${profile.data?.name.last}`;
+
   //// draft.js ///////////////////////////////////////////////////////////////
   const [editorState, setEditorState] = useState<EditorState>(null!);
   const handleEditorStyles = (editorState: EditorState) => {
@@ -50,6 +78,43 @@ export const Messages = (): JSX.Element => {
     setEditorState(EditorState.createEmpty());
   }, []);
   ////////////////////////////////////////////////////////////////////////////
+
+  const handleSend = async () => {
+    const uid = user?.uid;
+    const sendId =
+      typeof sendUid.userId === "string" ? sendUid.userId : undefined;
+    if (!uid) return;
+    if (!sendId) return;
+    //Todo chatIdがあったらそれを使う。
+    const chatId = soloChat.data?.chatId ? soloChat.data?.chatId : uid + sendId;
+
+    const chatInfo: SoloChatIdType = {
+      chatId: chatId,
+      uid: uid,
+      sendUid: sendId,
+    };
+
+    const _text = convertToRaw(editorState.getCurrentContent());
+    const text = JSON.stringify(_text);
+    const message = {
+      text: text,
+      uid: uid,
+      iconUrl: profile.data?.profileImage,
+      sendAt: Date.now(),
+      fullName: fullName,
+    };
+    console.log(_text);
+    try {
+      //todo chatIdがなかったらwriteSoloChatId
+      if (!soloChat.data?.chatId) {
+        await writeSoloChatId(chatInfo);
+      }
+      await sendMessage(chatId, message);
+    } catch (e) {
+      console.error(e);
+    }
+    return;
+  };
 
   return (
     <Flex direction={"column"}>
@@ -148,8 +213,14 @@ export const Messages = (): JSX.Element => {
                 handleKeyCommand={handleKeyCommand}
               />
             </Box>
-            <Box mt={"1rem"} ml={".3rem"} color={ColorAssets.textColor}>
-              <AiOutlineSend size={"20px"} />
+            <Box
+              mt={"1rem"}
+              ml={".3rem"}
+              color={ColorAssets.textColor}
+              onClick={handleSend}
+              shadow={"md"}
+            >
+              <AiOutlineSend size={"200px"} />
             </Box>
           </Flex>
         </Flex>

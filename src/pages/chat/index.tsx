@@ -1,16 +1,17 @@
 import { Flex } from "@chakra-ui/react";
 import { ConversationPartner } from "../../components/chat/conversationPartner";
 import { useRecoilState } from "recoil";
-import { headerState, selectedFooterState } from "../../stores/recoil";
+import { selectedFooterState, timeLineModeState } from "../../stores/recoil";
 import { useEffect } from "react";
 
 const Chat = (): JSX.Element => {
   const [selectedFooter, setSelectedFooter] =
     useRecoilState<number>(selectedFooterState);
-  const [headerMode, setHeaderMode] = useRecoilState(headerState);
+  // const [timeLineMode, setTimeLineMode] =
+  //   useRecoilState<string>(timeLineModeState);
   useEffect(() => {
     setSelectedFooter(2);
-    setHeaderMode(false);
+    // console.log(timeLineMode);
   });
   return (
     <Flex direction={"column"} gap={8}>

@@ -1,10 +1,9 @@
 import { Box, Flex, Img, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import PopUpMenuButtonBase from "./popUpMenuButtonBase";
+import { PopUpMenuButtonBase } from "./popUpMenuButtonBase";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiFileEditLine, RiUserSearchLine } from "react-icons/ri";
-import ColorAssets from "../../../constants/colorAssets";
-import { Image } from "@chakra-ui/react";
+import { useColorAssets } from "../../../hooks/view/useColorAssets";
 import { useRecoilState } from "recoil";
 import { timeLineModeState } from "stores/recoil";
 
@@ -19,15 +18,19 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
   const [isHover, setIsHover] = useState(false);
   const [timeLineMode, setTimeLineMode] = useRecoilState(timeLineModeState);
   //NからE
-  const changeE = () => {};
+  const changeE = () => {
+    setTimeLineMode("e");
+  };
   //EからN
-  const changeN = () => {};
+  const changeN = () => {
+    setTimeLineMode("n");
+  };
 
   const modeChange = () => {
     if (timeLineMode === "e") {
-      changeE();
-    } else {
       changeN();
+    } else {
+      changeE();
     }
   };
   const hoverAddIcon = () => {
@@ -48,11 +51,13 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
     setIsHover(false);
   };
 
+  const ColorAssets = useColorAssets();
+
   return (
-    <Flex position="fixed" bottom="10%" right="3%">
+    <Flex position="fixed" bottom="10%" right="5%">
       <Box width="140px" height="140px" bg={"none"} onMouseLeave={leaveAddIcon}>
         <Box
-          onMouseOver={hoverAddIcon}
+          onClick={() => (!isHover ? hoverAddIcon() : leaveAddIcon())}
           top="80px"
           left="80px"
           position="absolute"
@@ -92,7 +97,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
             onClick={modeChange}
           >
             <Text fontSize={"24px"} color={ColorAssets.yellow}>
-              E
+              E⇆N
             </Text>
           </PopUpMenuButtonBase>
         </Box>

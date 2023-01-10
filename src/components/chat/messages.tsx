@@ -18,7 +18,6 @@ import {
 import { Message } from "./message";
 import { BiBold } from "react-icons/bi";
 import Link from "next/link";
-import ColorAssets from "constants/colorAssets";
 import { useMyAccount } from "../../hooks/logic/useMyAccount";
 import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
 import { fetchProfile } from "../../lib/clientSide/firestore/fetchProfile";
@@ -31,12 +30,14 @@ import { MessageType } from "../../types/messageType";
 import { initializeApp } from "@firebase/app";
 import { firebaseConfig } from "../../stores/firebase/firebase";
 import { getDatabase, onChildAdded, ref } from "@firebase/database";
+import { useColorAssets } from "hooks/view/useColorAssets";
 
 export const Messages = (): JSX.Element => {
   const router = useRouter();
   const sendUid = router.query;
   const { user } = useMyAccount();
   const profile = useFetchFirestore(fetchProfile, user?.uid);
+  const ColorAssets = useColorAssets();
 
   ///// chat ///////////////////////////////////////////////////////////////////
   const [send, setSend] = useState<boolean>(false);
@@ -153,7 +154,6 @@ export const Messages = (): JSX.Element => {
     if (!isBottom_) setIsBottom(isBottom_);
     return;
   };
-  console.log(isBottom);
 
   return (
     <Flex direction={"column"}>

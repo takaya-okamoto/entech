@@ -33,12 +33,13 @@ export const Messages = (): JSX.Element => {
   const sendUid = router.query;
   const { user } = useMyAccount();
   const profile = useFetchFirestore(fetchProfile, user?.uid);
+  const [send, setSend] = useState<boolean>(false);
   const args = useMemo(
     () => ({
       uid: user?.uid ?? "",
       sendUid: typeof sendUid.userId === "string" ? sendUid.userId : "",
     }),
-    [user, sendUid]
+    [user, sendUid, send]
   );
   const soloChat = useFetchFirestore(fetchSoloChatId, args);
   const fullName = `${profile.data?.name.first} ${profile.data?.name.last}`;
@@ -80,12 +81,12 @@ export const Messages = (): JSX.Element => {
   ////////////////////////////////////////////////////////////////////////////
 
   const handleSend = async () => {
+    if (!editorState.getCurrentContent().hasText()) return;
     const uid = user?.uid;
     const sendId =
       typeof sendUid.userId === "string" ? sendUid.userId : undefined;
     if (!uid) return;
     if (!sendId) return;
-    //Todo chatIdがあったらそれを使う。
     const chatId = soloChat.data?.chatId ? soloChat.data?.chatId : uid + sendId;
 
     const chatInfo: SoloChatIdType = {
@@ -103,12 +104,13 @@ export const Messages = (): JSX.Element => {
       sendAt: Date.now(),
       fullName: fullName,
     };
-    console.log(_text);
     try {
-      //todo chatIdがなかったらwriteSoloChatId
       if (!soloChat.data?.chatId) {
+        setEditorState(EditorState.createEmpty());
         await writeSoloChatId(chatInfo);
+        setSend((prev) => !prev);
       }
+      setEditorState(EditorState.createEmpty());
       await sendMessage(chatId, message);
     } catch (e) {
       console.error(e);
@@ -140,12 +142,6 @@ export const Messages = (): JSX.Element => {
         py={".5rem"}
         overflow={"scroll"}
       >
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
         <Message />
       </Flex>
       {/*<Divider my={"1rem"} />*/}
@@ -218,9 +214,8 @@ export const Messages = (): JSX.Element => {
               ml={".3rem"}
               color={ColorAssets.textColor}
               onClick={handleSend}
-              shadow={"md"}
             >
-              <AiOutlineSend size={"200px"} />
+              <AiOutlineSend size={"25px"} />
             </Box>
           </Flex>
         </Flex>

@@ -3,7 +3,10 @@ import { MessageType } from "../../../types/messageType";
 import { initializeApp } from "@firebase/app";
 import { firebaseConfig } from "../../../stores/firebase/firebase";
 
-export const sendMessage = async (chatId: string, message: MessageType) => {
+export const sendMessage = async (
+  chatId: string,
+  message: MessageType
+): Promise<void> => {
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(
     app,

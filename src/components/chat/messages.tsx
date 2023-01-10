@@ -27,12 +27,18 @@ import { useRouter } from "next/router";
 import { writeSoloChatId } from "../../lib/clientSide/firestore/writeSoloChatId";
 import { SoloChatIdType } from "../../types/soloChatIdType";
 import { fetchSoloChatId } from "../../lib/clientSide/firestore/fetchSoloChatId";
+import { MessageType } from "../../types/messageType";
+import { initializeApp } from "@firebase/app";
+import { firebaseConfig } from "../../stores/firebase/firebase";
+import { getDatabase, onChildAdded, ref } from "@firebase/database";
 
 export const Messages = (): JSX.Element => {
   const router = useRouter();
   const sendUid = router.query;
   const { user } = useMyAccount();
   const profile = useFetchFirestore(fetchProfile, user?.uid);
+
+  ///// chat ///////////////////////////////////////////////////////////////////
   const [send, setSend] = useState<boolean>(false);
   const args = useMemo(
     () => ({
@@ -42,7 +48,26 @@ export const Messages = (): JSX.Element => {
     [user, sendUid, send]
   );
   const soloChat = useFetchFirestore(fetchSoloChatId, args);
+  const chatId = soloChat.data?.chatId;
+  const [messages, setMessages] = useState<MessageType[]>([]);
+  useEffect(() => {
+    try {
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(
+        app,
+        "https://gcc2022-3-default-rtdb.asia-southeast1.firebasedatabase.app"
+      );
+      const chatRef = ref(db, `chat/${chatId}`);
+      return onChildAdded(chatRef, (snapshot) => {
+        const value = snapshot.toJSON() as MessageType;
+        setMessages((prev) => [...prev, value]);
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }, [chatId]);
   const fullName = `${profile.data?.name.first} ${profile.data?.name.last}`;
+  /////////////////////////////////////////////////////////////////////////////
 
   //// draft.js ///////////////////////////////////////////////////////////////
   const [editorState, setEditorState] = useState<EditorState>(null!);
@@ -118,6 +143,18 @@ export const Messages = (): JSX.Element => {
     return;
   };
 
+  const [isBottom, setIsBottom] = useState<boolean>(false);
+  const handleScroll = (e: any) => {
+    const flexHeight = e.target.clientHeight;
+    const height = e.target.scrollHeight;
+    const top = e.target.scrollTop;
+    const isBottom_ = height - flexHeight - top === 0;
+    if (isBottom_) setIsBottom(isBottom_);
+    if (!isBottom_) setIsBottom(isBottom_);
+    return;
+  };
+  console.log(isBottom);
+
   return (
     <Flex direction={"column"}>
       <HStack
@@ -141,10 +178,13 @@ export const Messages = (): JSX.Element => {
         px={".5rem"}
         py={".5rem"}
         overflow={"scroll"}
+        onScroll={handleScroll}
       >
-        <Message />
+        {messages.map((m, index) => {
+          return <Message key={index} message={m} />;
+        })}
       </Flex>
-      {/*<Divider my={"1rem"} />*/}
+
       {editorState && (
         <Flex direction={"column"} mt={"1rem"}>
           <Flex gap={2}>

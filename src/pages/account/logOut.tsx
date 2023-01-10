@@ -1,5 +1,5 @@
 import { getAuth, signOut } from "@firebase/auth";
-import { useFirestore } from "../../hooks/view/useFirestore";
+import { useFirestore } from "../../hooks/logic/useFirestore";
 import { Button, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 

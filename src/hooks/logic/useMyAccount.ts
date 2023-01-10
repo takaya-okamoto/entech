@@ -1,5 +1,5 @@
 import { getAuth, onAuthStateChanged, User } from "@firebase/auth";
-import { useFirestore } from "../view/useFirestore";
+import { useFirestore } from "./useFirestore";
 import { useState } from "react";
 
 type MyAccountType = {

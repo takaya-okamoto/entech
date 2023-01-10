@@ -18,7 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     }, 1000);
   });
 
-  // console.log(user);
   return (
     <>
       <Head>

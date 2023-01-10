@@ -16,11 +16,12 @@ const Index = (): JSX.Element => {
   useEffect(() => {
     setSelectedFooter(0);
   });
-  userType === "e" ? setTimeLineMode("n") : setTimeLineMode("e");
-  console.log(timeLineMode);
+  userType === "e" && timeLineMode !== "e"
+    ? setTimeLineMode("n")
+    : setTimeLineMode("e");
 
   //Todo アカウント情報をfetchして、情報がなければプロフィールページに遷移する
-  
+
   return (
     <Box>
       <Text>Time Line</Text>

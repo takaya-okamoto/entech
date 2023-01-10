@@ -27,7 +27,6 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
   };
 
   const modeChange = () => {
-    console.log(timeLineMode);
     if (timeLineMode === "e") {
       changeN();
     } else {

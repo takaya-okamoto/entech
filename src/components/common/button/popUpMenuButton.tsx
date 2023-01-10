@@ -1,6 +1,6 @@
 import { Box, Flex, Img, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import PopUpMenuButtonBase from "./popUpMenuButtonBase";
+import { PopUpMenuButtonBase } from "./popUpMenuButtonBase";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiFileEditLine, RiUserSearchLine } from "react-icons/ri";
 import { useColorAssets } from "../../../hooks/view/useColorAssets";

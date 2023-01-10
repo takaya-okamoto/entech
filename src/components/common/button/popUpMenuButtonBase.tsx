@@ -12,7 +12,7 @@ type Props = {
   onClick?: MouseEventHandler;
 };
 
-const PopUpMenuButtonBase: FC<Props> = (props) => {
+export const PopUpMenuButtonBase: FC<Props> = (props) => {
   const { children, position, left, top, zIndex, rotate, onClick } = props;
 
   const ColorAssets = useColorAssets();
@@ -39,5 +39,3 @@ const PopUpMenuButtonBase: FC<Props> = (props) => {
     </Flex>
   );
 };
-
-export default PopUpMenuButtonBase;

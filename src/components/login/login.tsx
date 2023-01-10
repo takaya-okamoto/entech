@@ -2,7 +2,7 @@ import { Flex, Text, useToast } from "@chakra-ui/react";
 import { GoogleLoginButton } from "./googleLoginButton";
 import { MicrosoftLoginButton } from "./microsoftLoginButton";
 import { useColorAssets } from "../../hooks/view/useColorAssets";
-import { useFirestore } from "../../hooks/logic/useFirestore";
+import { useFirebase } from "../../hooks/logic/useFirebase";
 import { useRouter } from "next/router";
 import {
   getAuth,

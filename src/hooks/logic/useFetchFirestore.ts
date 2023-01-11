@@ -13,6 +13,6 @@ export const useFetchFirestore = <T, U>(
       .catch((e) => {
         throw e;
       });
-  }, [fetchFn, args]);
+  }, [args, fetchFn]);
   return { data };
 };

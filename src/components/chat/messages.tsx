@@ -1,5 +1,11 @@
-import { useEffect, useState } from "react";
-import { Editor, EditorCommand, EditorState, RichUtils } from "draft-js";
+import { useEffect, useMemo, useState } from "react";
+import {
+  convertToRaw,
+  Editor,
+  EditorCommand,
+  EditorState,
+  RichUtils,
+} from "draft-js";
 import { Box, Button, Flex, HStack, Text } from "@chakra-ui/react";
 import {
   AiOutlineItalic,
@@ -12,9 +18,58 @@ import {
 import { Message } from "./message";
 import { BiBold } from "react-icons/bi";
 import Link from "next/link";
+import { useMyAccount } from "../../hooks/logic/useMyAccount";
+import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
+import { fetchProfile } from "../../lib/clientSide/firestore/fetchProfile";
+import { sendMessage } from "../../lib/clientSide/realtimeDatabase/sendMessage";
+import { useRouter } from "next/router";
+import { writeSoloChatId } from "../../lib/clientSide/firestore/writeSoloChatId";
+import { SoloChatIdType } from "../../types/soloChatIdType";
+import { fetchSoloChatId } from "../../lib/clientSide/firestore/fetchSoloChatId";
+import { MessageType } from "../../types/messageType";
+import { initializeApp } from "@firebase/app";
+import { firebaseConfig } from "../../stores/firebase/firebase";
+import { getDatabase, onChildAdded, ref } from "@firebase/database";
 import { useColorAssets } from "hooks/view/useColorAssets";
 
 export const Messages = (): JSX.Element => {
+  const router = useRouter();
+  const sendUid = router.query;
+  const { user } = useMyAccount();
+  const profile = useFetchFirestore(fetchProfile, user?.uid);
+  const ColorAssets = useColorAssets();
+
+  ///// chat ///////////////////////////////////////////////////////////////////
+  const [send, setSend] = useState<boolean>(false);
+  const args = useMemo(
+    () => ({
+      uid: user?.uid ?? "",
+      sendUid: typeof sendUid.userId === "string" ? sendUid.userId : "",
+    }),
+    [user, sendUid, send]
+  );
+  const soloChat = useFetchFirestore(fetchSoloChatId, args);
+  const chatId = soloChat.data?.chatId;
+  const [messages, setMessages] = useState<MessageType[]>([]);
+  useEffect(() => {
+    try {
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(
+        app,
+        "https://gcc2022-3-default-rtdb.asia-southeast1.firebasedatabase.app"
+      );
+      const chatRef = ref(db, `chat/${chatId}`);
+      return onChildAdded(chatRef, (snapshot) => {
+        const value = snapshot.toJSON() as MessageType;
+        setMessages((prev) => [...prev, value]);
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }, [chatId]);
+  const fullName = `${profile.data?.name.first} ${profile.data?.name.last}`;
+  /////////////////////////////////////////////////////////////////////////////
+
   //// draft.js ///////////////////////////////////////////////////////////////
   const [editorState, setEditorState] = useState<EditorState>(null!);
   const handleEditorStyles = (editorState: EditorState) => {
@@ -51,7 +106,54 @@ export const Messages = (): JSX.Element => {
   }, []);
   ////////////////////////////////////////////////////////////////////////////
 
-  const ColorAssets = useColorAssets();
+  const handleSend = async () => {
+    if (!editorState.getCurrentContent().hasText()) return;
+    const uid = user?.uid;
+    const sendId =
+      typeof sendUid.userId === "string" ? sendUid.userId : undefined;
+    if (!uid) return;
+    if (!sendId) return;
+    const chatId = soloChat.data?.chatId ? soloChat.data?.chatId : uid + sendId;
+
+    const chatInfo: SoloChatIdType = {
+      chatId: chatId,
+      uid: uid,
+      sendUid: sendId,
+    };
+
+    const _text = convertToRaw(editorState.getCurrentContent());
+    const text = JSON.stringify(_text);
+    const message = {
+      text: text,
+      uid: uid,
+      iconUrl: profile.data?.profileImage,
+      sendAt: Date.now(),
+      fullName: fullName,
+    };
+    try {
+      if (!soloChat.data?.chatId) {
+        setEditorState(EditorState.createEmpty());
+        await writeSoloChatId(chatInfo);
+        setSend((prev) => !prev);
+      }
+      setEditorState(EditorState.createEmpty());
+      await sendMessage(chatId, message);
+    } catch (e) {
+      console.error(e);
+    }
+    return;
+  };
+
+  const [isBottom, setIsBottom] = useState<boolean>(false);
+  const handleScroll = (e: any) => {
+    const flexHeight = e.target.clientHeight;
+    const height = e.target.scrollHeight;
+    const top = e.target.scrollTop;
+    const isBottom_ = height - flexHeight - top === 0;
+    if (isBottom_) setIsBottom(isBottom_);
+    if (!isBottom_) setIsBottom(isBottom_);
+    return;
+  };
 
   return (
     <Flex direction={"column"}>
@@ -76,16 +178,13 @@ export const Messages = (): JSX.Element => {
         px={".5rem"}
         py={".5rem"}
         overflow={"scroll"}
+        onScroll={handleScroll}
       >
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
+        {messages.map((m, index) => {
+          return <Message key={index} message={m} />;
+        })}
       </Flex>
-      {/*<Divider my={"1rem"} />*/}
+
       {editorState && (
         <Flex direction={"column"} mt={"1rem"}>
           <Flex gap={2}>
@@ -150,8 +249,13 @@ export const Messages = (): JSX.Element => {
                 handleKeyCommand={handleKeyCommand}
               />
             </Box>
-            <Box mt={"1rem"} ml={".3rem"} color={ColorAssets.textColor}>
-              <AiOutlineSend size={"20px"} />
+            <Box
+              mt={"1rem"}
+              ml={".3rem"}
+              color={ColorAssets.textColor}
+              onClick={handleSend}
+            >
+              <AiOutlineSend size={"25px"} />
             </Box>
           </Flex>
         </Flex>

@@ -100,7 +100,7 @@ const Profile = (): JSX.Element => {
   };
 
   return (
-    <Flex justifyContent={"center"}>
+    <Flex justifyContent={"center"} pb={"3rem"}>
       <Formik
         initialValues={initialValues}
         validationSchema={profileSchema}

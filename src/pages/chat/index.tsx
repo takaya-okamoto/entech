@@ -7,11 +7,11 @@ import { useEffect } from "react";
 const Chat = (): JSX.Element => {
   const [selectedFooter, setSelectedFooter] =
     useRecoilState<number>(selectedFooterState);
-  // const [timeLineMode, setTimeLineMode] =
-  //   useRecoilState<string>(timeLineModeState);
+  const [timeLineMode, setTimeLineMode] =
+    useRecoilState<string>(timeLineModeState);
   useEffect(() => {
     setSelectedFooter(2);
-    // console.log(timeLineMode);
+    setTimeLineMode("en");
   });
   return (
     <Flex direction={"column"} gap={8}>

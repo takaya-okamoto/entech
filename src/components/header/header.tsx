@@ -11,14 +11,14 @@ export const Header = (): JSX.Element => {
     <Flex
       h={"7vh"}
       bgColor={ColorAssets.entechMainBlue}
-      pt={".8rem"}
+      pt={".6rem"}
       justifyContent={"center"}
       w={"100%"}
       position={"fixed"}
       zIndex={999}
     >
       <ChakraLink as={Link} href={"/"} _hover={{ textDecoration: "none" }}>
-        <Flex fontSize={"20px"}>
+        <Flex fontSize={"28px"}>
           <Text
             color={
               ~timeLineMode.indexOf("e")

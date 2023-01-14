@@ -20,7 +20,7 @@ const LoginBeforeTop = (): JSX.Element => {
         alignItems={"center"}
       >
         <Image alt={"entech-logo"} src={"/svg/entech-logo.svg"} w={"150px"} />
-        <Flex fontSize={"60px"}>
+        <Flex fontSize={"48px"}>
           <Text color={ColorAssets.yellow}>en</Text>
           <Text color={ColorAssets.white}>tech</Text>
         </Flex>

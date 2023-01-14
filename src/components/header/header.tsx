@@ -11,7 +11,7 @@ export const Header = (): JSX.Element => {
     <Flex
       h={"7vh"}
       bgColor={ColorAssets.entechMainBlue}
-      pt={".6rem"}
+      pt={".4rem"}
       justifyContent={"center"}
       w={"100%"}
       position={"fixed"}

@@ -29,6 +29,7 @@ export const PostCard = ({ info, isEdit }: Props): JSX.Element => {
     >
       <Flex gap={5}>
         <Image
+          h={"80px"}
           w={"100px"}
           borderRadius={"10px"}
           src={info.postImage}

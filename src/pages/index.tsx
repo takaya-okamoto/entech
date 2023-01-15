@@ -15,12 +15,14 @@ const Index = (): JSX.Element => {
   const userType = useRecoilValue<string>(userTypeState);
   useEffect(() => {
     setSelectedFooter(0);
+    if (userType === "e" && timeLineMode !== "e") {
+      setTimeLineMode("n");
+    } else {
+      setTimeLineMode("e");
+    }
   });
-  userType === "e" && timeLineMode !== "e"
-    ? setTimeLineMode("n")
-    : setTimeLineMode("e");
 
-  //Todo アカウント情報をfetchして、情報がなければプロフィールページに遷移する
+  //Todo eMode, nModeごとのコンポーネント分ける
 
   return (
     <Box>

@@ -38,10 +38,7 @@ const Profile = (): JSX.Element => {
 
   const initialValues = {
     profileImage: data?.profileImage ?? "",
-    name: {
-      first: data?.name.first ?? "",
-      last: data?.name.last ?? "",
-    },
+    name: data?.name ?? "",
     school: {
       name: data?.school.name ?? "",
       faculty: data?.school.faculty ?? "",
@@ -49,14 +46,12 @@ const Profile = (): JSX.Element => {
     },
     userType: data?.userType ?? "e",
     skills: data?.skills ?? [{ name: "" }],
+    requirementSkills: data?.requirementSkills ?? [{ name: "" }],
     selfPr: data?.selfPr ?? "",
   };
   const profileSchema = Yup.object({
     profileImage: Yup.string().required("画像を選択してください。"),
-    name: Yup.object({
-      first: Yup.string().required("苗字を入力してください"),
-      last: Yup.string().required("氏名を入力してください"),
-    }),
+    name: Yup.string().required("名前を入力してください。"),
     school: Yup.object({
       name: Yup.string().required("学校名を入力してください"),
       faculty: Yup.string().required("学部を入力してください"),
@@ -114,24 +109,20 @@ const Profile = (): JSX.Element => {
               onSubmit={formikProps.handleSubmit as never}
               direction={"column"}
             >
-              <VStack mb={"2rem"}>
+              <VStack mb={"3rem"}>
                 <StyledImageInput fieldProps={{ name: "profileImage" }} />
               </VStack>
 
-              <FormLabel label={"氏名"} />
-              <Flex gap={3} pb={"2rem"}>
+              <FormLabel label={"ユーザーネーム"} />
+              <Flex gap={3} pb={"3rem"}>
                 <StyledInputControl
-                  fieldProps={{ name: "name.first" }}
-                  placeHolder={"岡村"}
-                />
-                <StyledInputControl
-                  fieldProps={{ name: "name.last" }}
-                  placeHolder={"匡也"}
+                  fieldProps={{ name: "name" }}
+                  placeHolder={"Taka"}
                 />
               </Flex>
 
               <FormLabel label={"学校"} />
-              <Flex gap={3} pb={"2rem"}>
+              <Flex gap={3} pb={"3rem"}>
                 <StyledInputControl
                   fieldProps={{ name: "school.name" }}
                   placeHolder={"開志専門職大学"}
@@ -169,7 +160,7 @@ const Profile = (): JSX.Element => {
               <FieldArray
                 name={"skills"}
                 render={({ remove, push }): JSX.Element => (
-                  <Flex direction={"column"} gap={5}>
+                  <Flex direction={"column"} gap={5} alignItems={"center"}>
                     {formikProps.values.skills.map((skill, index) => {
                       return (
                         <Flex key={index} gap={5}>
@@ -198,10 +189,50 @@ const Profile = (): JSX.Element => {
                 )}
               />
 
-              <FormLabel label={"自己PR"} textProps={{ mt: "2rem" }} />
+              <FormLabel
+                label={"相手に希望するスキル"}
+                textProps={{ mt: "4rem" }}
+              />
+              <FieldArray
+                name={"requirementSkills"}
+                render={({ remove, push }): JSX.Element => (
+                  <Flex direction={"column"} gap={5} alignItems={"center"}>
+                    {formikProps.values.requirementSkills.map(
+                      (skill, index) => {
+                        return (
+                          <Flex key={index} gap={5}>
+                            <StyledSelectControl
+                              fieldProps={{
+                                name: `requirementSkills.${index}.name`,
+                              }}
+                              option={skills}
+                              flexProps={{ mr: "1rem" }}
+                              selectProps={{ w: "250px" }}
+                            />
+                            <DeleteButton
+                              onClick={() => {
+                                remove(index);
+                              }}
+                            />
+                          </Flex>
+                        );
+                      }
+                    )}
+                    <StyledButton
+                      onClick={(e) => {
+                        e.preventDefault();
+                        push({ name: "" });
+                      }}
+                      text={"追加"}
+                    />
+                  </Flex>
+                )}
+              />
+
+              <FormLabel label={"自己PR"} textProps={{ mt: "3rem" }} />
               <StyledTextArea fieldProps={{ name: "selfPr" }} />
 
-              <VStack my={"2rem"}>
+              <VStack my={"3rem"}>
                 <StyledSubmitButton text={"保存する"} w={"10rem"} />
               </VStack>
             </Flex>

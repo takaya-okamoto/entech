@@ -8,6 +8,7 @@ type Props = {
     name: string;
   };
   flexProps?: FlexProps;
+  isPost?: boolean;
 };
 
 export const StyledImageInput = (props: Props): JSX.Element => {
@@ -31,10 +32,14 @@ export const StyledImageInput = (props: Props): JSX.Element => {
       <Center
         borderWidth={"1px"}
         borderColor={"gray.100"}
-        borderRadius={"full"}
+        borderRadius={props.isPost ? "10px" : "full"}
         mb={".3rem"}
       >
-        <ImageInputArea imageLink={field.value} onClick={onImageClick} />
+        <ImageInputArea
+          imageLink={field.value}
+          onClick={onImageClick}
+          isPost={props.isPost}
+        />
       </Center>
       {meta.touched && meta.error && (
         <Text color={"red.500"} fontSize={"14px"}>

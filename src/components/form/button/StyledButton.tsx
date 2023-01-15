@@ -13,6 +13,7 @@ export const StyledButton = (props: Props): JSX.Element => {
       color={"white"}
       transition={".3s"}
       bgColor={"#86C8D0"}
+      w={"100px"}
       _hover={{ bgColor: "#b4ec77", color: "white" }}
     >
       {props.text}

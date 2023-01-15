@@ -23,7 +23,7 @@ export const StyledTextArea = (props: Props): JSX.Element => {
     helpers.setValue(e.target.value);
   };
   return (
-    <Flex {...props.flexProps}>
+    <Flex {...props.flexProps} direction={"column"}>
       <Textarea
         {...props.textAreaProps}
         onChange={handleChange}

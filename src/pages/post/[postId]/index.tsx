@@ -11,7 +11,6 @@ const Index = (): JSX.Element => {
     fetchPost,
     typeof postId === "string" ? postId : ""
   ).data;
-  console.log({ post });
   return (
     <Flex direction={"column"}>
       {post?.postImage && (

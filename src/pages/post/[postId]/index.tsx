@@ -18,7 +18,7 @@ const Index = (): JSX.Element => {
 
   useEffect(() => {
     setTimeLineMode("n");
-  }, []);
+  });
 
   return (
     <Flex direction={"column"}>

@@ -6,10 +6,12 @@ import { RiFileEditLine, RiUserSearchLine } from "react-icons/ri";
 import { useColorAssets } from "../../../hooks/view/useColorAssets";
 import { useRecoilState } from "recoil";
 import { timeLineModeState } from "stores/recoil";
+import { useRouter } from "next/router";
 
 type Props = {};
 
 export const PopUpMenuButton = (props: Props): JSX.Element => {
+  const router = useRouter();
   const [positionList, setPositionList] = useState([
     { left: 0, top: 0 },
     { left: 0, top: 0 },
@@ -31,6 +33,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
       changeN();
     } else {
       changeE();
+      void router.push("/");
     }
   };
   const hoverAddIcon = () => {
@@ -75,6 +78,12 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
             position="absolute"
             left={positionList[0].left}
             top={positionList[0].top}
+            onClick={async () => {
+              const id = (
+                "0000000" + Math.floor(Math.random() * 10000000)
+              ).slice(-7);
+              void (await router.push(`/post/create/${id}`));
+            }}
           >
             <RiFileEditLine color={ColorAssets.white} size="2rem" />
           </PopUpMenuButtonBase>

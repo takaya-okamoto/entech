@@ -4,6 +4,7 @@ import { FormEventHandler } from "react";
 type Props = {
   onClick: FormEventHandler;
   text: string;
+  w?: string;
 };
 
 export const StyledButton = (props: Props): JSX.Element => {
@@ -13,6 +14,7 @@ export const StyledButton = (props: Props): JSX.Element => {
       color={"white"}
       transition={".3s"}
       bgColor={"#86C8D0"}
+      w={props.w ? props.w : "100px"}
       _hover={{ bgColor: "#b4ec77", color: "white" }}
     >
       {props.text}

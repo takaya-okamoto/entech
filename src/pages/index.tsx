@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   selectedFooterState,
@@ -6,6 +6,8 @@ import {
   userTypeState,
 } from "../stores/recoil";
 import { useEffect } from "react";
+import { EModeView } from "../components/timeLine/eModeView";
+import { NModeView } from "../components/timeLine/nModeView";
 
 const Index = (): JSX.Element => {
   const [selectedFooter, setSelectedFooter] =
@@ -15,18 +17,13 @@ const Index = (): JSX.Element => {
   const userType = useRecoilValue<string>(userTypeState);
   useEffect(() => {
     setSelectedFooter(0);
+    if (userType === "e" && timeLineMode !== "e") {
+      setTimeLineMode("n");
+    } else {
+      setTimeLineMode("e");
+    }
   });
-  userType === "e" && timeLineMode !== "e"
-    ? setTimeLineMode("n")
-    : setTimeLineMode("e");
 
-  //Todo アカウント情報をfetchして、情報がなければプロフィールページに遷移する
-
-  return (
-    <Box>
-      <Text>Time Line</Text>
-      <Box position="fixed" right="32px" bottom="32px"></Box>
-    </Box>
-  );
+  return <Flex>{timeLineMode === "e" ? <EModeView /> : <NModeView />}</Flex>;
 };
 export default Index;

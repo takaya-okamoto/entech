@@ -33,6 +33,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
       changeN();
     } else {
       changeE();
+      void router.push("/");
     }
   };
   const hoverAddIcon = () => {

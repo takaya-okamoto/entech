@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   selectedFooterState,
@@ -6,6 +6,8 @@ import {
   userTypeState,
 } from "../stores/recoil";
 import { useEffect } from "react";
+import { EModeView } from "../components/timeLine/eModeView";
+import { NModeView } from "../components/timeLine/nModeView";
 
 const Index = (): JSX.Element => {
   const [selectedFooter, setSelectedFooter] =
@@ -22,13 +24,6 @@ const Index = (): JSX.Element => {
     }
   });
 
-  //Todo eMode, nModeごとのコンポーネント分ける
-
-  return (
-    <Box>
-      <Text>Time Line</Text>
-      <Box position="fixed" right="32px" bottom="32px"></Box>
-    </Box>
-  );
+  return <Flex>{timeLineMode === "e" ? <EModeView /> : <NModeView />}</Flex>;
 };
 export default Index;

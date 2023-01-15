@@ -28,6 +28,7 @@ const Index = (): JSX.Element => {
             alt={"postImage"}
             src={post?.postImage}
             borderRadius={"10px"}
+            h={"150px"}
             w={"250px"}
           />
         </Center>

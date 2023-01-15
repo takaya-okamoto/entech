@@ -64,10 +64,8 @@ const Index = (): JSX.Element => {
   ): Promise<void> => {
     if (!user) return;
     const userId = user.uid;
-    await UploadImage(
-      `postImage/${userId}/${fetchId}`,
-      submittedValues.postImage
-    ).then((res) => {
+    const path = "postImage/" + userId + "/" + fetchId;
+    await UploadImage(path, submittedValues.postImage).then((res) => {
       submittedValues.postImage = res;
     });
     const info: PostType = {

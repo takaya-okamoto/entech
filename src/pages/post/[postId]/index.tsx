@@ -3,18 +3,34 @@ import { useRouter } from "next/router";
 import { useFetchFirestore } from "../../../hooks/logic/useFetchFirestore";
 import { fetchPost } from "../../../lib/clientSide/firestore/fetchPost";
 import { StyledButton } from "../../../components/form/button/StyledButton";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { timeLineModeState } from "../../../stores/recoil";
 
 const Index = (): JSX.Element => {
+  const [timeLineMode, setTimeLineMode] = useRecoilState(timeLineModeState);
   const router = useRouter();
   const postId = router.query.postId;
   const post = useFetchFirestore(
     fetchPost,
     typeof postId === "string" ? postId : ""
   ).data;
+
+  useEffect(() => {
+    setTimeLineMode("n");
+  }, []);
+
   return (
     <Flex direction={"column"}>
       {post?.postImage && (
-        <Image alt={"postImage"} src={post?.postImage} borderRadius={"10px"} />
+        <Center>
+          <Image
+            alt={"postImage"}
+            src={post?.postImage}
+            borderRadius={"10px"}
+            w={"250px"}
+          />
+        </Center>
       )}
       {post?.title && (
         <Text py={"2rem"} color={"white"} fontWeight={"semibold"}>

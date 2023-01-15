@@ -77,8 +77,11 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
             position="absolute"
             left={positionList[0].left}
             top={positionList[0].top}
-            onClick={() => {
-              void router.push("/post");
+            onClick={async () => {
+              const id = (
+                "0000000" + Math.floor(Math.random() * 10000000)
+              ).slice(-7);
+              void (await router.push(`/post/create/${id}`));
             }}
           >
             <RiFileEditLine color={ColorAssets.white} size="2rem" />

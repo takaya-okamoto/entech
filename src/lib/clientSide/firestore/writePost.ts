@@ -4,7 +4,6 @@ import { WriteDoc } from "./writeDoc";
 
 export const WritePost = async (info: PostType): Promise<void> => {
   const firestore = getFirestore();
-  const path = info.postId;
-  const ref = doc(firestore, `post/${path}`);
+  const ref = doc(firestore, `post/${info.postId}`);
   return await WriteDoc(ref, info);
 };

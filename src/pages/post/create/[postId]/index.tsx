@@ -72,7 +72,7 @@ const Index = (): JSX.Element => {
     });
     const info: PostType = {
       userId,
-      postId: fetchId,
+      postId: post.data ? post.data.postId : fetchId,
       ...submittedValues,
     };
     try {

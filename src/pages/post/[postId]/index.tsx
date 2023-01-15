@@ -18,7 +18,7 @@ const Index = (): JSX.Element => {
 
   useEffect(() => {
     setTimeLineMode("n");
-  }, []);
+  });
 
   return (
     <Flex direction={"column"}>
@@ -54,7 +54,13 @@ const Index = (): JSX.Element => {
         })}
       </Flex>
       <Center>
-        <StyledButton onClick={() => {}} text={"話を聞いてみる"} w={"200px"} />
+        <StyledButton
+          onClick={() => {
+            return;
+          }}
+          text={"話を聞いてみる"}
+          w={"200px"}
+        />
       </Center>
     </Flex>
   );

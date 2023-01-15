@@ -67,7 +67,6 @@ export const Messages = (): JSX.Element => {
       console.error(e);
     }
   }, [chatId]);
-  const fullName = `${profile.data?.name.first} ${profile.data?.name.last}`;
   /////////////////////////////////////////////////////////////////////////////
 
   //// draft.js ///////////////////////////////////////////////////////////////
@@ -128,7 +127,7 @@ export const Messages = (): JSX.Element => {
       uid: uid,
       iconUrl: profile.data?.profileImage,
       sendAt: Date.now(),
-      fullName: fullName,
+      fullName: profile.data?.name ?? "",
     };
     try {
       if (!soloChat.data?.chatId) {

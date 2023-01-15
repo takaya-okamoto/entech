@@ -122,7 +122,10 @@ const Index = (): JSX.Element => {
               <StyledInputControl fieldProps={{ name: "title" }} />
 
               <FormLabel label={"事業の内容"} textProps={{ mt: "2rem" }} />
-              <StyledTextArea fieldProps={{ name: "describe" }} />
+              <StyledTextArea
+                fieldProps={{ name: "describe" }}
+                textAreaProps={{ minH: "200px" }}
+              />
 
               <FormLabel label={"求めるスキル"} textProps={{ mt: "2rem" }} />
               <FieldArray

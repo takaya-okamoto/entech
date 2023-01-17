@@ -7,8 +7,7 @@ import { useFirebase } from "../../../hooks/logic/useFirebase";
 export const fetchProfile = async (
   id: string
 ): Promise<ProfileType | undefined> => {
-  const app = initializeApp(firebaseConfig);
-  const firestore = getFirestore(app);
+  const firestore = getFirestore();
   const ref = doc(firestore, `profile/${id}`);
   const snapshot = await getDoc(ref);
   return snapshot.exists()

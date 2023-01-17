@@ -22,7 +22,7 @@ import { UploadImage } from "../../lib/clientSide/storage/uploadImage";
 import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
 import { fetchProfile } from "../../lib/clientSide/firestore/fetchProfile";
 
-const Profile = (): JSX.Element => {
+const EditProfile = (): JSX.Element => {
   const toast = useToast();
   const [selectedFooter, setSelectedFooter] =
     useRecoilState<number>(selectedFooterState);
@@ -242,4 +242,4 @@ const Profile = (): JSX.Element => {
     </Flex>
   );
 };
-export default Profile;
+export default EditProfile;

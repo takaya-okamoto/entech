@@ -49,7 +49,9 @@ const Index = (): JSX.Element => {
   const { user } = useMyAccount();
   const userData = useFetchFirestore(fetchProfile, userId).data;
   const postData = useFetchFirestore(fetchAllMyPost, userId).data;
-  const userFollowsData = useFetchFirestore(fetchFollows, user?.uid).data;
+  const [userFollowsData, setUserFollowsData] = useState<
+    FollowType | undefined
+  >(undefined);
   const [followsData, setFollowsData] = useState<FollowType | undefined>(
     undefined
   );
@@ -68,8 +70,12 @@ const Index = (): JSX.Element => {
   });
   useEffect(() => {
     if (!userId) return;
+    if (!user) return;
     fetchFollows(userId).then((res) => {
       setFollowsData(res);
+    });
+    fetchFollows(user.uid).then((res) => {
+      setUserFollowsData(res);
     });
   }, [click, userId]);
 
@@ -155,7 +161,7 @@ const Index = (): JSX.Element => {
                     return f.uid !== userId;
                   });
                   const userInfo_ = {
-                    uid: followsData?.uid ?? user.uid,
+                    uid: user.uid,
                     following: following_ ?? [],
                     followers: userFollowsData?.followers ?? [{ uid: "" }],
                   };

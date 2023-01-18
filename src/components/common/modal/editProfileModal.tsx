@@ -1,36 +1,33 @@
+import { ProfileType } from "../../../types/profileType";
 import { Flex, useDisclosure, useToast, VStack } from "@chakra-ui/react";
 import { useSetRecoilState } from "recoil";
-import { selectedFooterState } from "../../../../../stores/recoil";
-import { useSkills } from "../../../../../hooks/view/useSkills";
-import { useMyAccount } from "../../../../../hooks/logic/useMyAccount";
-import { useFetchFirestore } from "../../../../../hooks/logic/useFetchFirestore";
-import { fetchProfile } from "../../../../../lib/clientSide/firestore/fetchProfile";
-import { useEffect } from "react";
+import { selectedFooterState } from "../../../stores/recoil";
+import { useSkills } from "../../../hooks/view/useSkills";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { UploadImage } from "../../../../../lib/clientSide/storage/uploadImage";
-import { ProfileType } from "../../../../../types/profileType";
-import { WriteProfile } from "../../../../../lib/clientSide/firestore/writeProfile";
+import { UploadImage } from "../../../lib/clientSide/storage/uploadImage";
+import { WriteProfile } from "../../../lib/clientSide/firestore/writeProfile";
 import { FieldArray, Formik, FormikProps } from "formik";
-import { StyledImageInput } from "../../../../../components/form/styledImageInput";
-import { FormLabel } from "../../../../../components/form/formLabel";
-import { StyledInputControl } from "../../../../../components/form/styledInputControl";
-import { StyledSelectControl } from "../../../../../components/form/styledSelectControl";
+import { StyledImageInput } from "../../form/styledImageInput";
+import { FormLabel } from "../../form/formLabel";
+import { StyledInputControl } from "../../form/styledInputControl";
+import { StyledSelectControl } from "../../form/styledSelectControl";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { InfoModal } from "../../../../../components/common/modal/infoModal";
-import { DeleteButton } from "../../../../../components/form/button/deleteButton";
-import { StyledButton } from "../../../../../components/form/button/StyledButton";
-import { StyledTextArea } from "../../../../../components/form/styledTextArea";
-import { StyledSubmitButton } from "../../../../../components/form/button/styledSubmitButton";
-import { useRouter } from "next/router";
+import { InfoModal } from "./infoModal";
+import { DeleteButton } from "../../form/button/deleteButton";
+import { StyledButton } from "../../form/button/StyledButton";
+import { StyledTextArea } from "../../form/styledTextArea";
+import { StyledSubmitButton } from "../../form/button/styledSubmitButton";
 
-const Index = (): JSX.Element => {
+type Props = {
+  userData: ProfileType | undefined | null;
+};
+
+export const EditProfileModal = (props: Props): JSX.Element => {
   const toast = useToast();
-  const router = useRouter();
   const setSelectedFooter = useSetRecoilState<number>(selectedFooterState);
 
   const skills = useSkills();
-  const { user } = useMyAccount();
-  const { data } = useFetchFirestore(fetchProfile, user?.uid);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -38,17 +35,17 @@ const Index = (): JSX.Element => {
   });
 
   const initialValues = {
-    profileImage: data?.profileImage ?? "",
-    name: data?.name ?? "",
+    profileImage: props.userData?.profileImage ?? "",
+    name: props.userData?.name ?? "",
     school: {
-      name: data?.school.name ?? "",
-      faculty: data?.school.faculty ?? "",
-      grade: data?.school.grade ?? "",
+      name: props.userData?.school.name ?? "",
+      faculty: props.userData?.school.faculty ?? "",
+      grade: props.userData?.school.grade ?? "",
     },
-    userType: data?.userType ?? "e",
-    skills: data?.skills ?? [{ name: "" }],
-    requirementSkills: data?.requirementSkills ?? [{ name: "" }],
-    selfPr: data?.selfPr ?? "",
+    userType: props.userData?.userType ?? "e",
+    skills: props.userData?.skills ?? [{ name: "" }],
+    requirementSkills: props.userData?.requirementSkills ?? [{ name: "" }],
+    selfPr: props.userData?.selfPr ?? "",
   };
   const profileSchema = Yup.object({
     profileImage: Yup.string().required("画像を選択してください。"),
@@ -65,8 +62,8 @@ const Index = (): JSX.Element => {
   const handleSubmit = async (
     submittedValues: typeof initialValues
   ): Promise<void> => {
-    if (!user) return;
-    const id = user.uid;
+    if (!props.userData) return;
+    const id = props.userData.id;
     await UploadImage(`profiles/${id}`, submittedValues.profileImage).then(
       (res) => {
         submittedValues.profileImage = res;
@@ -243,4 +240,3 @@ const Index = (): JSX.Element => {
     </Flex>
   );
 };
-export default Index;

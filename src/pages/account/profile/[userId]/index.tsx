@@ -9,14 +9,17 @@ import {
   ListIcon,
   ListItem,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { fetchAllMyPost } from "../../../../lib/clientSide/firestore/fetchAllMyPost";
 import { useEffect, useMemo } from "react";
 import { UserStatus } from "../../../../components/account/userStatus";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
+  lastViewIdState,
   selectedFooterState,
   timeLineModeState,
+  viewTypeState,
 } from "../../../../stores/recoil";
 import { useColorAssets } from "../../../../hooks/view/useColorAssets";
 import { StyledFlex } from "../../../../components/account/styledFlex";
@@ -25,12 +28,17 @@ import { AccountMainText } from "../../../../components/account/accountMainText"
 import { RxDotFilled } from "react-icons/rx";
 import { useMyAccount } from "../../../../hooks/logic/useMyAccount";
 import { AccountGeneralButton } from "../../../../components/account/accountGeneralButton";
+import { EditProfileModal } from "../../../../components/common/modal/editProfileModal";
+import { GeneralModal } from "../../../../components/common/modal/generalModal";
+import { BackButton } from "../../../../components/common/button/backButton";
 
 const Index = (): JSX.Element => {
   const router = useRouter();
   const colorAssets = useColorAssets();
   const setSelectedFooter = useSetRecoilState<number>(selectedFooterState);
   const setTimeLineMode = useSetRecoilState<string>(timeLineModeState);
+  const lastViewId = useRecoilValue(lastViewIdState);
+  const [viewType, setViewType] = useRecoilState(viewTypeState);
 
   const userId = useMemo(() => {
     return typeof router.query.userId === "string" ? router.query.userId : null;
@@ -39,6 +47,7 @@ const Index = (): JSX.Element => {
   const postData = useFetchFirestore(fetchAllMyPost, userId).data;
 
   const { user } = useMyAccount();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     setSelectedFooter(3);
@@ -46,9 +55,26 @@ const Index = (): JSX.Element => {
   });
 
   console.log({ userData });
+  console.log({ lastViewId });
+  console.log({ viewType });
 
   return (
     <Flex direction={"column"}>
+      {viewType !== undefined && (
+        <BackButton
+          onClick={() => {
+            if (viewType === "post") {
+              setViewType(undefined);
+              void router.push(`/post/${lastViewId}`);
+            } else {
+              void router.push(`/`);
+            }
+          }}
+          needText={true}
+          flexProps={{ mb: "1rem" }}
+        />
+      )}
+
       <Flex gap={10} mb={"1.5rem"}>
         <Box>
           <Avatar size={"xl"} src={userData?.profileImage ?? ""} />
@@ -75,10 +101,33 @@ const Index = (): JSX.Element => {
         <AccountMainText text={userData?.school.grade ?? ""} />
       </Flex>
 
-      {/*Follow, Message*/}
+      {/*Follow, Message , EditProfileModal*/}
       <Flex mb={"2rem"} gap={5}>
-        <AccountGeneralButton w={"50%"} text={"follow"} followButton={true} />
-        <AccountGeneralButton w={"50%"} text={"message"} followButton={false} />
+        {user?.uid !== userId && (
+          <>
+            <AccountGeneralButton
+              w={"50%"}
+              text={"follow"}
+              followButton={true}
+            />
+            <AccountGeneralButton
+              w={"50%"}
+              text={"message"}
+              followButton={false}
+              onClick={(): void => {
+                void router.push(`/chat/${userId}`);
+              }}
+            />
+          </>
+        )}
+        {user?.uid === userId && (
+          <AccountGeneralButton
+            w={"100%"}
+            text={"edit profile"}
+            followButton={false}
+            onClick={onOpen}
+          />
+        )}
       </Flex>
 
       <StyledFlex
@@ -121,6 +170,14 @@ const Index = (): JSX.Element => {
           </List>
         </Flex>
       </StyledFlex>
+
+      <GeneralModal
+        title={"プロフィール編集"}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <EditProfileModal userData={userData} />
+      </GeneralModal>
     </Flex>
   );
 };

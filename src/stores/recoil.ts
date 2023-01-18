@@ -15,3 +15,13 @@ export const userTypeState = atom<string>({
   key: "userTypeState",
   default: "e",
 });
+
+//lastView
+export const lastViewIdState = atom<string | undefined>({
+  key: "lastViewIdState",
+  default: undefined,
+});
+export const viewTypeState = atom<"post" | "search" | undefined>({
+  key: "viewTypeState",
+  default: undefined,
+});

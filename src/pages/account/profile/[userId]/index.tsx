@@ -5,7 +5,7 @@ import { Avatar, Box, Flex } from "@chakra-ui/react";
 import { fetchAllMyPost } from "../../../../lib/clientSide/firestore/fetchAllMyPost";
 import { useEffect, useMemo } from "react";
 import { UserStatus } from "../../../../components/account/userStatus";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import {
   selectedFooterState,
   timeLineModeState,
@@ -28,9 +28,6 @@ const Index = (): JSX.Element => {
     setSelectedFooter(3);
     setTimeLineMode("en");
   });
-
-  console.log({ userData });
-  console.log({ postData });
 
   return (
     <Flex direction={"column"}>

@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { fetchAllMyPost } from "../../../../lib/clientSide/firestore/fetchAllMyPost";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { UserStatus } from "../../../../components/account/userStatus";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -31,6 +31,9 @@ import { AccountGeneralButton } from "../../../../components/account/accountGene
 import { EditProfileModal } from "../../../../components/common/modal/editProfileModal";
 import { GeneralModal } from "../../../../components/common/modal/generalModal";
 import { BackButton } from "../../../../components/common/button/backButton";
+import { fetchFollows } from "../../../../lib/clientSide/firestore/fetchFollows";
+import { writeFollows } from "../../../../lib/clientSide/firestore/writeFollows";
+import { FollowType } from "../../../../types/followType";
 
 const Index = (): JSX.Element => {
   const router = useRouter();
@@ -43,20 +46,31 @@ const Index = (): JSX.Element => {
   const userId = useMemo(() => {
     return typeof router.query.userId === "string" ? router.query.userId : null;
   }, [router]);
+  const { user } = useMyAccount();
   const userData = useFetchFirestore(fetchProfile, userId).data;
   const postData = useFetchFirestore(fetchAllMyPost, userId).data;
+  const [followsData, setFollowsData] = useState<FollowType | undefined>(
+    undefined
+  );
+  const [click, setClick] = useState<boolean>(false);
 
-  const { user } = useMyAccount();
+  const isFollow = useMemo(() => {
+    if (!user) return false;
+    return followsData?.followers.some((f) => f.uid === user.uid) ?? false;
+  }, [followsData, user]);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     setSelectedFooter(3);
     setTimeLineMode("en");
   });
-
-  console.log({ userData });
-  console.log({ lastViewId });
-  console.log({ viewType });
+  useEffect(() => {
+    if (!userId) return;
+    fetchFollows(userId).then((res) => {
+      setFollowsData(res);
+    });
+  }, [click, userId]);
 
   return (
     <Flex direction={"column"}>
@@ -89,7 +103,11 @@ const Index = (): JSX.Element => {
           </Text>
           <Flex gap={6}>
             <UserStatus num={postData?.length ?? 0} text={"Posts"} link={"#"} />
-            <UserStatus num={5} text={"Followers"} link={"#"} />
+            <UserStatus
+              num={followsData?.followers.length ?? 0}
+              text={"Followers"}
+              link={"#"}
+            />
             <UserStatus num={30} text={"Following"} link={"#"} />
           </Flex>
         </Flex>
@@ -105,10 +123,56 @@ const Index = (): JSX.Element => {
       <Flex mb={"2rem"} gap={5}>
         {user?.uid !== userId && (
           <>
+            {/*Todo text, onClickをisFollowで切り替える*/}
             <AccountGeneralButton
               w={"50%"}
-              text={"follow"}
+              text={isFollow ? "following" : "follow"}
               followButton={true}
+              onClick={async () => {
+                if (!user) return;
+                if (isFollow) {
+                  if (!userId) return;
+                  console.log(1);
+                  const followers_ = followsData?.followers.filter((f) => {
+                    return f.uid !== user?.uid;
+                  });
+                  const info_ = {
+                    uid: followsData?.uid ?? userId,
+                    following: followsData?.following ?? [{ uid: "" }],
+                    followers: followers_ ?? [{ uid: "" }],
+                  };
+                  const info = {
+                    data: info_,
+                    uid: user.uid,
+                  };
+                  await writeFollows(info);
+                  setClick((prev) => !prev);
+                } else {
+                  if (!userId) return;
+                  followsData?.followers.push({
+                    uid: user.uid,
+                  });
+                  const info_ = {
+                    uid: followsData?.uid ?? userId,
+                    following: followsData?.following ?? [
+                      {
+                        uid: "",
+                      },
+                    ],
+                    followers: followsData?.followers ?? [
+                      {
+                        uid: user.uid,
+                      },
+                    ],
+                  };
+                  const info = {
+                    uid: user.uid,
+                    data: info_,
+                  };
+                  await writeFollows(info);
+                  setClick((prev) => !prev);
+                }
+              }}
             />
             <AccountGeneralButton
               w={"50%"}

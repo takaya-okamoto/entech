@@ -13,9 +13,9 @@ export const AccountGeneralButton = (props: Props): JSX.Element => {
   return (
     <Flex
       w={props.w}
-      color={props.followButton ? "white" : colorAssets.textColor}
-      bgColor={props.followButton ? colorAssets.entechMainBlue : "white"}
-      borderWidth={props.followButton ? "none" : "1px"}
+      color={props.text === "follow" ? "white" : colorAssets.textColor}
+      bgColor={props.text === "follow" ? colorAssets.entechMainBlue : "white"}
+      borderWidth={props.text === "follow" ? "none" : "1px"}
       borderRadius={"5px"}
       justifyContent={"center"}
       onClick={props.onClick}

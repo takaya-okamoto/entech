@@ -18,6 +18,7 @@ import { DeleteButton } from "../../form/button/deleteButton";
 import { StyledButton } from "../../form/button/StyledButton";
 import { StyledTextArea } from "../../form/styledTextArea";
 import { StyledSubmitButton } from "../../form/button/styledSubmitButton";
+import { useMyAccount } from "../../../hooks/logic/useMyAccount";
 
 type Props = {
   userData: ProfileType | undefined | null;
@@ -26,6 +27,7 @@ type Props = {
 export const EditProfileModal = (props: Props): JSX.Element => {
   const toast = useToast();
   const setSelectedFooter = useSetRecoilState<number>(selectedFooterState);
+  const { user } = useMyAccount();
 
   const skills = useSkills();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -62,8 +64,8 @@ export const EditProfileModal = (props: Props): JSX.Element => {
   const handleSubmit = async (
     submittedValues: typeof initialValues
   ): Promise<void> => {
-    if (!props.userData) return;
-    const id = props.userData.id;
+    if (!user) return;
+    const id = props.userData?.id ?? user.uid;
     await UploadImage(`profiles/${id}`, submittedValues.profileImage).then(
       (res) => {
         submittedValues.profileImage = res;

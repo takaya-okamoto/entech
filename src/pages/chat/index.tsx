@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { ConversationPartner } from "../../components/chat/conversationPartner";
 import { useSetRecoilState } from "recoil";
 import { selectedFooterState, timeLineModeState } from "../../stores/recoil";
@@ -27,6 +27,9 @@ const Chat = (): JSX.Element => {
     setSelectedFooter(2);
     setTimeLineMode("en");
   });
+
+  if (chatUsers.length === 0)
+    return <Text>友達のプロフィールからメッセージをしてみよう！</Text>;
 
   return (
     <Flex direction={"column"} gap={8}>

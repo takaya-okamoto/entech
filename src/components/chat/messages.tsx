@@ -31,8 +31,13 @@ import { initializeApp } from "@firebase/app";
 import { firebaseConfig } from "../../stores/firebase/firebase";
 import { getDatabase, onChildAdded, ref } from "@firebase/database";
 import { useColorAssets } from "hooks/view/useColorAssets";
+import { ProfileType } from "../../types/profileType";
 
-export const Messages = (): JSX.Element => {
+type Props = {
+  userData: ProfileType;
+};
+
+export const Messages = (props: Props): JSX.Element => {
   const router = useRouter();
   const sendUid = router.query;
   const { user } = useMyAccount();
@@ -165,7 +170,7 @@ export const Messages = (): JSX.Element => {
         <Link href={"./"}>
           <AiOutlineLeft />
         </Link>
-        <Text fontWeight={"semibold"}>岡村 匡也</Text>
+        <Text fontWeight={"semibold"}>{props.userData.name}</Text>
       </HStack>
       <Flex
         direction={"column"}

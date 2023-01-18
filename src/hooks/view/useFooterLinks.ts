@@ -3,6 +3,7 @@ import { TbHome } from "react-icons/tb";
 import { RiUserSearchLine } from "react-icons/ri";
 import { BsChatLeftText } from "react-icons/bs";
 import { MdOutlineAccountCircle } from "react-icons/md";
+import { useMyAccount } from "../logic/useMyAccount";
 
 export type FooterLinksType = {
   name: string;
@@ -29,7 +30,7 @@ export const useFooterLinks = (): FooterLinksType[] => {
     },
     {
       name: "Account",
-      link: "/account",
+      link: `/account`,
       icon: MdOutlineAccountCircle,
     },
   ];

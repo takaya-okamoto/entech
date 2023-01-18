@@ -13,7 +13,7 @@ type Props = {
 export const ConversationPartner = (props: Props): JSX.Element => {
   const { user } = useMyAccount();
   const uid =
-    props.user.uid !== user?.uid ? props.user.uid : props.user.sendUid;
+    props.user.uid !== user?.uid ? props.user?.uid : props.user.sendUid;
   const [userData, setUserData] = useState<ProfileType | undefined>(undefined);
   useEffect(() => {
     fetchProfile(uid).then((res) => {

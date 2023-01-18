@@ -51,10 +51,20 @@ export const Messages = (props: Props): JSX.Element => {
       uid: user?.uid ?? "",
       sendUid: typeof sendUid.userId === "string" ? sendUid.userId : "",
     }),
-    [user, sendUid, send]
+    [user, sendUid]
   );
+  const args2 = useMemo(
+    () => ({
+      uid: typeof sendUid.userId === "string" ? sendUid.userId : "",
+      sendUid: user?.uid ?? "",
+    }),
+    [user, sendUid]
+  );
+  console.log(args);
   const soloChat = useFetchFirestore(fetchSoloChatId, args);
-  const chatId = soloChat.data?.chatId;
+  const soloChat2 = useFetchFirestore(fetchSoloChatId, args2);
+
+  const chatId = soloChat.data?.chatId ?? soloChat2.data?.chatId;
   const [messages, setMessages] = useState<MessageType[]>([]);
   useEffect(() => {
     try {

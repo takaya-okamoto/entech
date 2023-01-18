@@ -3,7 +3,6 @@ import { WriteDoc } from "./writeDoc";
 import { FollowType } from "../../../types/followType";
 
 type Props = {
-  uid: string;
   data: FollowType;
 };
 

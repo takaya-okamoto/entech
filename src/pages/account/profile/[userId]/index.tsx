@@ -49,6 +49,7 @@ const Index = (): JSX.Element => {
   const { user } = useMyAccount();
   const userData = useFetchFirestore(fetchProfile, userId).data;
   const postData = useFetchFirestore(fetchAllMyPost, userId).data;
+  const userFollowsData = useFetchFirestore(fetchFollows, user?.uid).data;
   const [followsData, setFollowsData] = useState<FollowType | undefined>(
     undefined
   );
@@ -108,7 +109,11 @@ const Index = (): JSX.Element => {
               text={"Followers"}
               link={"#"}
             />
-            <UserStatus num={30} text={"Following"} link={"#"} />
+            <UserStatus
+              num={followsData?.following.length ?? 0}
+              text={"Following"}
+              link={"#"}
+            />
           </Flex>
         </Flex>
       </Flex>
@@ -132,7 +137,6 @@ const Index = (): JSX.Element => {
                 if (!user) return;
                 if (isFollow) {
                   if (!userId) return;
-                  console.log(1);
                   const followers_ = followsData?.followers.filter((f) => {
                     return f.uid !== user?.uid;
                   });
@@ -143,10 +147,22 @@ const Index = (): JSX.Element => {
                   };
                   const info = {
                     data: info_,
-                    uid: user.uid,
                   };
                   await writeFollows(info);
                   setClick((prev) => !prev);
+
+                  const following_ = userFollowsData?.following.filter((f) => {
+                    return f.uid !== userId;
+                  });
+                  const userInfo_ = {
+                    uid: followsData?.uid ?? user.uid,
+                    following: following_ ?? [],
+                    followers: userFollowsData?.followers ?? [{ uid: "" }],
+                  };
+                  const userInfo = {
+                    data: userInfo_,
+                  };
+                  await writeFollows(userInfo);
                 } else {
                   if (!userId) return;
                   followsData?.followers.push({
@@ -154,23 +170,31 @@ const Index = (): JSX.Element => {
                   });
                   const info_ = {
                     uid: followsData?.uid ?? userId,
-                    following: followsData?.following ?? [
-                      {
-                        uid: "",
-                      },
-                    ],
-                    followers: followsData?.followers ?? [
-                      {
-                        uid: user.uid,
-                      },
-                    ],
+                    following: followsData?.following ?? [],
+                    followers: followsData?.followers ?? [{ uid: user.uid }],
                   };
                   const info = {
-                    uid: user.uid,
                     data: info_,
                   };
                   await writeFollows(info);
                   setClick((prev) => !prev);
+
+                  userFollowsData?.following.push({
+                    uid: userId,
+                  });
+                  const userInfo_ = {
+                    uid: user.uid,
+                    following: userFollowsData?.following ?? [
+                      {
+                        uid: userId,
+                      },
+                    ],
+                    followers: userFollowsData?.followers ?? [],
+                  };
+                  const userInfo = {
+                    data: userInfo_,
+                  };
+                  await writeFollows(userInfo);
                 }
               }}
             />

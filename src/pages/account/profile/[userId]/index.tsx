@@ -77,7 +77,7 @@ const Index = (): JSX.Element => {
     fetchFollows(user.uid).then((res) => {
       setUserFollowsData(res);
     });
-  }, [click, userId]);
+  }, [click, userId, user]);
 
   return (
     <Flex direction={"column"}>

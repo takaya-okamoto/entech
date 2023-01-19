@@ -34,7 +34,7 @@ export const AccountLinkButton = (props: Props): JSX.Element => {
         <Box fontSize={"35px"}>
           <props.icon />
         </Box>
-        <Text fontSize={"20px"} fontWeight={"semibold"} pt={".2rem"}>
+        <Text fontSize={"20px"} pt={".2rem"}>
           {props.text}
         </Text>
       </Flex>

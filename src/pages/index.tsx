@@ -24,6 +24,10 @@ const Index = (): JSX.Element => {
     }
   });
 
-  return <Flex>{timeLineMode === "e" ? <EModeView /> : <NModeView />}</Flex>;
+  return (
+    <Flex justifyContent={"center"}>
+      {timeLineMode === "e" ? <EModeView /> : <NModeView />}
+    </Flex>
+  );
 };
 export default Index;

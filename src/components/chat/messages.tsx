@@ -60,13 +60,31 @@ export const Messages = (props: Props): JSX.Element => {
     }),
     [user, sendUid]
   );
-  console.log(args);
-  const soloChat = useFetchFirestore(fetchSoloChatId, args);
-  const soloChat2 = useFetchFirestore(fetchSoloChatId, args2);
 
-  const chatId = soloChat.data?.chatId ?? soloChat2.data?.chatId;
+  // const soloChat_ = useFetchFirestore(fetchSoloChatId, args);
+  // const soloChat2_ = useFetchFirestore(fetchSoloChatId, args2);
+  //
+  // const chatId_ = soloChat.data?.chatId ?? soloChat2.data?.chatId;
+  const [soloChat, setSoloChat] = useState<SoloChatIdType | null>(null);
+  const [soloChat2, setSoloChat2] = useState<SoloChatIdType | null>(null);
+  const [chatId, setChatId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    fetchSoloChatId(args).then((res) => {
+      setSoloChat(res);
+    });
+    fetchSoloChatId(args2).then((res) => {
+      setSoloChat2(res);
+    });
+  }, [send, args, args2]);
+  useEffect(() => {
+    const chatId_ = soloChat?.chatId ?? soloChat2?.chatId;
+    setChatId(chatId_);
+  }, [soloChat, soloChat2]);
+
   const [messages, setMessages] = useState<MessageType[]>([]);
   useEffect(() => {
+    if (!chatId) return;
     try {
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(
@@ -127,10 +145,10 @@ export const Messages = (props: Props): JSX.Element => {
       typeof sendUid.userId === "string" ? sendUid.userId : undefined;
     if (!uid) return;
     if (!sendId) return;
-    const chatId = soloChat.data?.chatId ? soloChat.data?.chatId : uid + sendId;
+    const chatId_ = chatId ?? uid + sendId;
 
     const chatInfo: SoloChatIdType = {
-      chatId: chatId,
+      chatId: chatId_,
       uid: uid,
       sendUid: sendId,
     };
@@ -145,13 +163,13 @@ export const Messages = (props: Props): JSX.Element => {
       fullName: profile.data?.name ?? "",
     };
     try {
-      if (!soloChat.data?.chatId) {
+      if (!chatId) {
         setEditorState(EditorState.createEmpty());
         await writeSoloChatId(chatInfo);
         setSend((prev) => !prev);
       }
       setEditorState(EditorState.createEmpty());
-      await sendMessage(chatId, message);
+      await sendMessage(chatId ?? uid + sendId, message);
     } catch (e) {
       console.error(e);
     }

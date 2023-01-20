@@ -37,6 +37,7 @@ import { FollowType } from "../../../../types/followType";
 
 const Index = (): JSX.Element => {
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const colorAssets = useColorAssets();
   const setSelectedFooter = useSetRecoilState<number>(selectedFooterState);
   const setTimeLineMode = useSetRecoilState<string>(timeLineModeState);
@@ -61,8 +62,6 @@ const Index = (): JSX.Element => {
     if (!user) return false;
     return followsData?.followers.some((f) => f.uid === user.uid) ?? false;
   }, [followsData, user]);
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     setSelectedFooter(3);

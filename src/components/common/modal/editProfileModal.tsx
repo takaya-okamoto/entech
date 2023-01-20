@@ -1,9 +1,7 @@
 import { ProfileType } from "../../../types/profileType";
-import { Flex, useDisclosure, useToast, VStack } from "@chakra-ui/react";
+import { Flex, useDisclosure, useToast, VStack, Box } from "@chakra-ui/react";
 import { useSetRecoilState } from "recoil";
-import { selectedFooterState } from "../../../stores/recoil";
-import { useSkills } from "../../../hooks/view/useSkills";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import * as Yup from "yup";
 import { UploadImage } from "../../../lib/clientSide/storage/uploadImage";
 import { WriteProfile } from "../../../lib/clientSide/firestore/writeProfile";
@@ -13,12 +11,17 @@ import { FormLabel } from "../../form/formLabel";
 import { StyledInputControl } from "../../form/styledInputControl";
 import { StyledSelectControl } from "../../form/styledSelectControl";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import { useSkills } from "../../../hooks/view/useSkills";
+import { selectedFooterState } from "../../../stores/recoil";
+import { useMyAccount } from "../../../hooks/logic/useMyAccount";
+import { useFetchFirestore } from "../../../hooks/logic/useFetchFirestore";
+import { EnAgnoseButton } from "../button/enAgnoseButton";
+import { fetchAgnose } from "../../../lib/clientSide/firestore/fetchAgnose";
 import { InfoModal } from "./infoModal";
 import { DeleteButton } from "../../form/button/deleteButton";
 import { StyledButton } from "../../form/button/StyledButton";
 import { StyledTextArea } from "../../form/styledTextArea";
 import { StyledSubmitButton } from "../../form/button/styledSubmitButton";
-import { useMyAccount } from "../../../hooks/logic/useMyAccount";
 
 type Props = {
   userData: ProfileType | undefined | null;
@@ -31,6 +34,7 @@ export const EditProfileModal = (props: Props): JSX.Element => {
 
   const skills = useSkills();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const agnose = useFetchFirestore(fetchAgnose, user?.uid).data;
 
   useEffect(() => {
     setSelectedFooter(3);
@@ -93,7 +97,6 @@ export const EditProfileModal = (props: Props): JSX.Element => {
       });
     }
   };
-
   return (
     <Flex justifyContent={"center"} pb={"3rem"}>
       <Formik
@@ -109,10 +112,20 @@ export const EditProfileModal = (props: Props): JSX.Element => {
               onSubmit={formikProps.handleSubmit as never}
               direction={"column"}
             >
-              <VStack mb={"3rem"}>
-                <StyledImageInput fieldProps={{ name: "profileImage" }} />
-              </VStack>
-
+              {agnose ? (
+                <Box mb={"2rem"}>
+                  <StyledImageInput fieldProps={{ name: "profileImage" }} />
+                </Box>
+              ) : (
+                <Flex gap={2}>
+                  <Box mb={"2rem"}>
+                    <StyledImageInput fieldProps={{ name: "profileImage" }} />
+                  </Box>
+                  <Box mt={".5rem"}>
+                    <EnAgnoseButton />
+                  </Box>
+                </Flex>
+              )}
               <FormLabel label={"ユーザーネーム"} />
               <Flex gap={3} pb={"3rem"}>
                 <StyledInputControl

@@ -13,7 +13,7 @@ type ColorAssetsType = {
 
 export const useColorAssets = (): ColorAssetsType => {
   const modeType = useRecoilValue(timeLineModeState);
-  const entechMainBlue = modeType === "n" ? "#FFFFFE" : "#17949D";
+  const entechMainBlue = modeType === "n" ? "#FFFFFE" : "#129DA7";
   const entechSubBlue = modeType === "n" ? "#FFFFFE" : "#86C8D0";
   const yellow = "#F4E92A";
   const white = modeType === "n" ? "#17949D" : "#FFFFFE";

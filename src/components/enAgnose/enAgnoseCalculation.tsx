@@ -9,22 +9,32 @@ import {
 import { Radar } from "react-chartjs-2";
 import { useColorAssets } from "../../hooks/view/useColorAssets";
 import { Box } from "@chakra-ui/react";
-import React, { useEffect, useMemo, useState } from "react";
-import { data } from "./sampleChart";
-import { setIn } from "formik";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { WriteAgnose } from "../../lib/clientSide/firestore/writeAgnose";
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler);
 
 type Props = {
   answer_: { num: number; val: string }[];
+  leadership: number;
+  setLeadership: Dispatch<SetStateAction<number>>;
+  sociability: number;
+  setSociability: Dispatch<SetStateAction<number>>;
+  cooperativeness: number;
+  setCooperativeness: Dispatch<SetStateAction<number>>;
+  independence: number;
+  setIndependence: Dispatch<SetStateAction<number>>;
+  openness: number;
+  setOpenness: Dispatch<SetStateAction<number>>;
 };
 
 export const EnAgnoseCalculation = (props: Props): JSX.Element => {
-  const [leadership, setLeadership] = useState<number>(0);
-  const [sociability, setSociability] = useState<number>(0);
-  const [cooperativeness, setCooperativeness] = useState<number>(0);
-  const [independence, setIndependence] = useState<number>(0);
-  const [openness, setOpenness] = useState<number>(0);
   let num: number;
   let str: string;
   const ColorAssets = useColorAssets();
@@ -40,40 +50,46 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
     [0.3, 0.1, 0.2, 0.4, 0],
     [0.4, 0.2, 0.3, 0, 0.1],
   ];
+
   useEffect(() => {
     for (let i = 0; i < 10; i++) {
+      console.log(i);
       //リーダーシップ
       num = agnoseData[i][0] * Number(props.answer_[i].val);
       num = Math.floor(num * 10) / 10;
-      setLeadership((prev) => prev + num);
+      props.setLeadership((prev) => prev + num);
+      // console.log(props.leadership);
 
       //社会性
       num = agnoseData[i][1] * Number(props.answer_[i].val);
       num = Math.floor(num * 10) / 10;
-      setSociability((prev) => prev + num);
+      props.setSociability((prev) => prev + num);
+      // console.log(props.sociability);
 
       //協調性
       num = agnoseData[i][2] * Number(props.answer_[i].val);
       num = Math.floor(num * 10) / 10;
-      setCooperativeness((prev) => prev + num);
+      props.setCooperativeness((prev) => prev + num);
+      // console.log(props.cooperativeness);
 
       //主体性
       num = agnoseData[i][3] * parseInt(props.answer_[i].val);
       num = Math.floor(num * 10) / 10;
-      setIndependence((prev) => prev + num);
+      props.setIndependence((prev) => prev + num);
+      // console.log(props.independence);
 
       //開放性
       num = agnoseData[i][4] * parseInt(props.answer_[i].val);
       num = Math.floor(num * 10) / 10;
-      setOpenness((prev) => prev + num);
+      props.setOpenness((prev) => prev + num);
+      // console.log(props.openness);
     }
-    console.log("leadership => " + leadership);
-    console.log("sociability => " + sociability);
-    console.log("cooperativeness => " + cooperativeness);
-    console.log("independence => " + independence);
-    console.log("openness => " + openness);
   }, [props.answer_]);
-
+  console.log("leadership => " + props.leadership);
+  console.log("sociability => " + props.sociability);
+  console.log("cooperativeness => " + props.cooperativeness);
+  console.log("independence => " + props.independence);
+  console.log("openness => " + props.openness);
   // const result = {
   //   labels: ["リーダーシップ", "社交性", "協調性", "主体性", "開放性"],
   //   datasets: [
@@ -91,6 +107,35 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
   //     },
   //   ],
   // };
+  // const options: {} = {
+  //   legend: {
+  //     position: "top",
+  //   },
+  //   title: {
+  //     display: true,
+  //     text: "Chart.js Radar Chart",
+  //   },
+  //   scale: {
+  //     reverse: false,
+  //     gridLines: {
+  //       color: [
+  //         "black",
+  //         "red",
+  //         "orange",
+  //         "yellow",
+  //         "green",
+  //         "blue",
+  //         "indigo",
+  //         "violet",
+  //       ],
+  //     },
+  //     r: {
+  //       min: 0,
+  //       max: 10,
+  //     },
+  //   },
+  // };
+  // console.log(result);
 
   const calculateData = (
     leadership_: number,
@@ -100,42 +145,47 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
     openness_: number
   ) => {
     //リーダーシップ整数化
+    // console.log({ leadership_ });
     str = String(leadership_);
     if (str.length > 2) {
-      setLeadership(Number(str.substring(2, 0)));
+      props.setLeadership(Number(str.substring(2, 0)));
     }
     // 社交性
+    // console.log({ sociability_ });
     str = String(sociability_);
     if (str.length > 2) {
-      setSociability(Number(str.substring(2, 0)));
+      props.setSociability(Number(str.substring(2, 0)));
     }
 
     // 協調性
-    str = String(cooperativeness_);
+    // console.log({ cooperativeness_ });
+    // str = String(cooperativeness_);
     if (str.length > 2) {
-      setCooperativeness(Number(str.substring(2, 0)));
+      props.setCooperativeness(Number(str.substring(2, 0)));
     }
 
     // 主体性
+    // console.log({ independence_ });
     str = String(independence_);
     if (str.length > 2) {
-      setIndependence(Number(str.substring(2, 0)));
+      props.setIndependence(Number(str.substring(2, 0)));
     }
     // 開放性
+    // console.log({ openness_ });
     str = String(openness_);
     if (str.length > 2) {
-      setOpenness(Number(str.substring(2, 0)));
+      props.setOpenness(Number(str.substring(2, 0)));
     }
     return {
       labels: ["リーダーシップ", "社交性", "協調性", "主体性", "開放性"],
       datasets: [
         {
           data: [
-            leadership,
-            sociability,
-            cooperativeness,
-            independence,
-            openness,
+            props.leadership,
+            props.sociability,
+            props.cooperativeness,
+            props.independence,
+            props.openness,
           ],
           backgroundColor: "rgba(18, 157, 167, 0.2)",
           borderColor: "rgba(18, 157, 167, 1)",
@@ -145,7 +195,7 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
     };
   };
 
-  const options = {
+  const options: {} = {
     legend: {
       position: "top",
     },
@@ -167,18 +217,19 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
           "violet",
         ],
       },
-      ticks: {
-        beginAtZero: true,
+      r: {
+        min: 0,
+        max: 10,
       },
     },
   };
 
   const result = calculateData(
-    leadership,
-    sociability,
-    cooperativeness,
-    independence,
-    openness
+    props.leadership,
+    props.sociability,
+    props.cooperativeness,
+    props.independence,
+    props.openness
   );
 
   console.log(result);
@@ -192,7 +243,7 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
       justifyContent={"center"}
       rounded={"20"}
     >
-      <Radar data={result} />
+      <Radar data={result} options={options} />
     </Box>
   );
 };

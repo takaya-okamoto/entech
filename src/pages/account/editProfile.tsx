@@ -31,6 +31,7 @@ import { UploadImage } from "../../lib/clientSide/storage/uploadImage";
 import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
 import { fetchProfile } from "../../lib/clientSide/firestore/fetchProfile";
 import { EnAgnoseButton } from "../../components/common/button/enAgnoseButton";
+import { fetchAgnose } from "../../lib/clientSide/firestore/fetchAgnose";
 
 const EditProfile = (): JSX.Element => {
   const toast = useToast();
@@ -41,6 +42,7 @@ const EditProfile = (): JSX.Element => {
   const { user } = useMyAccount();
   const { data } = useFetchFirestore(fetchProfile, user?.uid);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const agnose = useFetchFirestore(fetchAgnose, user?.uid).data;
 
   useEffect(() => {
     setSelectedFooter(3);
@@ -103,7 +105,6 @@ const EditProfile = (): JSX.Element => {
       });
     }
   };
-
   return (
     <Flex justifyContent={"center"} pb={"3rem"}>
       <Formik
@@ -119,13 +120,18 @@ const EditProfile = (): JSX.Element => {
               onSubmit={formikProps.handleSubmit as never}
               direction={"column"}
             >
-              <Flex>
+              {agnose ? (
                 <Box mb={"2rem"}>
                   <StyledImageInput fieldProps={{ name: "profileImage" }} />
                 </Box>
-                <EnAgnoseButton />
-              </Flex>
-
+              ) : (
+                <Flex>
+                  <Box mb={"2rem"}>
+                    <StyledImageInput fieldProps={{ name: "profileImage" }} />
+                  </Box>
+                  <EnAgnoseButton />
+                </Flex>
+              )}
               <FormLabel label={"ユーザーネーム"} />
               <Flex gap={3} pb={"3rem"}>
                 <StyledInputControl

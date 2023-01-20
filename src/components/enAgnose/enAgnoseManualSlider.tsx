@@ -9,6 +9,16 @@ type Props = {
   radioValue: string;
   setRadioValue: Dispatch<SetStateAction<string>>;
   answer_: { num: number; val: string }[];
+  leadership: number;
+  setLeadership: Dispatch<SetStateAction<number>>;
+  sociability: number;
+  setSociability: Dispatch<SetStateAction<number>>;
+  cooperativeness: number;
+  setCooperativeness: Dispatch<SetStateAction<number>>;
+  independence: number;
+  setIndependence: Dispatch<SetStateAction<number>>;
+  openness: number;
+  setOpenness: Dispatch<SetStateAction<number>>;
 };
 
 export const EnAgnoseManualSlider = (props: Props): JSX.Element => {
@@ -22,7 +32,21 @@ export const EnAgnoseManualSlider = (props: Props): JSX.Element => {
           setRadioValue={props.setRadioValue}
         />
       )}
-      {props.slideNum === 11 && <EnAgnoseResult answer_={props.answer_} />}
+      {props.slideNum === 11 && (
+        <EnAgnoseResult
+          answer_={props.answer_}
+          leadership={props.leadership}
+          setLeadership={props.setLeadership}
+          sociability={props.sociability}
+          setSociability={props.setSociability}
+          cooperativeness={props.cooperativeness}
+          setCooperativeness={props.setCooperativeness}
+          independence={props.independence}
+          setIndependence={props.setIndependence}
+          openness={props.openness}
+          setOpenness={props.setOpenness}
+        />
+      )}
     </Flex>
   );
 };

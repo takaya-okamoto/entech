@@ -23,7 +23,6 @@ const Index = (): JSX.Element => {
   const { user } = useMyAccount();
   const readerData = useFetchFirestore(fetchProfile, user?.uid).data;
   const isWriteProfile = !!readerData;
-
   const router = useRouter();
   const postId = router.query.postId;
   const post = useFetchFirestore(

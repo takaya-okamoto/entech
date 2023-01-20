@@ -1,4 +1,4 @@
-import { Avatar, Center, Flex, Image, Text } from "@chakra-ui/react";
+import { Avatar, Center, Flex, Image, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useFetchFirestore } from "../../../hooks/logic/useFetchFirestore";
 import { fetchPost } from "../../../lib/clientSide/firestore/fetchPost";
@@ -11,12 +11,17 @@ import {
   viewTypeState,
 } from "../../../stores/recoil";
 import { fetchProfile } from "../../../lib/clientSide/firestore/fetchProfile";
+import { useMyAccount } from "../../../hooks/logic/useMyAccount";
 
 const Index = (): JSX.Element => {
   const setTimeLineMode = useSetRecoilState(timeLineModeState);
   const setLastViewId = useSetRecoilState(lastViewIdState);
   const setViewType = useSetRecoilState(viewTypeState);
 
+  const toast = useToast();
+  const { user } = useMyAccount();
+  const readerData = useFetchFirestore(fetchProfile, user?.uid).data;
+  const isWriteProfile = !!readerData;
   const router = useRouter();
   const postId = router.query.postId;
   const post = useFetchFirestore(
@@ -84,6 +89,13 @@ const Index = (): JSX.Element => {
       <Center>
         <StyledButton
           onClick={() => {
+            if (!isWriteProfile)
+              return toast({
+                title: `プロフィールを登録してからメッセージできるよ。`,
+                status: "info",
+                position: "top",
+                isClosable: true,
+              });
             return;
           }}
           text={"話を聞いてみる"}

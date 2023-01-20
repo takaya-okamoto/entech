@@ -10,6 +10,7 @@ import {
   ListItem,
   Text,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { fetchAllMyPost } from "../../../../lib/clientSide/firestore/fetchAllMyPost";
 import { useEffect, useMemo, useState } from "react";
@@ -28,17 +29,16 @@ import { AccountMainText } from "../../../../components/account/accountMainText"
 import { RxDotFilled } from "react-icons/rx";
 import { useMyAccount } from "../../../../hooks/logic/useMyAccount";
 import { AccountGeneralButton } from "../../../../components/account/accountGeneralButton";
-import { EditProfileModal } from "../../../../components/common/modal/editProfileModal";
 import { GeneralModal } from "../../../../components/common/modal/generalModal";
 import { BackButton } from "../../../../components/common/button/backButton";
 import { fetchFollows } from "../../../../lib/clientSide/firestore/fetchFollows";
 import { writeFollows } from "../../../../lib/clientSide/firestore/writeFollows";
 import { FollowType } from "../../../../types/followType";
-import { PostsModal } from "../../../../components/common/modal/postsModal";
 import { ProfileModals } from "../../../../components/common/modal/profileModals";
 
 const Index = (): JSX.Element => {
   const router = useRouter();
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalType, setModalType] = useState<
     "posts" | "followers" | "following" | "editProfile"
@@ -56,6 +56,7 @@ const Index = (): JSX.Element => {
   }, [router]);
   const { user } = useMyAccount();
   const userData = useFetchFirestore(fetchProfile, userId).data;
+  const readerData = useFetchFirestore(fetchProfile, user?.uid).data;
   const postData = useFetchFirestore(fetchAllMyPost, userId).data;
   const [userFollowsData, setUserFollowsData] = useState<
     FollowType | undefined
@@ -65,6 +66,7 @@ const Index = (): JSX.Element => {
   );
   const [click, setClick] = useState<boolean>(false);
 
+  const isWriteProfile = !!readerData;
   const isFollow = useMemo(() => {
     if (!user) return false;
     return followsData?.followers.some((f) => f.uid === user.uid) ?? false;
@@ -163,6 +165,13 @@ const Index = (): JSX.Element => {
               followButton={true}
               onClick={async () => {
                 if (!user) return;
+                if (!isWriteProfile)
+                  return toast({
+                    title: `プロフィールを登録してからフォローできるよ。`,
+                    status: "info",
+                    position: "top",
+                    isClosable: true,
+                  });
                 if (isFollow) {
                   if (!userId) return;
                   const followers_ = followsData?.followers.filter((f) => {
@@ -230,7 +239,14 @@ const Index = (): JSX.Element => {
               w={"50%"}
               text={"message"}
               followButton={false}
-              onClick={(): void => {
+              onClick={() => {
+                if (!isWriteProfile)
+                  return toast({
+                    title: `プロフィールを登録してからメッセージできるよ。`,
+                    status: "info",
+                    position: "top",
+                    isClosable: true,
+                  });
                 void router.push(`/chat/${userId}`);
               }}
             />

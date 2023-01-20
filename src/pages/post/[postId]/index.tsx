@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import {
   lastViewIdState,
+  selectedFooterState,
   timeLineModeState,
   viewTypeState,
 } from "../../../stores/recoil";
@@ -14,7 +15,7 @@ import { fetchProfile } from "../../../lib/clientSide/firestore/fetchProfile";
 import { useMyAccount } from "../../../hooks/logic/useMyAccount";
 
 const Index = (): JSX.Element => {
-  const setTimeLineMode = useSetRecoilState(timeLineModeState);
+  const setTimeLineMode = useSetRecoilState<string>(timeLineModeState);
   const setLastViewId = useSetRecoilState(lastViewIdState);
   const setViewType = useSetRecoilState(viewTypeState);
 
@@ -91,12 +92,12 @@ const Index = (): JSX.Element => {
           onClick={() => {
             if (!isWriteProfile)
               return toast({
-                title: `プロフィールを登録してからメッセージできるよ。`,
+                title: "プロフィールを記入してから話を聞いてね。",
                 status: "info",
                 position: "top",
                 isClosable: true,
               });
-            return;
+            return router.push(`/chat/${userData?.id ?? ""}`);
           }}
           text={"話を聞いてみる"}
           w={"200px"}

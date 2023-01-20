@@ -1,5 +1,14 @@
 import * as Yup from "yup";
-import { Flex, useDisclosure, useToast, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Image,
+  useDisclosure,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
 import { useEffect } from "react";
 import { FieldArray, Formik, FormikProps } from "formik";
 import { AiOutlineInfoCircle } from "react-icons/ai";
@@ -21,6 +30,7 @@ import { WriteProfile } from "../../lib/clientSide/firestore/writeProfile";
 import { UploadImage } from "../../lib/clientSide/storage/uploadImage";
 import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
 import { fetchProfile } from "../../lib/clientSide/firestore/fetchProfile";
+import { EnAgnoseButton } from "../../components/common/button/enAgnoseButton";
 
 const EditProfile = (): JSX.Element => {
   const toast = useToast();
@@ -109,9 +119,12 @@ const EditProfile = (): JSX.Element => {
               onSubmit={formikProps.handleSubmit as never}
               direction={"column"}
             >
-              <VStack mb={"3rem"}>
-                <StyledImageInput fieldProps={{ name: "profileImage" }} />
-              </VStack>
+              <Flex>
+                <Box mb={"2rem"}>
+                  <StyledImageInput fieldProps={{ name: "profileImage" }} />
+                </Box>
+                <EnAgnoseButton />
+              </Flex>
 
               <FormLabel label={"ユーザーネーム"} />
               <Flex gap={3} pb={"3rem"}>

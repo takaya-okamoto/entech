@@ -7,9 +7,10 @@ import { useColorAssets } from "../../hooks/view/useColorAssets";
 type Props = {
   info: PostType;
   isEdit?: boolean;
+  isView?: boolean;
 };
 
-export const PostCard = ({ info, isEdit }: Props): JSX.Element => {
+export const PostCard = ({ info, isEdit, isView }: Props): JSX.Element => {
   const color = useColorAssets();
   return (
     <ChakraLink
@@ -37,7 +38,7 @@ export const PostCard = ({ info, isEdit }: Props): JSX.Element => {
         />
         <Flex direction={"column"} w={"180px"} gap={5}>
           <Text
-            color={isEdit ? color.textColor : "white"}
+            color={isEdit || isView ? color.textColor : "white"}
             fontWeight={"bold"}
             whiteSpace={"nowrap"}
             overflow={"hidden"}
@@ -46,7 +47,7 @@ export const PostCard = ({ info, isEdit }: Props): JSX.Element => {
             {info.title}
           </Text>
           <Text
-            color={isEdit ? color.textColor : "white"}
+            color={isEdit || isView ? color.textColor : "white"}
             whiteSpace={"nowrap"}
             overflow={"hidden"}
             textOverflow={"ellipsis"}

@@ -34,10 +34,17 @@ import { BackButton } from "../../../../components/common/button/backButton";
 import { fetchFollows } from "../../../../lib/clientSide/firestore/fetchFollows";
 import { writeFollows } from "../../../../lib/clientSide/firestore/writeFollows";
 import { FollowType } from "../../../../types/followType";
+import { PostsModal } from "../../../../components/common/modal/postsModal";
+import { ProfileModals } from "../../../../components/common/modal/profileModals";
 
 const Index = (): JSX.Element => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [modalType, setModalType] = useState<
+    "posts" | "followers" | "following" | "editProfile"
+  >("editProfile");
+  const [title, setTitle] = useState<string>("");
+
   const colorAssets = useColorAssets();
   const setSelectedFooter = useSetRecoilState<number>(selectedFooterState);
   const setTimeLineMode = useSetRecoilState<string>(timeLineModeState);
@@ -87,7 +94,8 @@ const Index = (): JSX.Element => {
               setViewType(undefined);
               void router.push(`/post/${lastViewId}`);
             } else {
-              void router.push(`/`);
+              setViewType(undefined);
+              void router.push(`/account/profile/${lastViewId}`);
             }
           }}
           needText={true}
@@ -108,16 +116,32 @@ const Index = (): JSX.Element => {
             {userData?.name ?? ""}
           </Text>
           <Flex gap={6}>
-            <UserStatus num={postData?.length ?? 0} text={"Posts"} link={"#"} />
+            <UserStatus
+              num={postData?.length ?? 0}
+              text={"Posts"}
+              onClick={() => {
+                setModalType("posts");
+                setTitle("投稿");
+                void onOpen();
+              }}
+            />
             <UserStatus
               num={followsData?.followers.length ?? 0}
               text={"Followers"}
-              link={"#"}
+              onClick={() => {
+                setModalType("followers");
+                setTitle("Followers");
+                void onOpen();
+              }}
             />
             <UserStatus
               num={followsData?.following.length ?? 0}
               text={"Following"}
-              link={"#"}
+              onClick={() => {
+                setModalType("following");
+                setTitle("Following");
+                void onOpen();
+              }}
             />
           </Flex>
         </Flex>
@@ -133,7 +157,6 @@ const Index = (): JSX.Element => {
       <Flex mb={"2rem"} gap={5}>
         {user?.uid !== userId && (
           <>
-            {/*Todo text, onClickをisFollowで切り替える*/}
             <AccountGeneralButton
               w={"50%"}
               text={isFollow ? "following" : "follow"}
@@ -218,7 +241,11 @@ const Index = (): JSX.Element => {
             w={"100%"}
             text={"edit profile"}
             followButton={false}
-            onClick={onOpen}
+            onClick={() => {
+              setModalType("editProfile");
+              setTitle("プロフィール編集");
+              void onOpen();
+            }}
           />
         )}
       </Flex>
@@ -264,12 +291,13 @@ const Index = (): JSX.Element => {
         </Flex>
       </StyledFlex>
 
-      <GeneralModal
-        title={"プロフィール編集"}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <EditProfileModal userData={userData} />
+      {/*/////// Modal Area ///////*/}
+      <GeneralModal title={title} isOpen={isOpen} onClose={onClose}>
+        <ProfileModals
+          modalType={modalType}
+          userData={userData}
+          onClose={onClose}
+        />
       </GeneralModal>
     </Flex>
   );

@@ -1,4 +1,4 @@
-import { Box, Flex, Img, Text } from "@chakra-ui/react";
+import { Box, Flex, Img, Text, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { PopUpMenuButtonBase } from "./popUpMenuButtonBase";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -7,11 +7,18 @@ import { useColorAssets } from "../../../hooks/view/useColorAssets";
 import { useRecoilState } from "recoil";
 import { timeLineModeState } from "stores/recoil";
 import { useRouter } from "next/router";
+import { useMyAccount } from "../../../hooks/logic/useMyAccount";
+import { useFetchFirestore } from "../../../hooks/logic/useFetchFirestore";
+import { fetchProfile } from "../../../lib/clientSide/firestore/fetchProfile";
 
 type Props = {};
 
 export const PopUpMenuButton = (props: Props): JSX.Element => {
   const router = useRouter();
+  const toast = useToast();
+  const { user } = useMyAccount();
+  const readerData = useFetchFirestore(fetchProfile, user?.uid).data;
+  const isWriteProfile = !!readerData;
   const [positionList, setPositionList] = useState([
     { left: 0, top: 0 },
     { left: 0, top: 0 },
@@ -82,6 +89,13 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
               const id = (
                 "0000000" + Math.floor(Math.random() * 10000000)
               ).slice(-7);
+              if (!isWriteProfile)
+                return toast({
+                  title: `プロフィールを登録してから投稿作成できるよ。`,
+                  status: "info",
+                  position: "top",
+                  isClosable: true,
+                });
               void (await router.push(`/post/create/${id}`));
             }}
           >

@@ -1,46 +1,38 @@
-import * as Yup from "yup";
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Image,
-  useDisclosure,
-  useToast,
-  VStack,
-} from "@chakra-ui/react";
+import { ProfileType } from "../../../types/profileType";
+import { Flex, useDisclosure, useToast, VStack, Box } from "@chakra-ui/react";
+import { useSetRecoilState } from "recoil";
 import { useEffect } from "react";
+import * as Yup from "yup";
+import { UploadImage } from "../../../lib/clientSide/storage/uploadImage";
+import { WriteProfile } from "../../../lib/clientSide/firestore/writeProfile";
 import { FieldArray, Formik, FormikProps } from "formik";
+import { StyledImageInput } from "../../form/styledImageInput";
+import { FormLabel } from "../../form/formLabel";
+import { StyledInputControl } from "../../form/styledInputControl";
+import { StyledSelectControl } from "../../form/styledSelectControl";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { StyledInputControl } from "../../components/form/styledInputControl";
-import { FormLabel } from "../../components/form/formLabel";
-import { StyledSubmitButton } from "../../components/form/button/styledSubmitButton";
-import { StyledSelectControl } from "../../components/form/styledSelectControl";
-import { StyledTextArea } from "../../components/form/styledTextArea";
-import { InfoModal } from "../../components/common/modal/infoModal";
-import { StyledImageInput } from "../../components/form/styledImageInput";
-import { useSkills } from "../../hooks/view/useSkills";
-import { DeleteButton } from "../../components/form/button/deleteButton";
-import { StyledButton } from "../../components/form/button/StyledButton";
-import { useRecoilState } from "recoil";
-import { selectedFooterState } from "../../stores/recoil";
-import { useMyAccount } from "../../hooks/logic/useMyAccount";
-import { ProfileType } from "../../types/profileType";
-import { WriteProfile } from "../../lib/clientSide/firestore/writeProfile";
-import { UploadImage } from "../../lib/clientSide/storage/uploadImage";
-import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
-import { fetchProfile } from "../../lib/clientSide/firestore/fetchProfile";
-import { EnAgnoseButton } from "../../components/common/button/enAgnoseButton";
-import { fetchAgnose } from "../../lib/clientSide/firestore/fetchAgnose";
+import { useSkills } from "../../../hooks/view/useSkills";
+import { selectedFooterState } from "../../../stores/recoil";
+import { useMyAccount } from "../../../hooks/logic/useMyAccount";
+import { useFetchFirestore } from "../../../hooks/logic/useFetchFirestore";
+import { EnAgnoseButton } from "../button/enAgnoseButton";
+import { fetchAgnose } from "../../../lib/clientSide/firestore/fetchAgnose";
+import { InfoModal } from "./infoModal";
+import { DeleteButton } from "../../form/button/deleteButton";
+import { StyledButton } from "../../form/button/StyledButton";
+import { StyledTextArea } from "../../form/styledTextArea";
+import { StyledSubmitButton } from "../../form/button/styledSubmitButton";
 
-const EditProfile = (): JSX.Element => {
+type Props = {
+  userData: ProfileType | undefined | null;
+};
+
+export const EditProfileModal = (props: Props): JSX.Element => {
   const toast = useToast();
-  const [selectedFooter, setSelectedFooter] =
-    useRecoilState<number>(selectedFooterState);
+  const setSelectedFooter = useSetRecoilState<number>(selectedFooterState);
+  const { user } = useMyAccount();
 
   const skills = useSkills();
-  const { user } = useMyAccount();
-  const { data } = useFetchFirestore(fetchProfile, user?.uid);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const agnose = useFetchFirestore(fetchAgnose, user?.uid).data;
 
@@ -49,17 +41,17 @@ const EditProfile = (): JSX.Element => {
   });
 
   const initialValues = {
-    profileImage: data?.profileImage ?? "",
-    name: data?.name ?? "",
+    profileImage: props.userData?.profileImage ?? "",
+    name: props.userData?.name ?? "",
     school: {
-      name: data?.school.name ?? "",
-      faculty: data?.school.faculty ?? "",
-      grade: data?.school.grade ?? "",
+      name: props.userData?.school.name ?? "",
+      faculty: props.userData?.school.faculty ?? "",
+      grade: props.userData?.school.grade ?? "",
     },
-    userType: data?.userType ?? "e",
-    skills: data?.skills ?? [{ name: "" }],
-    requirementSkills: data?.requirementSkills ?? [{ name: "" }],
-    selfPr: data?.selfPr ?? "",
+    userType: props.userData?.userType ?? "e",
+    skills: props.userData?.skills ?? [{ name: "" }],
+    requirementSkills: props.userData?.requirementSkills ?? [{ name: "" }],
+    selfPr: props.userData?.selfPr ?? "",
   };
   const profileSchema = Yup.object({
     profileImage: Yup.string().required("画像を選択してください。"),
@@ -77,7 +69,7 @@ const EditProfile = (): JSX.Element => {
     submittedValues: typeof initialValues
   ): Promise<void> => {
     if (!user) return;
-    const id = user.uid;
+    const id = props.userData?.id ?? user.uid;
     await UploadImage(`profiles/${id}`, submittedValues.profileImage).then(
       (res) => {
         submittedValues.profileImage = res;
@@ -125,11 +117,13 @@ const EditProfile = (): JSX.Element => {
                   <StyledImageInput fieldProps={{ name: "profileImage" }} />
                 </Box>
               ) : (
-                <Flex>
+                <Flex gap={2}>
                   <Box mb={"2rem"}>
                     <StyledImageInput fieldProps={{ name: "profileImage" }} />
                   </Box>
-                  <EnAgnoseButton />
+                  <Box mt={".5rem"}>
+                    <EnAgnoseButton />
+                  </Box>
                 </Flex>
               )}
               <FormLabel label={"ユーザーネーム"} />
@@ -261,4 +255,3 @@ const EditProfile = (): JSX.Element => {
     </Flex>
   );
 };
-export default EditProfile;

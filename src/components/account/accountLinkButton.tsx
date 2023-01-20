@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Link as ChakraLInk } from "@chakra-ui/layout";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
+import { useSetRecoilState } from "recoil";
+import { viewTypeState } from "../../stores/recoil";
 
 type Props = {
   link: string;
@@ -10,8 +12,16 @@ type Props = {
 };
 
 export const AccountLinkButton = (props: Props): JSX.Element => {
+  const setViewType = useSetRecoilState(viewTypeState);
   return (
-    <ChakraLInk as={Link} href={props.link} _hover={{ textDecoration: "none" }}>
+    <ChakraLInk
+      as={Link}
+      href={props.link}
+      onClick={() => {
+        setViewType(undefined);
+      }}
+      _hover={{ textDecoration: "none" }}
+    >
       <Flex
         gap={3}
         color={"blackAlpha.700"}
@@ -24,7 +34,7 @@ export const AccountLinkButton = (props: Props): JSX.Element => {
         <Box fontSize={"35px"}>
           <props.icon />
         </Box>
-        <Text fontSize={"20px"} fontWeight={"semibold"} pt={".2rem"}>
+        <Text fontSize={"20px"} pt={".2rem"}>
           {props.text}
         </Text>
       </Flex>

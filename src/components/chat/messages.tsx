@@ -31,8 +31,13 @@ import { initializeApp } from "@firebase/app";
 import { firebaseConfig } from "../../stores/firebase/firebase";
 import { getDatabase, onChildAdded, ref } from "@firebase/database";
 import { useColorAssets } from "hooks/view/useColorAssets";
+import { ProfileType } from "../../types/profileType";
 
-export const Messages = (): JSX.Element => {
+type Props = {
+  userData: ProfileType;
+};
+
+export const Messages = (props: Props): JSX.Element => {
   const router = useRouter();
   const sendUid = router.query;
   const { user } = useMyAccount();
@@ -46,12 +51,40 @@ export const Messages = (): JSX.Element => {
       uid: user?.uid ?? "",
       sendUid: typeof sendUid.userId === "string" ? sendUid.userId : "",
     }),
-    [user, sendUid, send]
+    [user, sendUid]
   );
-  const soloChat = useFetchFirestore(fetchSoloChatId, args);
-  const chatId = soloChat.data?.chatId;
+  const args2 = useMemo(
+    () => ({
+      uid: typeof sendUid.userId === "string" ? sendUid.userId : "",
+      sendUid: user?.uid ?? "",
+    }),
+    [user, sendUid]
+  );
+
+  // const soloChat_ = useFetchFirestore(fetchSoloChatId, args);
+  // const soloChat2_ = useFetchFirestore(fetchSoloChatId, args2);
+  //
+  // const chatId_ = soloChat.data?.chatId ?? soloChat2.data?.chatId;
+  const [soloChat, setSoloChat] = useState<SoloChatIdType | null>(null);
+  const [soloChat2, setSoloChat2] = useState<SoloChatIdType | null>(null);
+  const [chatId, setChatId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    fetchSoloChatId(args).then((res) => {
+      setSoloChat(res);
+    });
+    fetchSoloChatId(args2).then((res) => {
+      setSoloChat2(res);
+    });
+  }, [send, args, args2]);
+  useEffect(() => {
+    const chatId_ = soloChat?.chatId ?? soloChat2?.chatId;
+    setChatId(chatId_);
+  }, [soloChat, soloChat2]);
+
   const [messages, setMessages] = useState<MessageType[]>([]);
   useEffect(() => {
+    if (!chatId) return;
     try {
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(
@@ -112,10 +145,10 @@ export const Messages = (): JSX.Element => {
       typeof sendUid.userId === "string" ? sendUid.userId : undefined;
     if (!uid) return;
     if (!sendId) return;
-    const chatId = soloChat.data?.chatId ? soloChat.data?.chatId : uid + sendId;
+    const chatId_ = chatId ?? uid + sendId;
 
     const chatInfo: SoloChatIdType = {
-      chatId: chatId,
+      chatId: chatId_,
       uid: uid,
       sendUid: sendId,
     };
@@ -130,13 +163,13 @@ export const Messages = (): JSX.Element => {
       fullName: profile.data?.name ?? "",
     };
     try {
-      if (!soloChat.data?.chatId) {
+      if (!chatId) {
         setEditorState(EditorState.createEmpty());
         await writeSoloChatId(chatInfo);
         setSend((prev) => !prev);
       }
       setEditorState(EditorState.createEmpty());
-      await sendMessage(chatId, message);
+      await sendMessage(chatId ?? uid + sendId, message);
     } catch (e) {
       console.error(e);
     }
@@ -165,7 +198,7 @@ export const Messages = (): JSX.Element => {
         <Link href={"./"}>
           <AiOutlineLeft />
         </Link>
-        <Text fontWeight={"semibold"}>岡村 匡也</Text>
+        <Text fontWeight={"semibold"}>{props.userData.name}</Text>
       </HStack>
       <Flex
         direction={"column"}

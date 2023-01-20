@@ -16,7 +16,13 @@ export const Layout = ({ children }: Props): JSX.Element => {
   return (
     <Flex direction={"column"} w={"100%"}>
       <Header />
-      <Box py={"5rem"} px={"2rem"} bgColor={ColorAssets.white} h={"100vh"}>
+      <Box
+        pt={"5rem"}
+        pb={"7rem"}
+        px={"2rem"}
+        minH={"100vh"}
+        bgColor={ColorAssets.white}
+      >
         {children}
       </Box>
       {footerState === 0 && <PopUpMenuButton />}

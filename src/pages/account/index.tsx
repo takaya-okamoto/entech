@@ -1,4 +1,4 @@
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { selectedFooterState, timeLineModeState } from "../../stores/recoil";
 import { useEffect } from "react";
 import { Center, Flex } from "@chakra-ui/react";
@@ -7,10 +7,8 @@ import { AccountLinkButton } from "../../components/account/accountLinkButton";
 
 const Index = (): JSX.Element => {
   const accountLinks = useAccountLinks();
-  const [selectedFooter, setSelectedFooter] =
-    useRecoilState<number>(selectedFooterState);
-  const [timeLinemode, setTimeLineMode] =
-    useRecoilState<string>(timeLineModeState);
+  const setSelectedFooter = useSetRecoilState<number>(selectedFooterState);
+  const setTimeLineMode = useSetRecoilState<string>(timeLineModeState);
   useEffect(() => {
     setSelectedFooter(3);
     setTimeLineMode("en");

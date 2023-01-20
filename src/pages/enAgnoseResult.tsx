@@ -18,7 +18,6 @@ type Props = {
 };
 const EnAgnoseResult = (props: Props): JSX.Element => {
   const ColorAssets = useColorAssets();
-  console.log(2);
   return (
     <VStack pt={"120px"} pb={"28px"} spacing={"80px"}>
       <Box

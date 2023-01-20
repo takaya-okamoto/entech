@@ -36,10 +36,8 @@ const EnAgnosePage = (): JSX.Element => {
   const { user } = useMyAccount();
   const toast = useToast();
   const handleSubmit = async (): Promise<void> => {
-    console.log("handleSubmit");
     if (!user) return;
     const id = user.uid;
-    console.log(leadership);
     const info: EnAgnoseType = {
       id,
       leadership: leadership,
@@ -48,7 +46,6 @@ const EnAgnosePage = (): JSX.Element => {
       independence: independence,
       openness: openness,
     };
-    console.log({ info });
     try {
       await WriteAgnose(info);
       toast({
@@ -67,8 +64,6 @@ const EnAgnosePage = (): JSX.Element => {
       });
     }
   };
-
-  console.log({ answer });
 
   return (
     <Box
@@ -125,9 +120,6 @@ const EnAgnosePage = (): JSX.Element => {
                       const answer_ = answer.filter((a) => {
                         return answer.length - 1 !== a.num;
                       });
-                      console.log({ answer_ });
-                      // answer.pop();
-                      // const answer_ = answer;
                       setAnswer(answer_ ?? { num: 0, val: "3" });
                     }
 
@@ -155,7 +147,6 @@ const EnAgnosePage = (): JSX.Element => {
                 transition={".3s"}
                 onClick={async (): Promise<void> => {
                   setSlideNum((prev) => prev + 1);
-                  console.log({ slideNum });
                   if (slideNum !== 0 && slideNum < 11) {
                     const answer_: { num: number; val: string }[] = answer;
                     answer_.push({

@@ -1,4 +1,4 @@
-import { Box, Flex, Img, Text, useToast } from "@chakra-ui/react";
+import { Box, Flex, Img, Text, useToast, Switch } from "@chakra-ui/react";
 import { useState } from "react";
 import { PopUpMenuButtonBase } from "./popUpMenuButtonBase";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -10,6 +10,8 @@ import { useRouter } from "next/router";
 import { useMyAccount } from "../../../hooks/logic/useMyAccount";
 import { useFetchFirestore } from "../../../hooks/logic/useFetchFirestore";
 import { fetchProfile } from "../../../lib/clientSide/firestore/fetchProfile";
+import { OverlayParts } from "../overlayParts";
+import { EnModeChangeButton } from "./enModeChangeButton";
 
 type Props = {};
 
@@ -26,6 +28,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
   ]);
   const [isHover, setIsHover] = useState(false);
   const [timeLineMode, setTimeLineMode] = useRecoilState(timeLineModeState);
+  const [overlay, setOverlay] = useState<boolean>(false);
   //NからE
   const changeE = () => {
     setTimeLineMode("e");
@@ -50,6 +53,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
       { left: 4, top: -20 },
     ]);
     setIsHover(true);
+    setOverlay(true);
   };
 
   const leaveAddIcon = () => {
@@ -59,75 +63,83 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
       { left: 0, top: 0 },
     ]);
     setIsHover(false);
+    setOverlay(false);
   };
 
   const ColorAssets = useColorAssets();
 
   return (
-    <Flex position="fixed" bottom="10%" right="5%">
-      <Box width="140px" height="140px" bg={"none"} onMouseLeave={leaveAddIcon}>
+    <>
+      <OverlayParts overlay={overlay} />
+      <Flex position="fixed" bottom="10%" right="5%" zIndex={"2000"}>
         <Box
-          onClick={() => (!isHover ? hoverAddIcon() : leaveAddIcon())}
-          top="80px"
-          left="80px"
-          position="absolute"
+          width="140px"
+          height="140px"
+          bg={"none"}
+          onMouseLeave={leaveAddIcon}
+          zIndex={"2000"}
         >
-          <PopUpMenuButtonBase
+          <Box
+            onClick={() => (!isHover ? hoverAddIcon() : leaveAddIcon())}
+            top="80px"
+            left="80px"
             position="absolute"
-            zIndex={1000}
-            rotate={isHover ? "rotateZ(45deg)" : ""}
           >
-            <AiOutlinePlus color={ColorAssets.white} size="1.5rem" />
-          </PopUpMenuButtonBase>
+            <PopUpMenuButtonBase
+              position="absolute"
+              zIndex={1000}
+              rotate={isHover ? "rotateZ(45deg)" : ""}
+            >
+              <AiOutlinePlus color={ColorAssets.white} size="1.5rem" />
+            </PopUpMenuButtonBase>
+          </Box>
+          <Box position="absolute" top="80px" left="80px">
+            <PopUpMenuButtonBase
+              position="absolute"
+              left={positionList[0].left}
+              top={positionList[0].top}
+              onClick={async () => {
+                const id = (
+                  "0000000" + Math.floor(Math.random() * 10000000)
+                ).slice(-7);
+                if (!isWriteProfile)
+                  return toast({
+                    title: `プロフィールを登録してから投稿作成できるよ。`,
+                    status: "info",
+                    position: "top",
+                    isClosable: true,
+                  });
+                void (await router.push(`/post/create/${id}`));
+              }}
+            >
+              <RiFileEditLine color={ColorAssets.white} size="2rem" />
+            </PopUpMenuButtonBase>
+          </Box>
+          <Box position="absolute" top="80px" left="80px">
+            <PopUpMenuButtonBase
+              position="absolute"
+              left={positionList[1].left}
+              top={positionList[1].top}
+              // onClick={}
+            >
+              <RiUserSearchLine color={ColorAssets.white} size="2rem" />
+            </PopUpMenuButtonBase>
+          </Box>
+          <Box position="absolute" top="80px" left="80px">
+            <PopUpMenuButtonBase
+              position="absolute"
+              left={positionList[2].left}
+              top={positionList[2].top}
+              onClick={() => {
+                modeChange();
+                leaveAddIcon();
+              }}
+            >
+              <EnModeChangeButton timelineMode={timeLineMode} />
+            </PopUpMenuButtonBase>
+          </Box>
         </Box>
-        <Box position="absolute" top="80px" left="80px">
-          <PopUpMenuButtonBase
-            position="absolute"
-            left={positionList[0].left}
-            top={positionList[0].top}
-            onClick={async () => {
-              const id = (
-                "0000000" + Math.floor(Math.random() * 10000000)
-              ).slice(-7);
-              if (!isWriteProfile)
-                return toast({
-                  title: `プロフィールを登録してから投稿作成できるよ。`,
-                  status: "info",
-                  position: "top",
-                  isClosable: true,
-                });
-              void (await router.push(`/post/create/${id}`));
-            }}
-          >
-            <RiFileEditLine color={ColorAssets.white} size="2rem" />
-          </PopUpMenuButtonBase>
-        </Box>
-        <Box position="absolute" top="80px" left="80px">
-          <PopUpMenuButtonBase
-            position="absolute"
-            left={positionList[1].left}
-            top={positionList[1].top}
-            // onClick={}
-          >
-            <RiUserSearchLine color={ColorAssets.white} size="2rem" />
-          </PopUpMenuButtonBase>
-        </Box>
-        <Box position="absolute" top="80px" left="80px">
-          <PopUpMenuButtonBase
-            position="absolute"
-            left={positionList[2].left}
-            top={positionList[2].top}
-            onClick={() => {
-              modeChange();
-              leaveAddIcon();
-            }}
-          >
-            <Text fontSize={"24px"} color={ColorAssets.yellow}>
-              E⇆N
-            </Text>
-          </PopUpMenuButtonBase>
-        </Box>
-      </Box>
-    </Flex>
+      </Flex>
+    </>
   );
 };

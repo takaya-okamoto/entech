@@ -72,18 +72,12 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
     <>
       <OverlayParts overlay={overlay} />
       <Flex position="fixed" bottom="10%" right="5%" zIndex={"2000"}>
-        <Box
-          width="140px"
-          height="140px"
-          bg={"none"}
-          onMouseLeave={leaveAddIcon}
-          zIndex={"2000"}
-        >
+        <Box width="70px" height="70px" bg={"none"} onMouseLeave={leaveAddIcon}>
           <Box
             onClick={() => (!isHover ? hoverAddIcon() : leaveAddIcon())}
-            top="80px"
-            left="80px"
-            position="absolute"
+            top="0px"
+            left="0px"
+            position="relative"
           >
             <PopUpMenuButtonBase
               position="absolute"
@@ -93,7 +87,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
               <AiOutlinePlus color={ColorAssets.white} size="1.5rem" />
             </PopUpMenuButtonBase>
           </Box>
-          <Box position="absolute" top="80px" left="80px">
+          <Box position="absolute" top="0px" left="0px">
             <PopUpMenuButtonBase
               position="absolute"
               left={positionList[0].left}
@@ -115,7 +109,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
               <RiFileEditLine color={ColorAssets.white} size="2rem" />
             </PopUpMenuButtonBase>
           </Box>
-          <Box position="absolute" top="80px" left="80px">
+          <Box position="absolute" top="0px" left="0px">
             <PopUpMenuButtonBase
               position="absolute"
               left={positionList[1].left}
@@ -125,7 +119,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
               <RiUserSearchLine color={ColorAssets.white} size="2rem" />
             </PopUpMenuButtonBase>
           </Box>
-          <Box position="absolute" top="80px" left="80px">
+          <Box position="absolute" top="0px" left="0px">
             <PopUpMenuButtonBase
               position="absolute"
               left={positionList[2].left}

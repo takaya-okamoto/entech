@@ -1,7 +1,7 @@
 import { ProfileType } from "../../../types/profileType";
 import { Flex, useDisclosure, useToast, VStack, Box } from "@chakra-ui/react";
 import { useSetRecoilState } from "recoil";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import * as Yup from "yup";
 import { UploadImage } from "../../../lib/clientSide/storage/uploadImage";
 import { WriteProfile } from "../../../lib/clientSide/firestore/writeProfile";
@@ -25,6 +25,8 @@ import { StyledSubmitButton } from "../../form/button/styledSubmitButton";
 
 type Props = {
   userData: ProfileType | undefined | null;
+  setUpdateProfile: Dispatch<SetStateAction<boolean>>;
+  onClose: VoidFunction;
 };
 
 export const EditProfileModal = (props: Props): JSX.Element => {
@@ -81,6 +83,8 @@ export const EditProfileModal = (props: Props): JSX.Element => {
     };
     try {
       await WriteProfile(info);
+      props.setUpdateProfile((prev) => !prev);
+      props.onClose();
       toast({
         title: "プロフィールを保存しました。",
         status: "success",

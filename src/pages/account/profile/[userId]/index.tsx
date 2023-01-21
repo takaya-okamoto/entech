@@ -36,6 +36,7 @@ import { writeFollows } from "../../../../lib/clientSide/firestore/writeFollows"
 import { FollowType } from "../../../../types/followType";
 import { ProfileModals } from "../../../../components/common/modal/profileModals";
 import { ToolOutlined } from "@ant-design/icons/lib/icons";
+import { ProfileType } from "../../../../types/profileType";
 
 const Index = (): JSX.Element => {
   const router = useRouter();
@@ -51,12 +52,15 @@ const Index = (): JSX.Element => {
   const setTimeLineMode = useSetRecoilState<string>(timeLineModeState);
   const lastViewId = useRecoilValue(lastViewIdState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
+  const [updateProfile, setUpdateProfile] = useState(false);
 
   const userId = useMemo(() => {
     return typeof router.query.userId === "string" ? router.query.userId : null;
   }, [router]);
   const { user } = useMyAccount();
-  const userData = useFetchFirestore(fetchProfile, userId).data;
+  const [userData, setUserData] = useState<ProfileType | null | undefined>(
+    null
+  );
   const readerData = useFetchFirestore(fetchProfile, user?.uid).data;
   const postData = useFetchFirestore(fetchAllMyPost, userId).data;
   const [userFollowsData, setUserFollowsData] = useState<
@@ -87,6 +91,11 @@ const Index = (): JSX.Element => {
       setUserFollowsData(res);
     });
   }, [click, userId, user]);
+  useEffect(() => {
+    fetchProfile(userId ?? "").then((res) => {
+      setUserData(res);
+    });
+  }, [userId, updateProfile]);
 
   return (
     <>
@@ -341,6 +350,7 @@ const Index = (): JSX.Element => {
             modalType={modalType}
             userData={userData}
             onClose={onClose}
+            setUpdateProfile={setUpdateProfile}
           />
         </GeneralModal>
       </Flex>

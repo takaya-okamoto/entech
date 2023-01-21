@@ -35,6 +35,7 @@ import { fetchFollows } from "../../../../lib/clientSide/firestore/fetchFollows"
 import { writeFollows } from "../../../../lib/clientSide/firestore/writeFollows";
 import { FollowType } from "../../../../types/followType";
 import { ProfileModals } from "../../../../components/common/modal/profileModals";
+import { ToolOutlined } from "@ant-design/icons/lib/icons";
 
 const Index = (): JSX.Element => {
   const router = useRouter();
@@ -65,7 +66,7 @@ const Index = (): JSX.Element => {
     undefined
   );
   const [click, setClick] = useState<boolean>(false);
-
+  const ColorAssets = useColorAssets();
   const isWriteProfile = !!readerData;
   const isFollow = useMemo(() => {
     if (!user) return false;
@@ -88,234 +89,262 @@ const Index = (): JSX.Element => {
   }, [click, userId, user]);
 
   return (
-    <Flex direction={"column"}>
-      {viewType !== undefined && (
-        <BackButton
-          onClick={() => {
-            if (viewType === "post") {
-              setViewType(undefined);
-              void router.push(`/post/${lastViewId}`);
-            } else {
-              setViewType(undefined);
-              void router.push(`/account/profile/${lastViewId}`);
-            }
-          }}
-          needText={true}
-          flexProps={{ mb: "1rem" }}
-        />
-      )}
-
-      <Flex gap={10} mb={"1.5rem"}>
-        <Box>
-          <Avatar size={"xl"} src={userData?.profileImage ?? ""} />
+    <>
+      <Box
+        pos={"fixed"}
+        top={"20"}
+        right={"4"}
+        _hover={{ opacity: 0.8 }}
+        boxShadow={"lg"}
+        onClick={() => {
+          router.push("/account");
+        }}
+      >
+        <Box
+          bgColor={"#464646"}
+          w={"52px"}
+          h={"52px"}
+          rounded={"10"}
+          display={"flex"}
+        >
+          <Box display={"flex"} alignItems={"center"} pl={"10px"}>
+            <ToolOutlined
+              style={{ color: ColorAssets.yellow, fontSize: "30px" }}
+            />
+          </Box>
         </Box>
-        <Flex direction={"column"} gap={2} mt={".3rem"}>
-          <Text
-            color={colorAssets.textColor}
-            fontWeight={"bold"}
-            fontSize={"20px"}
-          >
-            {userData?.name ?? ""}
-          </Text>
-          <Flex gap={6}>
-            <UserStatus
-              num={postData?.length ?? 0}
-              text={"Posts"}
-              onClick={() => {
-                setModalType("posts");
-                setTitle("投稿");
-                void onOpen();
-              }}
-            />
-            <UserStatus
-              num={followsData?.followers.length ?? 0}
-              text={"Followers"}
-              onClick={() => {
-                setModalType("followers");
-                setTitle("Followers");
-                void onOpen();
-              }}
-            />
-            <UserStatus
-              num={followsData?.following.length ?? 0}
-              text={"Following"}
-              onClick={() => {
-                setModalType("following");
-                setTitle("Following");
-                void onOpen();
-              }}
-            />
-          </Flex>
-        </Flex>
-      </Flex>
-
-      <Flex gap={2} mb={".5rem"}>
-        <AccountMainText text={userData?.school.name ?? ""} />
-        <AccountMainText text={userData?.school.faculty ?? ""} />
-        <AccountMainText text={userData?.school.grade ?? ""} />
-      </Flex>
-
-      {/*Follow, Message , EditProfileModal*/}
-      <Flex mb={"2rem"} gap={5}>
-        {user?.uid !== userId && (
-          <>
-            <AccountGeneralButton
-              w={"50%"}
-              text={isFollow ? "following" : "follow"}
-              followButton={true}
-              onClick={async () => {
-                if (!user) return;
-                if (!isWriteProfile)
-                  return toast({
-                    title: `プロフィールを登録してからフォローできるよ。`,
-                    status: "info",
-                    position: "top",
-                    isClosable: true,
-                  });
-                if (isFollow) {
-                  if (!userId) return;
-                  const followers_ = followsData?.followers.filter((f) => {
-                    return f.uid !== user?.uid;
-                  });
-                  const info_ = {
-                    uid: followsData?.uid ?? userId,
-                    following: followsData?.following ?? [{ uid: "" }],
-                    followers: followers_ ?? [{ uid: "" }],
-                  };
-                  const info = {
-                    data: info_,
-                  };
-                  await writeFollows(info);
-                  setClick((prev) => !prev);
-
-                  const following_ = userFollowsData?.following.filter((f) => {
-                    return f.uid !== userId;
-                  });
-                  const userInfo_ = {
-                    uid: user.uid,
-                    following: following_ ?? [],
-                    followers: userFollowsData?.followers ?? [{ uid: "" }],
-                  };
-                  const userInfo = {
-                    data: userInfo_,
-                  };
-                  await writeFollows(userInfo);
-                } else {
-                  if (!userId) return;
-                  followsData?.followers.push({
-                    uid: user.uid,
-                  });
-                  const info_ = {
-                    uid: followsData?.uid ?? userId,
-                    following: followsData?.following ?? [],
-                    followers: followsData?.followers ?? [{ uid: user.uid }],
-                  };
-                  const info = {
-                    data: info_,
-                  };
-                  await writeFollows(info);
-                  setClick((prev) => !prev);
-
-                  userFollowsData?.following.push({
-                    uid: userId,
-                  });
-                  const userInfo_ = {
-                    uid: user.uid,
-                    following: userFollowsData?.following ?? [
-                      {
-                        uid: userId,
-                      },
-                    ],
-                    followers: userFollowsData?.followers ?? [],
-                  };
-                  const userInfo = {
-                    data: userInfo_,
-                  };
-                  await writeFollows(userInfo);
-                }
-              }}
-            />
-            <AccountGeneralButton
-              w={"50%"}
-              text={"message"}
-              followButton={false}
-              onClick={() => {
-                if (!isWriteProfile)
-                  return toast({
-                    title: `プロフィールを登録してからメッセージできるよ。`,
-                    status: "info",
-                    position: "top",
-                    isClosable: true,
-                  });
-                void router.push(`/chat/${userId}`);
-              }}
-            />
-          </>
-        )}
-        {user?.uid === userId && (
-          <AccountGeneralButton
-            w={"100%"}
-            text={"edit profile"}
-            followButton={false}
+      </Box>
+      <Flex direction={"column"} pt={"32px"}>
+        {viewType !== undefined && (
+          <BackButton
             onClick={() => {
-              setModalType("editProfile");
-              setTitle("プロフィール編集");
-              void onOpen();
+              if (viewType === "post") {
+                setViewType(undefined);
+                void router.push(`/post/${lastViewId}`);
+              } else {
+                setViewType(undefined);
+                void router.push(`/account/profile/${lastViewId}`);
+              }
             }}
+            needText={true}
+            flexProps={{ mb: "1rem" }}
           />
         )}
+
+        <Flex gap={10} mb={"1.5rem"}>
+          <Box>
+            <Avatar size={"xl"} src={userData?.profileImage ?? ""} />
+          </Box>
+          <Flex direction={"column"} gap={2} mt={".3rem"}>
+            <Text
+              color={colorAssets.textColor}
+              fontWeight={"bold"}
+              fontSize={"20px"}
+            >
+              {userData?.name ?? ""}
+            </Text>
+            <Flex gap={6}>
+              <UserStatus
+                num={postData?.length ?? 0}
+                text={"Posts"}
+                onClick={() => {
+                  setModalType("posts");
+                  setTitle("投稿");
+                  void onOpen();
+                }}
+              />
+              <UserStatus
+                num={followsData?.followers.length ?? 0}
+                text={"Followers"}
+                onClick={() => {
+                  setModalType("followers");
+                  setTitle("Followers");
+                  void onOpen();
+                }}
+              />
+              <UserStatus
+                num={followsData?.following.length ?? 0}
+                text={"Following"}
+                onClick={() => {
+                  setModalType("following");
+                  setTitle("Following");
+                  void onOpen();
+                }}
+              />
+            </Flex>
+          </Flex>
+        </Flex>
+
+        <Flex gap={2} mb={".5rem"}>
+          <AccountMainText text={userData?.school.name ?? ""} />
+          <AccountMainText text={userData?.school.faculty ?? ""} />
+          <AccountMainText text={userData?.school.grade ?? ""} />
+        </Flex>
+
+        {/*Follow, Message , EditProfileModal*/}
+        <Flex mb={"2rem"} gap={5}>
+          {user?.uid !== userId && (
+            <>
+              <AccountGeneralButton
+                w={"50%"}
+                text={isFollow ? "following" : "follow"}
+                followButton={true}
+                onClick={async () => {
+                  if (!user) return;
+                  if (!isWriteProfile)
+                    return toast({
+                      title: `プロフィールを登録してからフォローできるよ。`,
+                      status: "info",
+                      position: "top",
+                      isClosable: true,
+                    });
+                  if (isFollow) {
+                    if (!userId) return;
+                    const followers_ = followsData?.followers.filter((f) => {
+                      return f.uid !== user?.uid;
+                    });
+                    const info_ = {
+                      uid: followsData?.uid ?? userId,
+                      following: followsData?.following ?? [{ uid: "" }],
+                      followers: followers_ ?? [{ uid: "" }],
+                    };
+                    const info = {
+                      data: info_,
+                    };
+                    await writeFollows(info);
+                    setClick((prev) => !prev);
+
+                    const following_ = userFollowsData?.following.filter(
+                      (f) => {
+                        return f.uid !== userId;
+                      }
+                    );
+                    const userInfo_ = {
+                      uid: user.uid,
+                      following: following_ ?? [],
+                      followers: userFollowsData?.followers ?? [{ uid: "" }],
+                    };
+                    const userInfo = {
+                      data: userInfo_,
+                    };
+                    await writeFollows(userInfo);
+                  } else {
+                    if (!userId) return;
+                    followsData?.followers.push({
+                      uid: user.uid,
+                    });
+                    const info_ = {
+                      uid: followsData?.uid ?? userId,
+                      following: followsData?.following ?? [],
+                      followers: followsData?.followers ?? [{ uid: user.uid }],
+                    };
+                    const info = {
+                      data: info_,
+                    };
+                    await writeFollows(info);
+                    setClick((prev) => !prev);
+
+                    userFollowsData?.following.push({
+                      uid: userId,
+                    });
+                    const userInfo_ = {
+                      uid: user.uid,
+                      following: userFollowsData?.following ?? [
+                        {
+                          uid: userId,
+                        },
+                      ],
+                      followers: userFollowsData?.followers ?? [],
+                    };
+                    const userInfo = {
+                      data: userInfo_,
+                    };
+                    await writeFollows(userInfo);
+                  }
+                }}
+              />
+              <AccountGeneralButton
+                w={"50%"}
+                text={"message"}
+                followButton={false}
+                onClick={() => {
+                  if (!isWriteProfile)
+                    return toast({
+                      title: `プロフィールを登録してからメッセージできるよ。`,
+                      status: "info",
+                      position: "top",
+                      isClosable: true,
+                    });
+                  void router.push(`/chat/${userId}`);
+                }}
+              />
+            </>
+          )}
+          {user?.uid === userId && (
+            <AccountGeneralButton
+              w={"100%"}
+              text={"edit profile"}
+              followButton={false}
+              onClick={() => {
+                setModalType("editProfile");
+                setTitle("プロフィール編集");
+                void onOpen();
+              }}
+            />
+          )}
+        </Flex>
+
+        <StyledFlex
+          borderColor={colorAssets.entechMainBlue}
+          flexProps={{ gap: 5 }}
+        >
+          {/*自己紹介*/}
+          <Flex direction={"column"}>
+            <AccountSubTitle text={"自己紹介"} />
+            <AccountMainText text={userData?.selfPr ?? ""} />
+          </Flex>
+
+          {/*スキル*/}
+          <Flex direction={"column"}>
+            <AccountSubTitle text={"スキル"} />
+            <List>
+              {userData?.skills.map((s, si) => (
+                <ListItem key={si}>
+                  <Flex>
+                    <ListIcon as={RxDotFilled} color={colorAssets.textColor} />
+                    <AccountMainText text={s.name} />
+                  </Flex>
+                </ListItem>
+              ))}
+            </List>
+          </Flex>
+
+          {/*求めているスキル*/}
+          <Flex direction={"column"}>
+            <AccountSubTitle text={"求めているスキル"} />
+            <List>
+              {userData?.requirementSkills.map((s, si) => (
+                <ListItem key={si}>
+                  <Flex>
+                    <ListIcon as={RxDotFilled} color={colorAssets.textColor} />
+                    <AccountMainText text={s.name} />
+                  </Flex>
+                </ListItem>
+              ))}
+            </List>
+          </Flex>
+        </StyledFlex>
+
+        {/*/////// Modal Area ///////*/}
+        <GeneralModal title={title} isOpen={isOpen} onClose={onClose}>
+          <ProfileModals
+            modalType={modalType}
+            userData={userData}
+            onClose={onClose}
+          />
+        </GeneralModal>
       </Flex>
-
-      <StyledFlex
-        borderColor={colorAssets.entechMainBlue}
-        flexProps={{ gap: 5 }}
-      >
-        {/*自己紹介*/}
-        <Flex direction={"column"}>
-          <AccountSubTitle text={"自己紹介"} />
-          <AccountMainText text={userData?.selfPr ?? ""} />
-        </Flex>
-
-        {/*スキル*/}
-        <Flex direction={"column"}>
-          <AccountSubTitle text={"スキル"} />
-          <List>
-            {userData?.skills.map((s, si) => (
-              <ListItem key={si}>
-                <Flex>
-                  <ListIcon as={RxDotFilled} color={colorAssets.textColor} />
-                  <AccountMainText text={s.name} />
-                </Flex>
-              </ListItem>
-            ))}
-          </List>
-        </Flex>
-
-        {/*求めているスキル*/}
-        <Flex direction={"column"}>
-          <AccountSubTitle text={"求めているスキル"} />
-          <List>
-            {userData?.requirementSkills.map((s, si) => (
-              <ListItem key={si}>
-                <Flex>
-                  <ListIcon as={RxDotFilled} color={colorAssets.textColor} />
-                  <AccountMainText text={s.name} />
-                </Flex>
-              </ListItem>
-            ))}
-          </List>
-        </Flex>
-      </StyledFlex>
-
-      {/*/////// Modal Area ///////*/}
-      <GeneralModal title={title} isOpen={isOpen} onClose={onClose}>
-        <ProfileModals
-          modalType={modalType}
-          userData={userData}
-          onClose={onClose}
-        />
-      </GeneralModal>
-    </Flex>
+    </>
   );
 };
 export default Index;

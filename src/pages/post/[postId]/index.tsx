@@ -13,6 +13,7 @@ import {
 } from "../../../stores/recoil";
 import { fetchProfile } from "../../../lib/clientSide/firestore/fetchProfile";
 import { useMyAccount } from "../../../hooks/logic/useMyAccount";
+import { BackButton } from "../../../components/common/button/backButton";
 
 const Index = (): JSX.Element => {
   const setTimeLineMode = useSetRecoilState<string>(timeLineModeState);
@@ -37,6 +38,15 @@ const Index = (): JSX.Element => {
 
   return (
     <Flex direction={"column"}>
+      <BackButton
+        onClick={() => {
+          void router.push("/");
+        }}
+        needText={true}
+        flexProps={{ mb: "1rem" }}
+        isWhite={true}
+      />
+
       {post?.postImage && (
         <Center>
           <Image

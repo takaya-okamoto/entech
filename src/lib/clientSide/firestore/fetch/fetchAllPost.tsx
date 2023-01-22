@@ -1,5 +1,5 @@
 import { collection, getDocs, getFirestore } from "@firebase/firestore";
-import { PostType } from "../../../types/postType";
+import { PostType } from "../../../../types/postType";
 
 export const fetchAllPost = async () => {
   const firestore = getFirestore();

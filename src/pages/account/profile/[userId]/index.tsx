@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useFetchFirestore } from "../../../../hooks/logic/useFetchFirestore";
-import { fetchProfile } from "../../../../lib/clientSide/firestore/fetchProfile";
+import { fetchProfile } from "../../../../lib/clientSide/firestore/fetch/fetchProfile";
 import {
   Avatar,
   Box,
@@ -12,7 +12,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { fetchAllMyPost } from "../../../../lib/clientSide/firestore/fetchAllMyPost";
+import { fetchAllMyPost } from "../../../../lib/clientSide/firestore/fetch/fetchAllMyPost";
 import { useEffect, useMemo, useState } from "react";
 import { UserStatus } from "../../../../components/account/userStatus";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -31,8 +31,8 @@ import { useMyAccount } from "../../../../hooks/logic/useMyAccount";
 import { AccountGeneralButton } from "../../../../components/account/accountGeneralButton";
 import { GeneralModal } from "../../../../components/common/modal/generalModal";
 import { BackButton } from "../../../../components/common/button/backButton";
-import { fetchFollows } from "../../../../lib/clientSide/firestore/fetchFollows";
-import { writeFollows } from "../../../../lib/clientSide/firestore/writeFollows";
+import { fetchFollows } from "../../../../lib/clientSide/firestore/fetch/fetchFollows";
+import { writeFollows } from "../../../../lib/clientSide/firestore/write/writeFollows";
 import { FollowType } from "../../../../types/followType";
 import { ProfileModals } from "../../../../components/common/modal/profileModals";
 import { ToolOutlined } from "@ant-design/icons/lib/icons";

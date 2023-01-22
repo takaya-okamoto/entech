@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useFetchFirestore } from "../../../hooks/logic/useFetchFirestore";
-import { fetchAllMyPost } from "../../../lib/clientSide/firestore/fetchAllMyPost";
+import { fetchAllMyPost } from "../../../lib/clientSide/firestore/fetch/fetchAllMyPost";
 import { Flex } from "@chakra-ui/react";
 import { PostCard } from "../../timeLine/postCard";
 import { useMyAccount } from "../../../hooks/logic/useMyAccount";

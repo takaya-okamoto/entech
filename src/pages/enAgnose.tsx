@@ -16,10 +16,10 @@ import { useRouter } from "next/router";
 import { EnAgnoseCalculation } from "../components/enAgnose/enAgnoseCalculation";
 import { UploadImage } from "../lib/clientSide/storage/uploadImage";
 import { PostType } from "../types/postType";
-import { WritePost } from "../lib/clientSide/firestore/writePost";
+import { WritePost } from "../lib/clientSide/firestore/write/writePost";
 import { useMyAccount } from "../hooks/logic/useMyAccount";
 import { EnAgnoseType } from "../types/enAgnoseType";
-import { WriteAgnose } from "../lib/clientSide/firestore/writeAgnose";
+import { WriteAgnose } from "../lib/clientSide/firestore/write/writeAgnose";
 
 const EnAgnosePage = (): JSX.Element => {
   const [slideNum, setSlideNum] = useState<number>(0);

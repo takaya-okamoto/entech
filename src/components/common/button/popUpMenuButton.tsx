@@ -9,7 +9,7 @@ import { timeLineModeState } from "stores/recoil";
 import { useRouter } from "next/router";
 import { useMyAccount } from "../../../hooks/logic/useMyAccount";
 import { useFetchFirestore } from "../../../hooks/logic/useFetchFirestore";
-import { fetchProfile } from "../../../lib/clientSide/firestore/fetchProfile";
+import { fetchProfile } from "../../../lib/clientSide/firestore/fetch/fetchProfile";
 import { OverlayParts } from "../overlayParts";
 import { EnModeChangeButton } from "./enModeChangeButton";
 

@@ -1,4 +1,4 @@
-import { EnAgnoseType } from "../../../types/enAgnoseType";
+import { EnAgnoseType } from "../../../../types/enAgnoseType";
 import { doc, getFirestore } from "@firebase/firestore";
 import { WriteDoc } from "./writeDoc";
 

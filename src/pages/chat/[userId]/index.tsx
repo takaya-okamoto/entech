@@ -1,7 +1,7 @@
 import { Messages } from "../../../components/chat/messages";
 import { useRouter } from "next/router";
 import { useFetchFirestore } from "../../../hooks/logic/useFetchFirestore";
-import { fetchProfile } from "../../../lib/clientSide/firestore/fetchProfile";
+import { fetchProfile } from "../../../lib/clientSide/firestore/fetch/fetchProfile";
 import { Text } from "@chakra-ui/react";
 import { useSetRecoilState } from "recoil";
 import { selectedFooterState, timeLineModeState } from "../../../stores/recoil";

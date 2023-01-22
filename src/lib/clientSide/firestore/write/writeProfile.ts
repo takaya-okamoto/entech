@@ -1,4 +1,4 @@
-import { ProfileType } from "../../../types/profileType";
+import { ProfileType } from "../../../../types/profileType";
 import { doc, getFirestore } from "@firebase/firestore";
 import { WriteDoc } from "./writeDoc";
 

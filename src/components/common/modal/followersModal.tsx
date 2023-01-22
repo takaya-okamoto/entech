@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useFetchFirestore } from "../../../hooks/logic/useFetchFirestore";
-import { fetchFollows } from "../../../lib/clientSide/firestore/fetchFollows";
+import { fetchFollows } from "../../../lib/clientSide/firestore/fetch/fetchFollows";
 import { Flex } from "@chakra-ui/react";
 import { DisplayUser } from "../../profile/displayUser";
 

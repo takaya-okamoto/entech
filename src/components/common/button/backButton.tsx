@@ -5,6 +5,7 @@ import { useColorAssets } from "../../../hooks/view/useColorAssets";
 type Props = {
   onClick: VoidFunction;
   needText: boolean;
+  isWhite?: boolean;
   flexProps?: FlexProps;
 };
 
@@ -13,7 +14,7 @@ export const BackButton = (props: Props): JSX.Element => {
   return (
     <Flex
       position={"relative"}
-      color={colorAssets.textColor}
+      color={props.isWhite ? "white" : colorAssets.textColor}
       onClick={props.onClick}
       {...props.flexProps}
     >

@@ -1,4 +1,4 @@
-import { FollowType } from "../../../types/followType";
+import { FollowType } from "../../../../types/followType";
 import { doc, getDoc, getFirestore } from "@firebase/firestore";
 
 export const fetchFollows = async (

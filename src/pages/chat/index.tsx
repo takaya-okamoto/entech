@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { selectedFooterState, timeLineModeState } from "../../stores/recoil";
 import { useEffect, useMemo } from "react";
 import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
-import { fetchChatUsers } from "../../lib/clientSide/firestore/fetchChatUsers";
+import { fetchChatUsers } from "../../lib/clientSide/firestore/fetch/fetchChatUsers";
 import { useMyAccount } from "../../hooks/logic/useMyAccount";
 
 const Chat = (): JSX.Element => {

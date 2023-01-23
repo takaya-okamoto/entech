@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useFetchFirestore } from "../../../../hooks/logic/useFetchFirestore";
-import { fetchProfile } from "../../../../lib/clientSide/firestore/fetchProfile";
+import { fetchProfile } from "../../../../lib/clientSide/firestore/fetch/fetchProfile";
 import {
   Avatar,
   Box,
@@ -15,7 +15,7 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import { fetchAllMyPost } from "../../../../lib/clientSide/firestore/fetchAllMyPost";
+import { fetchAllMyPost } from "../../../../lib/clientSide/firestore/fetch/fetchAllMyPost";
 import { useEffect, useMemo, useState } from "react";
 import { UserStatus } from "../../../../components/account/userStatus";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -34,8 +34,8 @@ import { useMyAccount } from "../../../../hooks/logic/useMyAccount";
 import { AccountGeneralButton } from "../../../../components/account/accountGeneralButton";
 import { GeneralModal } from "../../../../components/common/modal/generalModal";
 import { BackButton } from "../../../../components/common/button/backButton";
-import { fetchFollows } from "../../../../lib/clientSide/firestore/fetchFollows";
-import { writeFollows } from "../../../../lib/clientSide/firestore/writeFollows";
+import { fetchFollows } from "../../../../lib/clientSide/firestore/fetch/fetchFollows";
+import { writeFollows } from "../../../../lib/clientSide/firestore/write/writeFollows";
 import { FollowType } from "../../../../types/followType";
 import { ProfileModals } from "../../../../components/common/modal/profileModals";
 import { ToolOutlined } from "@ant-design/icons/lib/icons";
@@ -44,6 +44,7 @@ import { ProfileMainText } from "../../../../components/profile/profileMainText"
 import { DisplaySeeMore } from "../../../../components/displaySeeMore";
 import { boolean } from "yup";
 import { MyPrDisplay } from "../../../../components/profile/myPrDisplay";
+import { ProfileType } from "../../../../types/profileType";
 
 const Index = (): JSX.Element => {
   const router = useRouter();
@@ -60,6 +61,7 @@ const Index = (): JSX.Element => {
   // const useType = useRecoilValue(use);
   const lastViewId = useRecoilValue(lastViewIdState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
+  const [updateProfile, setUpdateProfile] = useState(false);
 
   const userId = useMemo(() => {
     return typeof router.query.userId === "string" ? router.query.userId : null;
@@ -68,6 +70,9 @@ const Index = (): JSX.Element => {
   const { data } = useFetchFirestore(fetchProfile, user?.uid);
   const userType = data?.userType ?? "e";
   const userData = useFetchFirestore(fetchProfile, userId).data;
+  const [_userData, setUserData] = useState<ProfileType | null | undefined>(
+    null
+  );
   const readerData = useFetchFirestore(fetchProfile, user?.uid).data;
   const postData = useFetchFirestore(fetchAllMyPost, userId).data;
   const [userFollowsData, setUserFollowsData] = useState<
@@ -99,6 +104,11 @@ const Index = (): JSX.Element => {
       setUserFollowsData(res);
     });
   }, [click, userId, user]);
+  useEffect(() => {
+    fetchProfile(userId ?? "").then((res) => {
+      setUserData(res);
+    });
+  }, [userId, updateProfile]);
 
   return (
     <>
@@ -427,36 +437,16 @@ const Index = (): JSX.Element => {
           {/*  <AccountMainText text={userData?.selfPr ?? ""} />*/}
           {/*</Flex>*/}
 
-          {/*/!*スキル*!/*/}
-          {/*<Flex direction={"column"}>*/}
-          {/*  <AccountSubTitle text={"スキル"} />*/}
-          {/*  <List>*/}
-          {/*    {userData?.skills.map((s, si) => (*/}
-          {/*      <ListItem key={si}>*/}
-          {/*        <Flex>*/}
-          {/*          <ListIcon as={RxDotFilled} color={colorAssets.textColor} />*/}
-          {/*          <AccountMainText text={s.name} />*/}
-          {/*        </Flex>*/}
-          {/*      </ListItem>*/}
-          {/*    ))}*/}
-          {/*  </List>*/}
-          {/*</Flex>*/}
-
-          {/*/!*求めているスキル*!/*/}
-          {/*<Flex direction={"column"}>*/}
-          {/*  <AccountSubTitle text={"求めているスキル"} />*/}
-          {/*  <List>*/}
-          {/*    {userData?.requirementSkills.map((s, si) => (*/}
-          {/*      <ListItem key={si}>*/}
-          {/*        <Flex>*/}
-          {/*          <ListIcon as={RxDotFilled} color={colorAssets.textColor} />*/}
-          {/*          <AccountMainText text={s.name} />*/}
-          {/*        </Flex>*/}
-          {/*      </ListItem>*/}
-          {/*    ))}*/}
-          {/*  </List>*/}
-          {/*</Flex>*/}
         </Flex>
+        {/*/////// Modal Area ///////*/}
+        <GeneralModal title={title} isOpen={isOpen} onClose={onClose}>
+          <ProfileModals
+            modalType={modalType}
+            userData={userData}
+            onClose={onClose}
+            setUpdateProfile={setUpdateProfile}
+          />
+        </GeneralModal>
       </Flex>
       {/*/////// Modal Area ///////*/}
       <GeneralModal title={title} isOpen={isOpen} onClose={onClose}>

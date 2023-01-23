@@ -1,4 +1,4 @@
-import { PostType } from "../../../types/postType";
+import { PostType } from "../../../../types/postType";
 import {
   collection,
   getDocs,

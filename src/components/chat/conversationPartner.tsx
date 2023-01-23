@@ -4,7 +4,7 @@ import { SoloChatIdType } from "../../types/soloChatIdType";
 import { useMyAccount } from "../../hooks/logic/useMyAccount";
 import { useEffect, useState } from "react";
 import { ProfileType } from "../../types/profileType";
-import { fetchProfile } from "../../lib/clientSide/firestore/fetchProfile";
+import { fetchProfile } from "../../lib/clientSide/firestore/fetch/fetchProfile";
 
 type Props = {
   user: SoloChatIdType;

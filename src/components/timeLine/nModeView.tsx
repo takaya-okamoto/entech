@@ -1,5 +1,5 @@
 import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
-import { fetchAllPost } from "../../lib/clientSide/firestore/fetchAllPost";
+import { fetchAllPost } from "../../lib/clientSide/firestore/fetch/fetchAllPost";
 import { Flex } from "@chakra-ui/react";
 import { PostCard } from "./postCard";
 

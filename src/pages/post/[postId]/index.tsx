@@ -1,7 +1,15 @@
-import { Avatar, Center, Flex, Image, Text, useToast } from "@chakra-ui/react";
+import {
+  Avatar,
+  Center,
+  Flex,
+  Image,
+  Text,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useFetchFirestore } from "../../../hooks/logic/useFetchFirestore";
-import { fetchPost } from "../../../lib/clientSide/firestore/fetchPost";
+import { fetchPost } from "../../../lib/clientSide/firestore/fetch/fetchPost";
 import { StyledButton } from "../../../components/form/button/StyledButton";
 import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
@@ -11,8 +19,10 @@ import {
   timeLineModeState,
   viewTypeState,
 } from "../../../stores/recoil";
-import { fetchProfile } from "../../../lib/clientSide/firestore/fetchProfile";
+import { fetchProfile } from "../../../lib/clientSide/firestore/fetch/fetchProfile";
 import { useMyAccount } from "../../../hooks/logic/useMyAccount";
+import { BackButton } from "../../../components/common/button/backButton";
+import { GeneralModal } from "../../../components/common/modal/generalModal";
 
 const Index = (): JSX.Element => {
   const setTimeLineMode = useSetRecoilState<string>(timeLineModeState);
@@ -37,6 +47,15 @@ const Index = (): JSX.Element => {
 
   return (
     <Flex direction={"column"}>
+      <BackButton
+        onClick={() => {
+          void router.push("/");
+        }}
+        needText={true}
+        flexProps={{ mb: "1rem" }}
+        isWhite={true}
+      />
+
       {post?.postImage && (
         <Center>
           <Image

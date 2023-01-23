@@ -421,41 +421,6 @@ const Index = (): JSX.Element => {
               </Box>
             </HStack>
           </VStack>
-          {/*/!*自己紹介*!/*/}
-          {/*<Flex direction={"column"}>*/}
-          {/*  <AccountSubTitle text={"自己紹介"} />*/}
-          {/*  <AccountMainText text={userData?.selfPr ?? ""} />*/}
-          {/*</Flex>*/}
-
-          {/*/!*スキル*!/*/}
-          {/*<Flex direction={"column"}>*/}
-          {/*  <AccountSubTitle text={"スキル"} />*/}
-          {/*  <List>*/}
-          {/*    {userData?.skills.map((s, si) => (*/}
-          {/*      <ListItem key={si}>*/}
-          {/*        <Flex>*/}
-          {/*          <ListIcon as={RxDotFilled} color={colorAssets.textColor} />*/}
-          {/*          <AccountMainText text={s.name} />*/}
-          {/*        </Flex>*/}
-          {/*      </ListItem>*/}
-          {/*    ))}*/}
-          {/*  </List>*/}
-          {/*</Flex>*/}
-
-          {/*/!*求めているスキル*!/*/}
-          {/*<Flex direction={"column"}>*/}
-          {/*  <AccountSubTitle text={"求めているスキル"} />*/}
-          {/*  <List>*/}
-          {/*    {userData?.requirementSkills.map((s, si) => (*/}
-          {/*      <ListItem key={si}>*/}
-          {/*        <Flex>*/}
-          {/*          <ListIcon as={RxDotFilled} color={colorAssets.textColor} />*/}
-          {/*          <AccountMainText text={s.name} />*/}
-          {/*        </Flex>*/}
-          {/*      </ListItem>*/}
-          {/*    ))}*/}
-          {/*  </List>*/}
-          {/*</Flex>*/}
         </Flex>
       </Flex>
       {/*/////// Modal Area ///////*/}

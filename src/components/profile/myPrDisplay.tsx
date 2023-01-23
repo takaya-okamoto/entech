@@ -1,12 +1,8 @@
 import { ProfileLayout } from "./profileLayout";
 import { ProfileMainText } from "./profileMainText";
 import { Box, Flex, Circle, Text } from "@chakra-ui/react";
-import { DisplaySeeMore } from "../displaySeeMore";
 import { useColorAssets } from "../../hooks/view/useColorAssets";
-import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
-import { fetchProfile } from "../../lib/clientSide/firestore/fetchProfile";
-import { Dispatch, SetStateAction, useMemo } from "react";
-import { router } from "next/client";
+import { Dispatch, SetStateAction } from "react";
 import { OverlayParts } from "../common/overlayParts";
 
 type Props = {
@@ -15,10 +11,6 @@ type Props = {
 };
 export const MyPrDisplay = (props: Props): JSX.Element => {
   const ColorAssets = useColorAssets();
-  const userId = useMemo(() => {
-    return typeof router.query.userId === "string" ? router.query.userId : null;
-  }, [router]);
-  const userData = useFetchFirestore(fetchProfile, userId).data;
   return (
     <>
       <OverlayParts overlay={true} isDarker />

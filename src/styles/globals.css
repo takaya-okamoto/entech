@@ -1,3 +1,6 @@
-GrConfigure path {
-    stroke: #f00; /* 赤に変更 */
+.profileText {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
 }

@@ -19,7 +19,7 @@ export const Layout = ({ children }: Props): JSX.Element => {
       <Box
         pt={"5rem"}
         pb={"7rem"}
-        px={"2rem"}
+        px={"0.5rem"}
         minH={"100vh"}
         bgColor={ColorAssets.white}
       >

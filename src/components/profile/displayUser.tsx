@@ -1,5 +1,5 @@
 import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
-import { fetchProfile } from "../../lib/clientSide/firestore/fetchProfile";
+import { fetchProfile } from "../../lib/clientSide/firestore/fetch/fetchProfile";
 import { Avatar, Flex, Text, Link as ChakraLink } from "@chakra-ui/react";
 import { useColorAssets } from "../../hooks/view/useColorAssets";
 import Link from "next/link";

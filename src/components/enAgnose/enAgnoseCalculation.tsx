@@ -16,7 +16,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { WriteAgnose } from "../../lib/clientSide/firestore/writeAgnose";
+import { WriteAgnose } from "../../lib/clientSide/firestore/write/writeAgnose";
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler);
 

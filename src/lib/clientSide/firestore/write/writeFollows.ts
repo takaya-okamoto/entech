@@ -1,6 +1,6 @@
 import { doc, getFirestore } from "@firebase/firestore";
 import { WriteDoc } from "./writeDoc";
-import { FollowType } from "../../../types/followType";
+import { FollowType } from "../../../../types/followType";
 
 type Props = {
   data: FollowType;

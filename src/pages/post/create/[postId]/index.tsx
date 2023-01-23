@@ -1,4 +1,4 @@
-import { Flex, useToast, VStack } from "@chakra-ui/react";
+import { Flex, useToast, VStack, Button } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import * as Yup from "yup";
 import {
@@ -7,7 +7,6 @@ import {
 } from "../../../../stores/recoil";
 import { useEffect } from "react";
 import { useFetchFirestore } from "../../../../hooks/logic/useFetchFirestore";
-import { fetchProfile } from "../../../../lib/clientSide/firestore/fetchProfile";
 import { useMyAccount } from "../../../../hooks/logic/useMyAccount";
 import { FieldArray, Formik, FormikProps } from "formik";
 import { StyledImageInput } from "../../../../components/form/styledImageInput";
@@ -21,9 +20,10 @@ import { useSkills } from "../../../../hooks/view/useSkills";
 import { StyledInputControl } from "../../../../components/form/styledInputControl";
 import { UploadImage } from "../../../../lib/clientSide/storage/uploadImage";
 import { PostType } from "../../../../types/postType";
-import { WritePost } from "../../../../lib/clientSide/firestore/writePost";
-import { fetchPost } from "../../../../lib/clientSide/firestore/fetchPost";
+import { WritePost } from "../../../../lib/clientSide/firestore/write/writePost";
+import { fetchPost } from "../../../../lib/clientSide/firestore/fetch/fetchPost";
 import { useRouter } from "next/router";
+import { deletePost } from "../../../../lib/clientSide/firestore/delete/deletePost";
 
 const Index = (): JSX.Element => {
   const [selectedFooter, setSelectedFooter] =
@@ -90,8 +90,27 @@ const Index = (): JSX.Element => {
         isClosable: true,
       });
     }
+  };
 
-    console.warn(submittedValues);
+  const handleDelete = async () => {
+    try {
+      await deletePost(typeof postId.postId === "string" ? postId.postId : "");
+      toast({
+        title: "投稿を削除しました。",
+        status: "success",
+        position: "top",
+        isClosable: true,
+      });
+    } catch (e) {
+      console.error(e);
+      toast({
+        title: "投稿の削除に失敗しました。",
+        status: "success",
+        position: "top",
+        isClosable: true,
+      });
+    }
+    return;
   };
 
   return (
@@ -164,6 +183,12 @@ const Index = (): JSX.Element => {
 
               <VStack my={"2rem"}>
                 <StyledSubmitButton text={"保存する"} w={"10rem"} />
+              </VStack>
+
+              <VStack my={"2rem"}>
+                <Button colorScheme={"red"} onClick={handleDelete}>
+                  削除する
+                </Button>
               </VStack>
             </Flex>
           );

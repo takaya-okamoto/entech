@@ -1,6 +1,6 @@
-import { PostType } from "../../../types/postType";
+import { PostType } from "../../../../types/postType";
 import { initializeApp } from "@firebase/app";
-import { firebaseConfig } from "../../../stores/firebase/firebase";
+import { firebaseConfig } from "../../../../stores/firebase/firebase";
 import { doc, getDoc, getFirestore } from "@firebase/firestore";
 
 export const fetchPost = async (id: string): Promise<PostType | undefined> => {

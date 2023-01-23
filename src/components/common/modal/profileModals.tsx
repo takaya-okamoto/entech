@@ -3,11 +3,13 @@ import { PostsModal } from "./postsModal";
 import { FollowersModal } from "./followersModal";
 import { FollowingModal } from "./followingModal";
 import { EditProfileModal } from "./editProfileModal";
+import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   modalType: "posts" | "followers" | "following" | "editProfile";
   userData: ProfileType | undefined | null;
   onClose: VoidFunction;
+  setUpdateProfile: Dispatch<SetStateAction<boolean>>;
 };
 
 export const ProfileModals = (props: Props): JSX.Element => {
@@ -21,7 +23,11 @@ export const ProfileModals = (props: Props): JSX.Element => {
         <FollowingModal onClose={props.onClose} />
       )}
       {props.modalType === "editProfile" && (
-        <EditProfileModal userData={props.userData} />
+        <EditProfileModal
+          userData={props.userData}
+          setUpdateProfile={props.setUpdateProfile}
+          onClose={props.onClose}
+        />
       )}
     </>
   );

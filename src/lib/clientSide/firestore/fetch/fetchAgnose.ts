@@ -1,6 +1,6 @@
-import { EnAgnoseType } from "../../../types/enAgnoseType";
+import { EnAgnoseType } from "../../../../types/enAgnoseType";
 import { doc, getFirestore, getDoc } from "@firebase/firestore";
-import { ProfileType } from "../../../types/profileType";
+import { ProfileType } from "../../../../types/profileType";
 
 export const fetchAgnose = async (
   id: string

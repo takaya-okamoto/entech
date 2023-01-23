@@ -5,7 +5,7 @@ import {
   query,
   where,
 } from "@firebase/firestore";
-import { SoloChatIdType } from "../../../types/soloChatIdType";
+import { SoloChatIdType } from "../../../../types/soloChatIdType";
 
 export const fetchSoloChatId = async (
   info: Omit<SoloChatIdType, "chatId">

@@ -1,4 +1,4 @@
-import { PostType } from "../../../types/postType";
+import { PostType } from "../../../../types/postType";
 import { doc, getFirestore } from "@firebase/firestore";
 import { WriteDoc } from "./writeDoc";
 

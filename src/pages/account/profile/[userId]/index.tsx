@@ -109,19 +109,21 @@ const Index = (): JSX.Element => {
           router.push("/account");
         }}
       >
-        <Box
-          bgColor={"#464646"}
-          w={"52px"}
-          h={"52px"}
-          rounded={"10"}
-          display={"flex"}
-        >
-          <Box display={"flex"} alignItems={"center"} pl={"10px"}>
-            <ToolOutlined
-              style={{ color: ColorAssets.yellow, fontSize: "30px" }}
-            />
+        {router.query.userId === user?.uid && (
+          <Box
+            bgColor={"#464646"}
+            w={"52px"}
+            h={"52px"}
+            rounded={"10"}
+            display={"flex"}
+          >
+            <Box display={"flex"} alignItems={"center"} pl={"10px"}>
+              <ToolOutlined
+                style={{ color: ColorAssets.yellow, fontSize: "30px" }}
+              />
+            </Box>
           </Box>
-        </Box>
+        )}
       </Box>
       <Flex direction={"column"} pt={"32px"}>
         {viewType !== undefined && (

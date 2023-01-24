@@ -10,7 +10,6 @@ export const selectedFooterState = atom<number>({
   key: "selectedFooterState",
   default: 0,
 });
-
 export const userTypeState = atom<string>({
   key: "userTypeState",
   default: "e",

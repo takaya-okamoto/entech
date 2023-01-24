@@ -31,7 +31,7 @@ export const useFooterLinks = (): FooterLinksType[] => {
     },
     {
       name: "Account",
-      link: `./account/profile/${user?.uid ?? ""}`,
+      link: `/account/profile/${user?.uid ?? ""}`,
       icon: MdOutlineAccountCircle,
     },
   ];

@@ -30,7 +30,7 @@ export const MyPrDisplay = (props: Props): JSX.Element => {
             <Circle
               size={"32px"}
               bgColor={"#D9D9D9"}
-              _hover={{ opacity: 0.7 }}
+              cursor={"pointer"}
               onClick={() => {
                 props.setOpenMyPr(false);
               }}

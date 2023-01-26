@@ -24,7 +24,7 @@ export const DisplayUser = (props: Props): JSX.Element => {
       href={`/account/profile/${props.uid}`}
       color={colorAssets.textColor}
       onClick={() => {
-        setViewType("search");
+        setViewType("matching");
         setLastViewId(props.viewerId);
         props.onClose();
       }}

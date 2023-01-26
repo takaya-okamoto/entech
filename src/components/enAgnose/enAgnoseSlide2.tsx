@@ -37,17 +37,22 @@ const EnAgnoseSlide2 = (props: Props): JSX.Element => {
           </Box>
           <Box display={"flex"} justifyContent={"center"} pt={"20px"}>
             <Text as={"b"} color={ColorAssets.white}>
-              {props.slideNum === 1 && "人間観察をよくする方である"}
-              {props.slideNum === 2 && "自分の意見を突き通す方である"}
+              {props.slideNum === 1 && "人間観察をよくする方だ"}
+              {props.slideNum === 2 && "自分の意見を突き通す方だ"}
               {props.slideNum === 3 && "相手の長所によく気づく方だ"}
               {props.slideNum === 4 &&
                 `チームやグループを引っ張る役割を担うことが多い`}
-              {props.slideNum === 5 && "他人の顔色をよく伺う方だ"}
-              {props.slideNum === 6 && "好奇心が強い方である"}
-              {props.slideNum === 7 && "人前に出るのが得意な方である"}
-              {props.slideNum === 8 && "規則は絶対に守りたい"}
-              {props.slideNum === 9 && "結末を予測して準備する方だ"}
-              {props.slideNum === 10 && "客観視をよくする方だ"}
+              {props.slideNum === 5 && "他人を羨ましがることがよくある"}
+              {props.slideNum === 6 && "他人の顔色をよく伺う方だ"}
+              {props.slideNum === 7 && "好奇心が強い方だ"}
+              {props.slideNum === 8 && "自分から話を振るのは得意な方だ"}
+              {props.slideNum === 9 && "人前に出るのが得意な方だ"}
+              {props.slideNum === 10 && "規則は絶対に守りたい"}
+              {props.slideNum === 11 && "結末を予測して準備する方だ"}
+              {props.slideNum === 12 && "客観視をよくする方だ"}
+              {props.slideNum === 13 && "決断にはよく迷う方だ"}
+              {props.slideNum === 14 && "他人に自分のことをよく話す方だ"}
+              {props.slideNum === 15 && "自分を創造的な方だと思う"}
             </Text>
           </Box>
         </Box>

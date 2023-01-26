@@ -10,8 +10,6 @@ export const RadioButtons = (props: Props): JSX.Element => {
   return (
     <RadioGroup onChange={props.setRadioValue} value={props.radioValue}>
       <HStack spacing={"28px"}>
-        <Radio value={"5"} size={"lg"}></Radio>
-        <Radio value={"4"} size={"lg"}></Radio>
         <Radio value={"3"} size={"lg"}></Radio>
         <Radio value={"2"} size={"lg"}></Radio>
         <Radio value={"1"} size={"lg"}></Radio>

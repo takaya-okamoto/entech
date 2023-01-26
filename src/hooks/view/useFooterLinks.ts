@@ -1,6 +1,6 @@
 import { IconType } from "react-icons";
 import { TbHome } from "react-icons/tb";
-import { RiUserSearchLine } from "react-icons/ri";
+import { HiOutlineUsers } from "react-icons/hi";
 import { BsChatLeftText } from "react-icons/bs";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { useMyAccount } from "../logic/useMyAccount";
@@ -20,9 +20,9 @@ export const useFooterLinks = (): FooterLinksType[] => {
       icon: TbHome,
     },
     {
-      name: "Search",
-      link: "/search",
-      icon: RiUserSearchLine,
+      name: "Marching",
+      link: "/matching/matching",
+      icon: HiOutlineUsers,
     },
     {
       name: "Chat",

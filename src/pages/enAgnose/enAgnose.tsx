@@ -10,16 +10,16 @@ import {
   Spacer,
   useToast,
 } from "@chakra-ui/react";
-import { useColorAssets } from "../hooks/view/useColorAssets";
-import { EnAgnoseManualSlider } from "../components/enAgnose/enAgnoseManualSlider";
+import { useColorAssets } from "../../hooks/view/useColorAssets";
+import { EnAgnoseManualSlider } from "../../components/enAgnose/enAgnoseManualSlider";
 import { useRouter } from "next/router";
-import { EnAgnoseCalculation } from "../components/enAgnose/enAgnoseCalculation";
-import { UploadImage } from "../lib/clientSide/storage/uploadImage";
-import { PostType } from "../types/postType";
-import { WritePost } from "../lib/clientSide/firestore/write/writePost";
-import { useMyAccount } from "../hooks/logic/useMyAccount";
-import { EnAgnoseType } from "../types/enAgnoseType";
-import { WriteAgnose } from "../lib/clientSide/firestore/write/writeAgnose";
+import { EnAgnoseCalculation } from "../../components/enAgnose/enAgnoseCalculation";
+import { UploadImage } from "../../lib/clientSide/storage/uploadImage";
+import { PostType } from "../../types/postType";
+import { WritePost } from "../../lib/clientSide/firestore/write/writePost";
+import { useMyAccount } from "../../hooks/logic/useMyAccount";
+import { EnAgnoseType } from "../../types/enAgnoseType";
+import { WriteAgnose } from "../../lib/clientSide/firestore/write/writeAgnose";
 
 const EnAgnosePage = (): JSX.Element => {
   const [slideNum, setSlideNum] = useState<number>(0);
@@ -102,7 +102,7 @@ const EnAgnosePage = (): JSX.Element => {
               setOpenness={setOpenness}
             />
             <HStack spacing={"12px"}>
-              {slideNum !== 11 && (
+              {slideNum !== 16 && (
                 <Button
                   color={ColorAssets.white}
                   bgColor={ColorAssets.entechMainBlue}
@@ -147,7 +147,7 @@ const EnAgnosePage = (): JSX.Element => {
                 transition={".3s"}
                 onClick={async (): Promise<void> => {
                   setSlideNum((prev) => prev + 1);
-                  if (slideNum !== 0 && slideNum < 11) {
+                  if (slideNum !== 0 && slideNum < 16) {
                     const answer_: { num: number; val: string }[] = answer;
                     answer_.push({
                       num: slideNum - 1,
@@ -155,7 +155,7 @@ const EnAgnosePage = (): JSX.Element => {
                     });
                     setAnswerNum((prev) => prev + 1);
                     setAnswer(answer_);
-                  } else if (slideNum === 11) {
+                  } else if (slideNum === 16) {
                     await handleSubmit();
                     await router.push("/account/editProfile");
                   }
@@ -166,9 +166,9 @@ const EnAgnosePage = (): JSX.Element => {
                 }}
               >
                 {slideNum === 0 && "診断する"}
-                {slideNum !== 0 && slideNum < 10 && "次へ"}
-                {slideNum === 10 && "診断結果へ"}
-                {slideNum === 11 && "結果を閉じる"}
+                {slideNum !== 0 && slideNum < 15 && "次へ"}
+                {slideNum === 15 && "診断結果へ"}
+                {slideNum === 16 && "結果を閉じる"}
               </Button>
             </HStack>
           </VStack>

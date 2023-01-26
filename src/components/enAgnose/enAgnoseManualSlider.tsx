@@ -2,7 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import EnAgnoseSlide1 from "./enAgnoseSlide1";
 import EnAgnoseSlide2 from "./enAgnoseSlide2";
 import { Dispatch, SetStateAction } from "react";
-import EnAgnoseResult from "../../pages/enAgnoseResult";
+import EnAgnoseResult from "../../pages/enAgnose/enAgnoseResult";
 
 type Props = {
   slideNum: number;
@@ -25,14 +25,14 @@ export const EnAgnoseManualSlider = (props: Props): JSX.Element => {
   return (
     <Flex direction={"column"}>
       {props.slideNum === 0 && <EnAgnoseSlide1 />}
-      {props.slideNum !== 0 && props.slideNum !== 11 && (
+      {props.slideNum !== 0 && props.slideNum !== 16 && (
         <EnAgnoseSlide2
           slideNum={props.slideNum}
           radioValue={props.radioValue}
           setRadioValue={props.setRadioValue}
         />
       )}
-      {props.slideNum === 11 && (
+      {props.slideNum === 16 && (
         <EnAgnoseResult
           answer_={props.answer_}
           leadership={props.leadership}

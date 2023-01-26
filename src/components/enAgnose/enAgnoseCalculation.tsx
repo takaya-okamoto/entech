@@ -180,8 +180,8 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
         ],
       },
       r: {
-        min: 0,
-        max: 15,
+        min: 5,
+        max: 20,
       },
     },
   };

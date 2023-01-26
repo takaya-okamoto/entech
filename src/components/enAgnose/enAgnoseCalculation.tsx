@@ -39,44 +39,69 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
   let str: string;
   const ColorAssets = useColorAssets();
   const agnoseData: number[][] = [
-    [0.2, 0, 0.5, 0, 0.3],
-    [0, 0.2, 0, 0.6, 0.2],
-    [0.4, 0.2, 0, 0.1, 0.3],
-    [0.2, 0.7, 0.1, 0, 0],
-    [0.2, 0.1, 0.4, 0.1, 0.2],
-    [0.1, 0, 0.1, 0.3, 0.5],
-    [0.1, 0.4, 0.2, 0.2, 0.1],
-    [0.1, 0.1, 0.2, 0.3, 0.3],
-    [0.3, 0.1, 0.2, 0.4, 0],
-    [0.4, 0.2, 0.3, 0, 0.1],
+    [0.2, 0.1, 0.3, 0, 0.5],
+    [0.2, -0.2, -0.4, 0.5, 0],
+    [0.1, 0.6, 0.2, -0.2, 0.2],
+    [0.4, 0.1, 0.2, 0.5, -0.3],
+    [-0.4, 0.3, 0, -0.1, 0.3],
+    [-0.2, 0.1, 0.5, -0.3, 0.3],
+    [0.2, 0.1, -0.1, 0.6, 0.6],
+    [0.3, 0.5, 0.1, 0.6, 0.1],
+    [-0.3, 0, -0.1, -0.1, -0.2],
+    [0.3, -0.4, 0.2, 0.4, -0.1],
+    [0.5, 0.1, 0.2, 0.5, 0],
+    [0.1, 0.3, 0.2, 0.2, 0.3],
+    [-0.3, 0, 0, -0.2, -0.1],
+    [0.4, 0.5, 0.2, -0.3, 0.1],
+    [0.3, 0, 0.3, -0.3, 0.3],
   ];
 
   useEffect(() => {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 15; i++) {
       //リーダーシップ
-      num = agnoseData[i][0] * Number(props.answer_[i].val);
-      num = Math.floor(num * 10) / 10;
-      props.setLeadership((prev) => prev + num);
+      // num = agnoseData[i][0] * Number(props.answer_[i].val);
+      // num = Math.floor(num * 10) / 10;
+      // props.setLeadership((prev) => prev + num);
+      props.setLeadership(
+        (prev) => prev + agnoseData[i][0] * Number(props.answer_[i].val)
+      );
+      // console.log(i + "リーダーシップ => " + props.leadership);
 
       //社会性
-      num = agnoseData[i][1] * Number(props.answer_[i].val);
-      num = Math.floor(num * 10) / 10;
-      props.setSociability((prev) => prev + num);
+      // num = agnoseData[i][1] * Number(props.answer_[i].val);
+      // num = Math.floor(num * 10) / 10;
+      // props.setSociability((prev) => prev + num);
+      // console.log(i + "社会性 => " + props.sociability);
+      props.setSociability(
+        (prev) => prev + agnoseData[i][1] * Number(props.answer_[i].val)
+      );
 
       //協調性
-      num = agnoseData[i][2] * Number(props.answer_[i].val);
-      num = Math.floor(num * 10) / 10;
-      props.setCooperativeness((prev) => prev + num);
+      // num = agnoseData[i][2] * Number(props.answer_[i].val);
+      // num = Math.floor(num * 10) / 10;
+      // props.setCooperativeness((prev) => prev + num);
+      // console.log(i + "協調性 => " + props.cooperativeness);
+      props.setCooperativeness(
+        (prev) => prev + agnoseData[i][2] * Number(props.answer_[i].val)
+      );
 
       //主体性
-      num = agnoseData[i][3] * parseInt(props.answer_[i].val);
-      num = Math.floor(num * 10) / 10;
-      props.setIndependence((prev) => prev + num);
+      // num = agnoseData[i][3] * parseInt(props.answer_[i].val);
+      // num = Math.floor(num * 10) / 10;
+      // props.setIndependence((prev) => prev + num);
+      // console.log(i + "主体性 => " + props.independence);
+      props.setIndependence(
+        (prev) => prev + agnoseData[i][3] * Number(props.answer_[i].val)
+      );
 
       //開放性
-      num = agnoseData[i][4] * parseInt(props.answer_[i].val);
-      num = Math.floor(num * 10) / 10;
-      props.setOpenness((prev) => prev + num);
+      // num = agnoseData[i][4] * parseInt(props.answer_[i].val);
+      // num = Math.floor(num * 10) / 10;
+      // props.setOpenness((prev) => prev + num);
+      // console.log(i + "開放性 => " + props.openness);
+      props.setOpenness(
+        (prev) => prev + agnoseData[i][4] * Number(props.answer_[i].val)
+      );
     }
   }, [props.answer_]);
 
@@ -87,32 +112,32 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
     independence_: number,
     openness_: number
   ) => {
-    //リーダーシップ整数化
-    str = String(leadership_);
-    if (str.length > 2) {
-      props.setLeadership(Number(str.substring(2, 0)));
-    }
-    // 社交性
-    str = String(sociability_);
-    if (str.length > 2) {
-      props.setSociability(Number(str.substring(2, 0)));
-    }
-
-    // 協調性
-    if (str.length > 2) {
-      props.setCooperativeness(Number(str.substring(2, 0)));
-    }
-
-    // 主体性
-    str = String(independence_);
-    if (str.length > 2) {
-      props.setIndependence(Number(str.substring(2, 0)));
-    }
-    // 開放性
-    str = String(openness_);
-    if (str.length > 2) {
-      props.setOpenness(Number(str.substring(2, 0)));
-    }
+    // //リーダーシップ整数化
+    // str = String(leadership_);
+    // if (str.length > 2) {
+    //   props.setLeadership(Number(str.substring(2, 0)));
+    // }
+    // // 社交性
+    // str = String(sociability_);
+    // if (str.length > 2) {
+    //   props.setSociability(Number(str.substring(2, 0)));
+    // }
+    //
+    // // 協調性
+    // if (str.length > 2) {
+    //   props.setCooperativeness(Number(str.substring(2, 0)));
+    // }
+    //
+    // // 主体性
+    // str = String(independence_);
+    // if (str.length > 2) {
+    //   props.setIndependence(Number(str.substring(2, 0)));
+    // }
+    // // 開放性
+    // str = String(openness_);
+    // if (str.length > 2) {
+    //   props.setOpenness(Number(str.substring(2, 0)));
+    // }
     return {
       labels: ["リーダーシップ", "社交性", "協調性", "主体性", "開放性"],
       datasets: [
@@ -155,8 +180,8 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
         ],
       },
       r: {
-        min: 0,
-        max: 10,
+        min: 5,
+        max: 20,
       },
     },
   };
@@ -168,7 +193,7 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
     props.independence,
     props.openness
   );
-
+  console.log("リーダーシップ => " + props.leadership);
   return (
     <Box
       w={"160px"}

@@ -1,6 +1,6 @@
-import { useColorAssets } from "../hooks/view/useColorAssets";
+import { useColorAssets } from "../../hooks/view/useColorAssets";
 import { Box, VStack } from "@chakra-ui/react";
-import { EnAgnoseCalculation } from "../components/enAgnose/enAgnoseCalculation";
+import { EnAgnoseCalculation } from "../../components/enAgnose/enAgnoseCalculation";
 import { Dispatch, SetStateAction } from "react";
 
 type Props = {

@@ -27,7 +27,6 @@ import {
 } from "../../../../stores/recoil";
 import { useColorAssets } from "../../../../hooks/view/useColorAssets";
 import { AccountMainText } from "../../../../components/account/accountMainText";
-import { RxDotFilled } from "react-icons/rx";
 import { useMyAccount } from "../../../../hooks/logic/useMyAccount";
 import { AccountGeneralButton } from "../../../../components/account/accountGeneralButton";
 import { GeneralModal } from "../../../../components/common/modal/generalModal";
@@ -37,11 +36,9 @@ import { writeFollows } from "../../../../lib/clientSide/firestore/write/writeFo
 import { FollowType } from "../../../../types/followType";
 import { ProfileModals } from "../../../../components/common/modal/profileModals";
 import { ToolOutlined } from "@ant-design/icons/lib/icons";
-import { ProfileLayout } from "../../../../components/profile/profileLayout";
-import { ProfileMainText } from "../../../../components/profile/profileMainText";
-import { DisplaySeeMore } from "../../../../components/displaySeeMore";
 import { MyPrDisplay } from "../../../../components/profile/myPrDisplay";
 import { ProfileType } from "../../../../types/profileType";
+import { ProfileCard } from "../../../../components/profile/profileCard";
 
 const Index = (): JSX.Element => {
   const router = useRouter();
@@ -342,95 +339,26 @@ const Index = (): JSX.Element => {
         )}
       </Flex>
       {openMyPr && (
-        <MyPrDisplay text={userData?.selfPr} setOpenMyPr={setOpenMyPr} />
+        <Flex justifyContent={"center"}>
+          <Box
+            bgColor={ColorAssets.entechMainBlue}
+            w={"360px"}
+            h={"300px"}
+            rounded={"10"}
+            zIndex={"3000"}
+            pos={"absolute"}
+          >
+            <MyPrDisplay text={userData?.selfPr} setOpenMyPr={setOpenMyPr} />
+          </Box>
+        </Flex>
       )}
       <Flex justifyContent={"center"}>
-        <Flex
-          left={1.5}
-          gap={5}
-          borderWidth={"1px"}
-          borderRadius={"10px"}
-          h={"24rem"}
-          w={"24rem"}
-          bgColor={ColorAssets.entechSubBlue}
-          justifyContent={"center"}
-        >
-          <VStack
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-          >
-            <HStack>
-              <Box
-                bgColor={ColorAssets.entechMainBlue}
-                w={"200px"}
-                h={"160px"}
-                rounded={"10"}
-                pos={"relative"}
-                onClick={() => {
-                  setOpenMyPr(true);
-                }}
-              >
-                <ProfileLayout fontSize={"20px"} text={"my PR"} />
+        <ProfileCard
+          userData={userData}
+          openMyPr={openMyPr}
+          setOpenMyPr={setOpenMyPr}
+        />
 
-                <ProfileMainText text={userData?.selfPr ?? ""} />
-                <Flex right={2} bottom={1} pos={"absolute"}>
-                  {userData?.selfPr !== "" && <DisplaySeeMore />}
-                </Flex>
-              </Box>
-
-              <Box
-                bgColor={ColorAssets.entechMainBlue}
-                w={"150px"}
-                h={"160px"}
-                rounded={"10"}
-                pos={"relative"}
-              >
-                <ProfileLayout fontSize={"18px"} text={"Need Skills"} />
-                <List pt={"4px"} pl={"8px"}>
-                  {userData?.requirementSkills.map((s, si) => (
-                    <ListItem key={si}>
-                      <Flex>
-                        <ListIcon as={RxDotFilled} color={colorAssets.white} />
-                        <AccountMainText text={s.name} isWhite />
-                      </Flex>
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
-            </HStack>
-            <HStack>
-              <Box
-                bgColor={ColorAssets.entechMainBlue}
-                w={"175px"}
-                h={"160px"}
-                rounded={"10"}
-                pos={"relative"}
-              >
-                <ProfileLayout fontSize={"18px"} text={"en Agnose"} />
-              </Box>
-              <Box
-                bgColor={ColorAssets.entechMainBlue}
-                w={"175px"}
-                h={"160px"}
-                rounded={"10"}
-                pos={"relative"}
-              >
-                <ProfileLayout fontSize={"20px"} text={"my Skills"} />
-                <List pt={"4px"} pl={"8px"}>
-                  {userData?.skills.map((s, si) => (
-                    <ListItem key={si}>
-                      <Flex>
-                        <ListIcon as={RxDotFilled} color={colorAssets.white} />
-                        <AccountMainText text={s.name} isWhite />
-                      </Flex>
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
-            </HStack>
-          </VStack>
-        </Flex>
         {/*/////// Modal Area ///////*/}
         <GeneralModal title={title} isOpen={isOpen} onClose={onClose}>
           <ProfileModals

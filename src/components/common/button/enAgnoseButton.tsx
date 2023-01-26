@@ -21,7 +21,7 @@ export const EnAgnoseButton: FC<Props> = (props) => {
   return (
     <ChakraLink
       as={Link}
-      href={"/enAgnose"}
+      href={"/enAgnose/enAgnose"}
       w={"100%"}
       position={`relative`}
       _hover={{ textDecoration: "none" }}

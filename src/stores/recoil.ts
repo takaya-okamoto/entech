@@ -20,7 +20,7 @@ export const lastViewIdState = atom<string | undefined>({
   key: "lastViewIdState",
   default: undefined,
 });
-export const viewTypeState = atom<"post" | "search" | undefined>({
+export const viewTypeState = atom<"post" | "matching" | undefined>({
   key: "viewTypeState",
   default: undefined,
 });

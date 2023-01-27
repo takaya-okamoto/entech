@@ -16,12 +16,12 @@ import { selectedFooterState } from "../../../stores/recoil";
 import { useMyAccount } from "../../../hooks/logic/useMyAccount";
 import { useFetchFirestore } from "../../../hooks/logic/useFetchFirestore";
 import { EnAgnoseButton } from "../button/enAgnoseButton";
-import { fetchAgnose } from "../../../lib/clientSide/firestore/fetch/fetchAgnose";
 import { InfoModal } from "./infoModal";
 import { DeleteButton } from "../../form/button/deleteButton";
 import { StyledButton } from "../../form/button/StyledButton";
 import { StyledTextArea } from "../../form/styledTextArea";
 import { StyledSubmitButton } from "../../form/button/styledSubmitButton";
+import { fetchAgnose } from "../../../lib/clientSide/firestore/fetch/fetchAgnose";
 
 type Props = {
   userData: ProfileType | undefined | null;

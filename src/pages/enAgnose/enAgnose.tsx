@@ -35,9 +35,10 @@ const EnAgnosePage = (): JSX.Element => {
   const [answerNum, setAnswerNum] = useState(0);
   const { user } = useMyAccount();
   const toast = useToast();
+
+  const id = user?.uid ?? "";
   const handleSubmit = async (): Promise<void> => {
     if (!user) return;
-    const id = user.uid;
     const info: EnAgnoseType = {
       id,
       leadership: leadership,
@@ -106,7 +107,7 @@ const EnAgnosePage = (): JSX.Element => {
                 <Button
                   color={ColorAssets.white}
                   bgColor={ColorAssets.entechMainBlue}
-                  fontSize={"28px"}
+                  fontSize={slideNum !== 0 ? "18px" : "28px"}
                   borderWidth={"1px"}
                   borderColor={ColorAssets.white}
                   borderRadius={"5px"}
@@ -114,7 +115,7 @@ const EnAgnosePage = (): JSX.Element => {
                   w={"60px"}
                   transition={".3s"}
                   onClick={() => {
-                    slideNum === 0 && router.push("/account/profile");
+                    slideNum === 0 && router.push(`/account/profile/${id}`);
 
                     if (slideNum !== 0) {
                       const answer_ = answer.filter((a) => {
@@ -146,18 +147,20 @@ const EnAgnosePage = (): JSX.Element => {
                 w={"160px"}
                 transition={".3s"}
                 onClick={async (): Promise<void> => {
-                  setSlideNum((prev) => prev + 1);
-                  if (slideNum !== 0 && slideNum < 16) {
-                    const answer_: { num: number; val: string }[] = answer;
-                    answer_.push({
-                      num: slideNum - 1,
-                      val: radioValue,
-                    });
-                    setAnswerNum((prev) => prev + 1);
-                    setAnswer(answer_);
+                  if (slideNum < 16) {
+                    setSlideNum((prev) => prev + 1);
+                    if (slideNum !== 0) {
+                      const answer_: { num: number; val: string }[] = answer;
+                      answer_.push({
+                        num: slideNum - 1,
+                        val: radioValue,
+                      });
+                      setAnswerNum((prev) => prev + 1);
+                      setAnswer(answer_);
+                    }
                   } else if (slideNum === 16) {
                     await handleSubmit();
-                    await router.push("/account/editProfile");
+                    await router.push(`/account/profile/${id}`);
                   }
                 }}
                 _hover={{

@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useColorAssets } from "../../hooks/view/useColorAssets";
 import { RadioButtons } from "../common/button/radioButtons";
+import { Color } from "@kurkle/color";
 
 type Props = {
   slideNum: number;
@@ -31,9 +32,18 @@ const EnAgnoseSlide2 = (props: Props): JSX.Element => {
           rounded={"30"}
         >
           <Box position={"relative"} pl={"12px"} pt={"12px"}>
-            <Text color={ColorAssets.white} fontSize={"32px"} as={"b"}>
-              Q
-            </Text>
+            <HStack>
+              <Text color={ColorAssets.white} fontSize={"32px"} as={"b"}>
+                Q
+              </Text>
+
+              <Text color={ColorAssets.yellow} fontSize={"30px"} pl={"12px"}>
+                {props.slideNum}
+              </Text>
+              <Text color={ColorAssets.white} fontSize={"20px"} pt={"4px"}>
+                / 15
+              </Text>
+            </HStack>
           </Box>
           <Box display={"flex"} justifyContent={"center"} pt={"20px"}>
             <Text as={"b"} color={ColorAssets.white}>

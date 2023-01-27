@@ -161,7 +161,7 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
     scale: {
       r: {
         min: 2,
-        suggestedMax: 10,
+        suggestedMax: 6,
       },
       ticks: {
         display: false,

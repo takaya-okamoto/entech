@@ -41,7 +41,7 @@ const LoginBeforeTop = (): JSX.Element => {
             w={"100px"}
             transition={".3s"}
             onClick={() => {
-              setSlideNum((prev) => prev - 1);
+              setSlideNum((prev) => prev - 3);
             }}
             _hover={{
               bgColor: ColorAssets.entechSubBlue,
@@ -65,7 +65,7 @@ const LoginBeforeTop = (): JSX.Element => {
             px={"1rem"}
             w={"100px"}
             onClick={() => {
-              setSlideNum((prev) => prev + 1);
+              setSlideNum((prev) => prev + 3);
             }}
             _hover={{
               bgColor: ColorAssets.entechSubBlue,

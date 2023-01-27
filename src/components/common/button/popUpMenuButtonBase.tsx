@@ -10,6 +10,7 @@ type Props = {
   zIndex?: number;
   rotate?: string;
   onClick?: MouseEventHandler;
+  isHover?: boolean;
 };
 
 export const PopUpMenuButtonBase: FC<Props> = (props) => {
@@ -32,7 +33,7 @@ export const PopUpMenuButtonBase: FC<Props> = (props) => {
       transition="0.4s"
       zIndex={zIndex}
       transform={rotate}
-      _hover={{ opacity: 0.8 }}
+      opacity={props.isHover ? 0.8 : 1.0}
       onClick={props.onClick}
     >
       {children}

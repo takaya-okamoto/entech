@@ -14,17 +14,16 @@ type AccountLinkType = {
 export const useAccountLinks = (): AccountLinkType[] => {
   const { user } = useMyAccount();
   return [
-    { link: "./post", icon: BsFillFileEarmarkPostFill, text: "自分の投稿" },
     { link: "./account/logOut", icon: TbDoorExit, text: "ログアウト" },
     {
       link: "./account/delete",
       icon: MdManageAccounts,
-      text: "アカウント削除",
+      text: "comming soon...",
     },
     {
       link: "./Inquiry",
       icon: BiMailSend,
-      text: "問い合わせ・バグ報告",
+      text: "comming soon...",
     },
   ];
 };

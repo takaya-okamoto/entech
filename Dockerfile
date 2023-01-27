@@ -4,7 +4,7 @@ SHELL ["/bin/bash", "-c"]
 
 COPY package*.json ./
 
-#RUN apt-get update && apt-get install -y curl ca-certificates --no-install-recommends
+RUN apt-get update && apt-get install -y curl ca-certificates --no-install-recommends
 
 ENV BASH_ENV ~/.bashrc
 ENV VOLTA_HOME /root/.volta
@@ -17,6 +17,6 @@ RUN npm i
 COPY . ./
 RUN npm run build
 
-RUN npm run start
+RUN node createEnvValMemo.js
 
-ENTRYPOINT ["bash", "index.tsx"]
+ENTRYPOINT ["bash", "cloudRunEntry.sh"]

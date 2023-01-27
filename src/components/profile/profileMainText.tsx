@@ -5,6 +5,7 @@ type Props = {
   text: string;
   isBlack?: boolean;
   textProps?: TextProps;
+  isMatching?: boolean;
 };
 
 export const ProfileMainText = (props: Props): JSX.Element => {
@@ -15,7 +16,7 @@ export const ProfileMainText = (props: Props): JSX.Element => {
         {...props.textProps}
         px={"8px"}
         color={props.isBlack ? ColorAssets.textColor : ColorAssets.white}
-        fontSize={"14px"}
+        fontSize={props.isMatching ? "12px" : "14px"}
         className={"profileText"}
       >
         {props.text}

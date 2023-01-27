@@ -5,6 +5,7 @@ type Props = {
   text: string;
   textProps?: TextProps;
   isWhite?: boolean;
+  isMatching?: boolean;
 };
 
 export const AccountMainText = (props: Props): JSX.Element => {
@@ -13,7 +14,7 @@ export const AccountMainText = (props: Props): JSX.Element => {
     <Text
       {...props.textProps}
       color={props.isWhite ? colorAssets.white : colorAssets.textColor}
-      fontSize={"14px"}
+      fontSize={props.isMatching ? "12px" : "14px"}
     >
       {props.text}
     </Text>

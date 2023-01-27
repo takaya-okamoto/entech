@@ -8,6 +8,7 @@ import {
   Flex,
   Circle,
   Text,
+  Box,
 } from "@chakra-ui/react";
 import React from "react";
 import { ProfileType } from "../../types/profileType";
@@ -23,6 +24,8 @@ import { useMyAccount } from "../../hooks/logic/useMyAccount";
 
 type Props = {
   data: ProfileType | undefined;
+  dataNum: number;
+  selectedUsers: number;
 };
 
 export const MatchingCard = (props: Props): JSX.Element => {
@@ -44,6 +47,23 @@ export const MatchingCard = (props: Props): JSX.Element => {
         ml={"1px"}
         pt={"1rem"}
       >
+        <Box
+          zIndex={"2000"}
+          pos={"absolute"}
+          top={20}
+          right={29}
+          pt={"20px"}
+          pr={"20px"}
+        >
+          <HStack>
+            <Text color={ColorAssets.yellow} fontSize={"30px"} pl={"12px"}>
+              {props.selectedUsers}
+            </Text>
+            <Text color={ColorAssets.white} fontSize={"20px"} pt={"4px"}>
+              / {props.dataNum}
+            </Text>
+          </HStack>
+        </Box>
         <HStack position={"relative"}>
           <Avatar size={"xl"} src={props.data?.profileImage ?? ""} />
           <Circle

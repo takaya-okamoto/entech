@@ -47,10 +47,16 @@ const Index = (): JSX.Element => {
 
   console.log({ data });
   if (!data) return <></>;
-  if (!data[selectedUsers]) setSelectedUsers(0);
+  if (!data[selectedUsers + 1]) setSelectedUsers(0);
   return (
     <VStack spacing={"20px"}>
-      {data[selectedUsers] && <MatchingCard data={data[selectedUsers]} />}
+      {data[selectedUsers] && data[selectedUsers].id !== user?.uid && (
+        <MatchingCard
+          data={data[selectedUsers]}
+          dataNum={data.length - 1}
+          selectedUsers={selectedUsers + 1}
+        />
+      )}
       <HStack spacing={"4rem"}>
         <Circle
           size={"4.5rem"}

@@ -178,7 +178,7 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
   );
   return (
     <Box
-      w={"160px"}
+      w={"180px"}
       ml={"1.6rem"}
       bgColor={"#FFFFFF"}
       display={"flex"}

@@ -1,6 +1,5 @@
 import { Box, Flex, HStack, Text } from "@chakra-ui/react";
 import { useColorAssets } from "../../hooks/view/useColorAssets";
-import { Color } from "@kurkle/color";
 
 export const DisplaySeeMore = (): JSX.Element => {
   const ColorAssets = useColorAssets();

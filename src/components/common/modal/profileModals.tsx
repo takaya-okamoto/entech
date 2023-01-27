@@ -4,15 +4,17 @@ import { FollowersModal } from "./followersModal";
 import { FollowingModal } from "./followingModal";
 import { EditProfileModal } from "./editProfileModal";
 import { Dispatch, SetStateAction } from "react";
+import { MyPrDisplay } from "../../profile/myPrDisplay";
 
 type Props = {
-  modalType: "posts" | "followers" | "following" | "editProfile";
+  modalType: "posts" | "followers" | "following" | "editProfile" | "selfPr";
   userData: ProfileType | undefined | null;
   onClose: VoidFunction;
   setUpdateProfile: Dispatch<SetStateAction<boolean>>;
 };
 
 export const ProfileModals = (props: Props): JSX.Element => {
+  console.log(props.userData?.selfPr);
   return (
     <>
       {props.modalType === "posts" && <PostsModal />}
@@ -28,6 +30,9 @@ export const ProfileModals = (props: Props): JSX.Element => {
           setUpdateProfile={props.setUpdateProfile}
           onClose={props.onClose}
         />
+      )}
+      {props.modalType === "selfPr" && (
+        <MyPrDisplay onClose={props.onClose} text={props.userData?.selfPr} />
       )}
     </>
   );

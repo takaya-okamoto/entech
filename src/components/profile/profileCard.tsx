@@ -20,8 +20,13 @@ import { ProfileType } from "../../types/profileType";
 
 type Props = {
   openMyPr: boolean;
-  setOpenMyPr: Dispatch<SetStateAction<boolean>>;
+  onOpen: VoidFunction;
   userData: ProfileType | null | undefined;
+  setModalType: Dispatch<
+    SetStateAction<
+      "posts" | "followers" | "following" | "editProfile" | "selfPr"
+    >
+  >;
 };
 
 export const ProfileCard = (props: Props): JSX.Element => {
@@ -46,7 +51,8 @@ export const ProfileCard = (props: Props): JSX.Element => {
             rounded={"10"}
             pos={"relative"}
             onClick={() => {
-              props.setOpenMyPr(true);
+              props.setModalType("selfPr");
+              props.onOpen();
             }}
           >
             <ProfileLayout fontSize={"20px"} text={"my PR"} />

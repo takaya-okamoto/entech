@@ -3,6 +3,7 @@ import { useColorAssets } from "../../hooks/view/useColorAssets";
 
 type Props = {
   text: string;
+  isBlack?: boolean;
   textProps?: TextProps;
 };
 
@@ -13,7 +14,7 @@ export const ProfileMainText = (props: Props): JSX.Element => {
       <Text
         {...props.textProps}
         px={"8px"}
-        color={ColorAssets.white}
+        color={props.isBlack ? ColorAssets.textColor : ColorAssets.white}
         fontSize={"14px"}
         className={"profileText"}
       >

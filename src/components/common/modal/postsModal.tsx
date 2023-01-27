@@ -4,6 +4,7 @@ import { fetchAllMyPost } from "../../../lib/clientSide/firestore/fetch/fetchAll
 import { Flex } from "@chakra-ui/react";
 import { PostCard } from "../../timeLine/postCard";
 import { useMyAccount } from "../../../hooks/logic/useMyAccount";
+import { ProfileLayout } from "../../profile/profileLayout";
 
 export const PostsModal = (): JSX.Element => {
   const router = useRouter();
@@ -16,6 +17,7 @@ export const PostsModal = (): JSX.Element => {
   console.log({ postsData });
   return (
     <Flex direction={"column"} gap={5}>
+      <ProfileLayout isBlack={true} fontSize={"20px"} text={"投稿"} />
       {postsData?.map((p, pi) => {
         return <PostCard info={p} key={pi} isEdit={isYou} isView={true} />;
       })}

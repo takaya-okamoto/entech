@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { useMyAccount } from "../../hooks/logic/useMyAccount";
 import { ProfileType } from "../../types/profileType";
 import { fetchUsersWhoAppliesToRequirementSkills } from "../../lib/clientSide/firestore/fetch/fetchUsersWhoAppliesToRequirementSkills";
-import { MatchingCard } from "./matchingCard";
+import { MatchingCard } from "../../components/matching/matchingCard";
 import { BsChatDotsFill } from "react-icons/bs";
 import { TbPlayerTrackNext } from "react-icons/tb";
 

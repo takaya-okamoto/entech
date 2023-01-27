@@ -11,10 +11,10 @@ import {
 import React from "react";
 import { ProfileType } from "../../types/profileType";
 import { useColorAssets } from "../../hooks/view/useColorAssets";
-import { MatchingMainText } from "../../components/account/matchingMainText";
-import { ProfileCard } from "../../components/profile/profileCard";
-import { GeneralModal } from "../../components/common/modal/generalModal";
-import { MyPrDisplay } from "../../components/profile/myPrDisplay";
+import { MatchingMainText } from "../account/matchingMainText";
+import { ProfileCard } from "../profile/profileCard";
+import { GeneralModal } from "../common/modal/generalModal";
+import { MyPrDisplay } from "../profile/myPrDisplay";
 
 type Props = {
   data: ProfileType | undefined;

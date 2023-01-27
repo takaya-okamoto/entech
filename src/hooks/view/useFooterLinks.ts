@@ -1,9 +1,10 @@
 import { IconType } from "react-icons";
 import { TbHome } from "react-icons/tb";
-import { HiOutlineUsers } from "react-icons/hi";
+import { HiOutlineUsers, HiOutlineChatAlt2 } from "react-icons/hi";
 import { BsChatLeftText } from "react-icons/bs";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { useMyAccount } from "../logic/useMyAccount";
+import { AiFillWechat } from "react-icons/ai";
 
 export type FooterLinksType = {
   name: string;
@@ -21,13 +22,13 @@ export const useFooterLinks = (): FooterLinksType[] => {
     },
     {
       name: "Marching",
-      link: "/matching/matching",
+      link: "/matching",
       icon: HiOutlineUsers,
     },
     {
       name: "Chat",
       link: "/chat",
-      icon: BsChatLeftText,
+      icon: HiOutlineChatAlt2,
     },
     {
       name: "Account",

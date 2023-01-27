@@ -19,10 +19,11 @@ import { fetchProfile } from "../../lib/clientSide/firestore/fetch/fetchProfile"
 import { ProfileType } from "../../types/profileType";
 
 type Props = {
-  openMyPr: boolean;
+  openMyPr?: boolean;
   onOpen: VoidFunction;
   userData: ProfileType | null | undefined;
-  setModalType: Dispatch<
+  isMatching?: boolean;
+  setModalType?: Dispatch<
     SetStateAction<
       "posts" | "followers" | "following" | "editProfile" | "selfPr"
     >
@@ -35,11 +36,11 @@ export const ProfileCard = (props: Props): JSX.Element => {
     <Flex
       left={1.5}
       gap={5}
-      borderWidth={"1px"}
-      borderRadius={"10px"}
+      borderWidth={props.isMatching ? "" : "1px"}
+      borderRadius={props.isMatching ? "" : "10px"}
       h={"24rem"}
-      w={"24rem"}
-      bgColor={ColorAssets.entechSubBlue}
+      w={props.isMatching ? "22rem" : "24rem"}
+      bgColor={props.isMatching ? "" : ColorAssets.entechSubBlue}
       justifyContent={"center"}
     >
       <VStack display={"flex"} alignItems={"center"} justifyContent={"center"}>
@@ -51,7 +52,7 @@ export const ProfileCard = (props: Props): JSX.Element => {
             rounded={"10"}
             pos={"relative"}
             onClick={() => {
-              props.setModalType("selfPr");
+              props.setModalType && props.setModalType("selfPr");
               props.onOpen();
             }}
           >

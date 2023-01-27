@@ -1,6 +1,7 @@
 FROM node:18.11-slim
 WORKDIR /usr/src/app
-SHELL ["/bin/bash", "-c"]
+
+COPY package*.json ./
 
 RUN npm i
 COPY . ./

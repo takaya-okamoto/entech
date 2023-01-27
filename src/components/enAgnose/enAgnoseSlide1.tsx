@@ -70,7 +70,6 @@ const EnAgnoseSlide1 = (): JSX.Element => {
         justifyContent={"center"}
       >
         <Box
-          bgColor={"#FFFFFE"}
           rounded={"30"}
           w={"180px"}
           h={"100px"}

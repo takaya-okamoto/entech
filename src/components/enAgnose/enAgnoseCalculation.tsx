@@ -149,7 +149,7 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
             props.independence,
             props.openness,
           ],
-          backgroundColor: "rgba(18, 157, 167, 0.2)",
+          backgroundColor: "rgba(255,227,105, .5)",
           borderColor: "rgba(18, 157, 167, 1)",
           borderWidth: 0.5,
         },
@@ -158,13 +158,23 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
   };
 
   const options: {} = {
-    scale: {
+    scales: {
       r: {
+        pointLabels: {
+          color: "rgb(255,255,255)",
+          padding: 1,
+        },
+        angleLines: {
+          color: "rgba(255,255,255, .4)",
+        },
+        grid: {
+          color: "rgba(255,255,255, .2)",
+        },
+        ticks: {
+          display: false,
+        },
         min: 0,
         suggestedMax: 6,
-      },
-      ticks: {
-        display: false,
       },
     },
   };
@@ -180,7 +190,6 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
     <Box
       w={"180px"}
       ml={"1.6rem"}
-      bgColor={"#FFFFFF"}
       display={"flex"}
       alignItems={"center"}
       justifyContent={"center"}

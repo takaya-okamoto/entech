@@ -133,7 +133,6 @@ const Index = (): JSX.Element => {
           </Box>
         )}
       </Box>
-      {/*<Flex direction={"column"} pt={"32px"}>*/}
       {viewType !== undefined && (
         <BackButton
           onClick={() => {

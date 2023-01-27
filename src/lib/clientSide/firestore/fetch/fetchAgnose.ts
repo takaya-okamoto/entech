@@ -4,11 +4,11 @@ import { ProfileType } from "../../../../types/profileType";
 
 export const fetchAgnose = async (
   id: string
-): Promise<ProfileType | undefined> => {
+): Promise<EnAgnoseType | undefined> => {
   const firestore = getFirestore();
   const ref = doc(firestore, `enAgnose/${id}`);
   const snapshot = await getDoc(ref);
   return snapshot.exists()
-    ? { ...(snapshot.data() as ProfileType) }
+    ? { ...(snapshot.data() as EnAgnoseType) }
     : undefined;
 };

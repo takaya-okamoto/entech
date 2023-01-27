@@ -14,7 +14,6 @@ export const PostsModal = (): JSX.Element => {
   const postsData = useFetchFirestore(fetchAllMyPost, uid).data;
   const isYou = user?.uid === uid;
 
-  console.log({ postsData });
   return (
     <Flex direction={"column"} gap={5}>
       <ProfileLayout isBlack={true} fontSize={"20px"} text={"投稿"} />

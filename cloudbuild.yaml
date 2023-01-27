@@ -1,0 +1,12 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build',
+            '--build-arg',
+            '-t',
+            'gcr.io/$PROJECT_ID/entech',
+            '.'
+    ]
+
+images: [
+  'gcr.io/$PROJECT_ID/entech'
+]

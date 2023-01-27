@@ -45,9 +45,8 @@ const Index = (): JSX.Element => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalType, setModalType] = useState<
-    "posts" | "followers" | "following" | "editProfile"
+    "posts" | "followers" | "following" | "editProfile" | "selfPr"
   >("editProfile");
-  const [title, setTitle] = useState<string>("");
 
   const colorAssets = useColorAssets();
   const setSelectedFooter = useSetRecoilState<number>(selectedFooterState);
@@ -83,6 +82,8 @@ const Index = (): JSX.Element => {
     if (!user) return false;
     return followsData?.followers.some((f) => f.uid === user.uid) ?? false;
   }, [followsData, user]);
+
+  const isCenter = modalType === "selfPr";
 
   useEffect(() => {
     setSelectedFooter(3);
@@ -139,6 +140,9 @@ const Index = (): JSX.Element => {
             if (viewType === "post") {
               setViewType(undefined);
               void router.push(`/post/${lastViewId}`);
+            } else if (viewType === "matching") {
+              setViewType(undefined);
+              void router.push(`/`);
             } else {
               setViewType(undefined);
               void router.push(`/account/profile/${lastViewId}`);
@@ -195,7 +199,6 @@ const Index = (): JSX.Element => {
                 text={"Posts"}
                 onClick={() => {
                   setModalType("posts");
-                  setTitle("投稿");
                   void onOpen();
                 }}
               />
@@ -204,7 +207,6 @@ const Index = (): JSX.Element => {
                 text={"Followers"}
                 onClick={() => {
                   setModalType("followers");
-                  setTitle("Followers");
                   void onOpen();
                 }}
               />
@@ -213,7 +215,6 @@ const Index = (): JSX.Element => {
                 text={"Following"}
                 onClick={() => {
                   setModalType("following");
-                  setTitle("Following");
                   void onOpen();
                 }}
               />
@@ -332,35 +333,22 @@ const Index = (): JSX.Element => {
             followButton={false}
             onClick={() => {
               setModalType("editProfile");
-              setTitle("プロフィール編集");
               void onOpen();
             }}
           />
         )}
       </Flex>
-      {openMyPr && (
-        <Flex justifyContent={"center"}>
-          <Box
-            bgColor={ColorAssets.entechMainBlue}
-            w={"360px"}
-            h={"300px"}
-            rounded={"10"}
-            zIndex={"3000"}
-            pos={"absolute"}
-          >
-            <MyPrDisplay text={userData?.selfPr} setOpenMyPr={setOpenMyPr} />
-          </Box>
-        </Flex>
-      )}
+
       <Flex justifyContent={"center"}>
         <ProfileCard
+          setModalType={setModalType}
           userData={userData}
           openMyPr={openMyPr}
-          setOpenMyPr={setOpenMyPr}
+          onOpen={onOpen}
         />
 
         {/*/////// Modal Area ///////*/}
-        <GeneralModal title={title} isOpen={isOpen} onClose={onClose}>
+        <GeneralModal isCenter={isCenter} isOpen={isOpen} onClose={onClose}>
           <ProfileModals
             modalType={modalType}
             userData={userData}

@@ -1,13 +1,10 @@
-import { Box, Text, HStack, Image } from "@chakra-ui/react";
-import { useColorAssets } from "../../../hooks/view/useColorAssets";
+import { Box, Image } from "@chakra-ui/react";
 
 type Props = {
   timelineMode: string;
 };
 
 export const EnModeChangeButton = (props: Props): JSX.Element => {
-  const ColorAssets = useColorAssets();
-  console.log(props.timelineMode);
   return (
     <Box
       display={"fix"}

@@ -4,6 +4,7 @@ import { fetchFollows } from "../../../lib/clientSide/firestore/fetch/fetchFollo
 import { Flex } from "@chakra-ui/react";
 import { useMyAccount } from "../../../hooks/logic/useMyAccount";
 import { DisplayUser } from "../../profile/displayUser";
+import { ProfileLayout } from "../../profile/profileLayout";
 
 type Props = {
   onClose: VoidFunction;
@@ -17,6 +18,7 @@ export const FollowingModal = (props: Props): JSX.Element => {
 
   return (
     <Flex direction={"column"} gap={6}>
+      <ProfileLayout isBlack={true} fontSize={"20px"} text={"Following"} />
       {followsData?.following.map((f, fi) => {
         return (
           <DisplayUser

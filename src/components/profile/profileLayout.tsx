@@ -4,6 +4,7 @@ import { useColorAssets } from "../../hooks/view/useColorAssets";
 type Props = {
   fontSize: string;
   text: string;
+  isBlack?: boolean;
 };
 
 export const ProfileLayout = (props: Props): JSX.Element => {
@@ -13,8 +14,11 @@ export const ProfileLayout = (props: Props): JSX.Element => {
       <Text color={ColorAssets.yellow} fontSize={props.fontSize}>
         -
       </Text>
-      <Text color={ColorAssets.white} fontSize={props.fontSize}>
-        {" "}
+      <Text
+        color={props.isBlack ? ColorAssets.textColor : ColorAssets.white}
+        fontSize={props.fontSize}
+        fontWeight={"semibold"}
+      >
         {props.text}
       </Text>
       <Text color={ColorAssets.yellow} fontSize={props.fontSize}>

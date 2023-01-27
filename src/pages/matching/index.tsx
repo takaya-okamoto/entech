@@ -53,7 +53,7 @@ const Index = (): JSX.Element => {
       {data[selectedUsers] && <MatchingCard data={data[selectedUsers]} />}
       <HStack spacing={"4rem"}>
         <Circle
-          size={"5rem"}
+          size={"4rem"}
           bgColor={ColorAssets.textColor}
           onClick={() => setSelectedUsers((prev) => prev + 1)}
           cursor="pointer"
@@ -61,7 +61,7 @@ const Index = (): JSX.Element => {
           <TbPlayerTrackNext color={ColorAssets.white} size={"28px"} />
         </Circle>
         <Circle
-          size={"5.5rem"}
+          size={"4.5rem"}
           bgColor={ColorAssets.entechMainBlue}
           borderColor={ColorAssets.yellow}
           borderWidth={"1px"}

@@ -15,6 +15,7 @@ import { MatchingMainText } from "../account/matchingMainText";
 import { ProfileCard } from "../profile/profileCard";
 import { GeneralModal } from "../common/modal/generalModal";
 import { MyPrDisplay } from "../profile/myPrDisplay";
+import { MatchingProfileCard } from "./matchingProfileCard";
 
 type Props = {
   data: ProfileType | undefined;
@@ -25,20 +26,21 @@ export const MatchingCard = (props: Props): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <VStack pt={"20px"} spacing={"4rem"}>
+    <VStack pt={"1rem"} spacing={"4rem"}>
       <Flex
         bgColor={ColorAssets.entechSubBlue}
-        h={"34rem"}
+        h={"28rem"}
         w={"24rem"}
         alignItems={"center"}
         justifyContent={"center"}
         direction={"column"}
         rounded={"20"}
         ml={"1px"}
+        pt={"1rem"}
       >
         <HStack>
           <Avatar size={"xl"} src={props.data?.profileImage ?? ""} />
-          <Flex direction={"column"} pl={"2rem"}>
+          <Flex direction={"column"} pl={"2rem"} pt={"2rem"}>
             <MatchingMainText text={props.data?.name ?? ""} isBold />
             <Flex>
               <MatchingMainText text={props.data?.school.faculty ?? ""} />
@@ -48,7 +50,7 @@ export const MatchingCard = (props: Props): JSX.Element => {
           </Flex>
         </HStack>
 
-        <ProfileCard onOpen={onOpen} userData={props.data} isMatching />
+        <MatchingProfileCard onOpen={onOpen} userData={props.data} isMatching />
       </Flex>
       <GeneralModal isCenter={true} isOpen={isOpen} onClose={onClose}>
         <MyPrDisplay text={props.data?.selfPr} onClose={onClose} />

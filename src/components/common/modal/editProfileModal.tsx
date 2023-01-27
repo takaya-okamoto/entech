@@ -115,6 +115,7 @@ export const EditProfileModal = (props: Props): JSX.Element => {
               as={"form"}
               onSubmit={formikProps.handleSubmit as never}
               direction={"column"}
+              mt={"3rem"}
             >
               {agnose ? (
                 <Box mb={"2rem"}>

@@ -14,7 +14,6 @@ type Props = {
 };
 
 export const ProfileModals = (props: Props): JSX.Element => {
-  console.log(props.userData?.selfPr);
   return (
     <>
       {props.modalType === "posts" && <PostsModal />}

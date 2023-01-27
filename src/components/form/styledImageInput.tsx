@@ -29,12 +29,7 @@ export const StyledImageInput = (props: Props): JSX.Element => {
 
   return (
     <Flex direction={"column"}>
-      <Center
-        borderWidth={"1px"}
-        borderColor={"gray.100"}
-        borderRadius={props.isPost ? "10px" : "full"}
-        mb={".3rem"}
-      >
+      <Center borderRadius={props.isPost ? "10px" : "full"} mb={".3rem"}>
         <ImageInputArea
           imageLink={field.value}
           onClick={onImageClick}

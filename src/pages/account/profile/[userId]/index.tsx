@@ -149,7 +149,7 @@ const Index = (): JSX.Element => {
         />
       )}
 
-      <Flex gap={10} mb={"1.5rem"}>
+      <Flex gap={10} mt={"1.5rem"} mb={"1.5rem"}>
         <Box position={"relative"}>
           <Avatar size={"2xl"} src={userData?.profileImage ?? ""} />
           <Circle

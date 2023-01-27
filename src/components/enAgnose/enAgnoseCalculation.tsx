@@ -4,7 +4,6 @@ import {
   PointElement,
   LineElement,
   Filler,
-  ChartOptions,
 } from "chart.js";
 import { Radar } from "react-chartjs-2";
 import { useColorAssets } from "../../hooks/view/useColorAssets";
@@ -17,6 +16,7 @@ import React, {
   useState,
 } from "react";
 import { WriteAgnose } from "../../lib/clientSide/firestore/write/writeAgnose";
+import { red } from "@ant-design/colors";
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler);
 
@@ -158,30 +158,13 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
   };
 
   const options: {} = {
-    legend: {
-      position: "top",
-    },
-    title: {
-      display: true,
-      text: "Chart.js Radar Chart",
-    },
     scale: {
-      reverse: false,
-      gridLines: {
-        color: [
-          "black",
-          "red",
-          "orange",
-          "yellow",
-          "green",
-          "blue",
-          "indigo",
-          "violet",
-        ],
-      },
       r: {
-        min: 5,
-        max: 20,
+        min: 0,
+        suggestedMax: 6,
+      },
+      ticks: {
+        display: false,
       },
     },
   };
@@ -193,10 +176,9 @@ export const EnAgnoseCalculation = (props: Props): JSX.Element => {
     props.independence,
     props.openness
   );
-  console.log("リーダーシップ => " + props.leadership);
   return (
     <Box
-      w={"160px"}
+      w={"180px"}
       ml={"1.6rem"}
       bgColor={"#FFFFFF"}
       display={"flex"}

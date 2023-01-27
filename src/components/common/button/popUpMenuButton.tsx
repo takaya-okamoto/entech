@@ -1,4 +1,12 @@
-import { Box, Flex, Img, Text, useToast, Switch } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Img,
+  Text,
+  useToast,
+  Switch,
+  Circle,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { PopUpMenuButtonBase } from "./popUpMenuButtonBase";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -83,6 +91,7 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
               position="absolute"
               zIndex={1000}
               rotate={isHover ? "rotateZ(45deg)" : ""}
+              isHover={isHover}
             >
               <AiOutlinePlus color={ColorAssets.white} size="1.5rem" />
             </PopUpMenuButtonBase>
@@ -114,9 +123,10 @@ export const PopUpMenuButton = (props: Props): JSX.Element => {
               position="absolute"
               left={positionList[1].left}
               top={positionList[1].top}
-              // onClick={}
             >
-              <RiUserSearchLine color={ColorAssets.white} size="2rem" />
+              <Text fontSize={"12px"} color={ColorAssets.white} pl={"8px"}>
+                comming soon..
+              </Text>
             </PopUpMenuButtonBase>
           </Box>
           <Box position="absolute" top="0px" left="0px">

@@ -56,6 +56,7 @@ const Index = (): JSX.Element => {
           size={"5rem"}
           bgColor={ColorAssets.textColor}
           onClick={() => setSelectedUsers((prev) => prev + 1)}
+          cursor="pointer"
         >
           <TbPlayerTrackNext color={ColorAssets.white} size={"28px"} />
         </Circle>
@@ -65,6 +66,7 @@ const Index = (): JSX.Element => {
           borderColor={ColorAssets.yellow}
           borderWidth={"1px"}
           onClick={() => router.push(`/chat/${data[selectedUsers]?.id ?? ""}`)}
+          cursor="pointer"
         >
           <BsChatDotsFill size={"36px"} color={ColorAssets.white} />
         </Circle>

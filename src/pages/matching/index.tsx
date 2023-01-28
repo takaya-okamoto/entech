@@ -1,7 +1,6 @@
 import { useRecoilState } from "recoil";
 import { selectedFooterState, timeLineModeState } from "../../stores/recoil";
 import React, { useEffect, useMemo, useState } from "react";
-import { Card, CardHeader } from "@chakra-ui/card";
 import { useFetchFirestore } from "../../hooks/logic/useFetchFirestore";
 import { fetchProfile } from "../../lib/clientSide/firestore/fetch/fetchProfile";
 import { VStack, Circle, HStack } from "@chakra-ui/react";
@@ -21,10 +20,7 @@ const Index = (): JSX.Element => {
   const [timeLineMode, setTimeLineMode] =
     useRecoilState<string>(timeLineModeState);
   const [selectedUsers, setSelectedUsers] = useState<number>(0);
-  const userId = useMemo(() => {
-    return typeof router.query.userId === "string" ? router.query.userId : null;
-  }, [router]);
-  const userData = useFetchFirestore(fetchProfile, userId).data;
+
   useEffect(() => {
     setSelectedFooter(1);
     setTimeLineMode("en");
@@ -45,12 +41,21 @@ const Index = (): JSX.Element => {
     });
   }, [profile]);
 
-  console.log({ data });
+  useEffect(() => {
+    selectedUsers === data?.length && setSelectedUsers(0);
+  }, [data?.length, selectedUsers, selectedUsers]);
+
   if (!data) return <></>;
-  if (!data[selectedUsers]) setSelectedUsers(0);
+
   return (
     <VStack spacing={"20px"}>
-      {data[selectedUsers] && <MatchingCard data={data[selectedUsers]} />}
+      {data[selectedUsers] && data[selectedUsers].id !== user?.uid && (
+        <MatchingCard
+          data={data[selectedUsers]}
+          dataNum={data.length}
+          selectedUsers={selectedUsers + 1}
+        />
+      )}
       <HStack spacing={"4rem"}>
         <Circle
           size={"4.5rem"}

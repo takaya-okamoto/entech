@@ -16,7 +16,7 @@ export const AccountLinkButton = (props: Props): JSX.Element => {
   return (
     <ChakraLInk
       as={Link}
-      href={props.link}
+      href={props.text === "comming soon..." ? "" : props.link}
       onClick={() => {
         setViewType(undefined);
       }}

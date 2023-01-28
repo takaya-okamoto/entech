@@ -16,7 +16,7 @@ RUN volta install node
 RUN npm i
 COPY . ./
 
-#RUN npm run build
+RUN npm run build
 
 RUN node createEnvValMemo.js
 

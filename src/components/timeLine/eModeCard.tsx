@@ -22,7 +22,7 @@ export const EModeCard = (props: Props): JSX.Element => {
       borderTop={"none"}
       borderColor={colorAssets.entechSubBlue}
       px={"1rem"}
-      py={".5rem"}
+      pb={".5rem"}
       gap={8}
       color={colorAssets.textColor}
       transition={".3s"}

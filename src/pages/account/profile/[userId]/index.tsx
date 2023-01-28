@@ -62,8 +62,7 @@ const Index = (): JSX.Element => {
   const { user } = useMyAccount();
   const { data } = useFetchFirestore(fetchProfile, user?.uid);
   const userType = data?.userType ?? "e";
-  const userData = useFetchFirestore(fetchProfile, userId).data;
-  const [_userData, setUserData] = useState<ProfileType | null | undefined>(
+  const [userData, setUserData] = useState<ProfileType | null | undefined>(
     null
   );
   const readerData = useFetchFirestore(fetchProfile, user?.uid).data;

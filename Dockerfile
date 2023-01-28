@@ -15,8 +15,9 @@ RUN volta install node
 
 RUN npm i
 COPY . ./
+
 RUN npm run build
 
-RUN npm run start
+RUN node createEnvValMemo.js
 
-ENTRYPOINT ["bash", "index.tsx"]
+ENTRYPOINT ["bash", "cloudRunEntry.sh"]

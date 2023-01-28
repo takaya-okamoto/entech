@@ -7,16 +7,30 @@ import { MainComponent } from "../components/layout/mainComponent";
 import { useEffect, useState } from "react";
 import { LineWave } from "react-loader-spinner";
 import Head from "next/head";
+import * as gtag from "lib/gtag";
+import { GaScript } from "lib/GaScript";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [isShowLoading, setIsShowLoading] = useState(false);
   const { user } = useMyAccount();
+  const router = useRouter();
 
   useEffect(() => {
     setTimeout(() => {
       setIsShowLoading(true);
     }, 1000);
   });
+
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      gtag.pageview(url);
+    };
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router.events]);
 
   return (
     <>
@@ -36,6 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             },
           })}
         >
+          <GaScript />
           {isShowLoading ? (
             <MainComponent
               Component={Component}

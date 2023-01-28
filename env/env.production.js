@@ -7,4 +7,5 @@ module.exports = {
   NEXT_PUBLIC_FIREBASE_APP_ID: "1:791000131867:web:c301b6a021ad9ca8c44bbe",
   NEXT_PUBLIC_FIREBASE_DATABASE_URL:
     "https://entech-dev-default-rtdb.firebaseio.com",
+  NEXT_PUBLIC_GA_ID: "G-RQKWEKP81B",
 };
